@@ -2,4 +2,9 @@
     <string name="app_name">Divertech</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="modify">Modifier</string>
+    <string name="address">Adresse</string>
+    <string name="phone_number">Téléphone</string>
+    <string name="email">Email</string>
+    <string name="language">Langue</string>
 </resources>
