@@ -37,8 +37,8 @@ public class FootMenu extends Fragment {
         for (int i=0;i<elements.size() ;i++){
             buttons.add(root.findViewById(elements.get(i)));
             Log.d("test",buttons.get(i).toString());
-            int finalI = i;
-            buttons.get(i).setOnClickListener(clic->{activity.onCick(finalI);});
+            int finalI = i+1;
+            buttons.get(i).setOnClickListener(click->{activity.onCick(finalI);});
         }
         return root;
     }
