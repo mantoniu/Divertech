@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:textSize="35sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:text="Nom Prénom"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,115 +49,121 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/modify_button"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
         android:fillViewport="true"
         >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintTop_toBottomOf="@id/user_names"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:visibility="visible"
-            android:id="@+id/address_title"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toBottomOf="@id/user_names"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginTop="20dp"
-            android:text="@string/address"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/address"
-            android:layout_height="wrap_content"
-            android:layout_width="330dp"
-            android:textSize="23sp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="410 Avenue Roumanille, 06410 Biot"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_title"
-            />
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/address_title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:text="@string/address"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
-        <TextView
-            android:id="@+id/phone_title"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginTop="20dp"
-            android:text="@string/phone_number"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address"
-            />
+            <TextView
+                android:id="@+id/address"
+                android:layout_height="wrap_content"
+                android:layout_width="330dp"
+                android:textSize="23sp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="410 Avenue Roumanille, 06410 Biot"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_title"
+                />
 
-        <TextView
-            android:id="@+id/phone_number"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="23sp"
-            android:layout_marginTop="20dp"
-            android:text="0778651264"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone_title"
-            />
+            <TextView
+                android:id="@+id/phone_title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:text="@string/phone_number"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address"
+                />
 
-        <TextView
-            android:id="@+id/email_title"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginTop="20dp"
-            android:text="@string/email"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone_number"
-            />
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="23sp"
+                android:layout_marginTop="15dp"
+                android:text="0778651264"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_title"
+                />
 
-        <TextView
-            android:id="@+id/email"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="23sp"
-            android:layout_marginTop="20dp"
-            android:text="nom.prenom@gmail.com"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_title"
-            />
+            <TextView
+                android:id="@+id/email_title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginTop="20dp"
+                android:text="@string/email"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_number"
+                />
 
-        <TextView
-            android:id="@+id/language_title"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="30sp"
-            android:layout_marginTop="20dp"
-            android:text="@string/language"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email"
-            />
+            <TextView
+                android:id="@+id/email"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="23sp"
+                android:layout_marginTop="15dp"
+                android:text="nom.prenom@gmail.com"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email_title"
+                />
 
-        <TextView
-            android:id="@+id/language"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="23sp"
-            android:layout_marginTop="20dp"
-            android:text="Français"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/language_title"
-            />
+            <TextView
+                android:id="@+id/language_title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginTop="20dp"
+                android:text="@string/language"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email"
+                />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/language"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="23sp"
+                android:layout_marginTop="15dp"
+                android:text="Français"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/language_title"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <Button
