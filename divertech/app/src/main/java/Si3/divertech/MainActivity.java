@@ -3,9 +3,6 @@ package Si3.divertech;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.ListView;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ClickableActivity{
 

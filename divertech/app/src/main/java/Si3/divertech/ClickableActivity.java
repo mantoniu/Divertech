@@ -2,7 +2,6 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public interface ClickableActivity {
     Context getContext();
@@ -16,7 +15,7 @@ public interface ClickableActivity {
                 break;
             }
             case 2 :{
-                i = new Intent(getContext(),MapActivity.class);
+                i = new Intent(getContext(),SignalementIncident.class);
                 break;
             }
             case 3 : {

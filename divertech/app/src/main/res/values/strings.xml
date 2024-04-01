@@ -17,4 +17,8 @@
         <item>English</item>
         <item>Français</item>
     </string-array>
+    <string name="SignalementIncident">Signalement d\'un incident</string>
+    <string name="ButtonSignalement">Signaler</string>
+    <string name="HintSignalement">Entrer le signalement ici</string>
+    <string name="ReturnArrowDescription">Retour en arrière</string>
 </resources>
