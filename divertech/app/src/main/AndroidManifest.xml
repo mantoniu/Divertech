@@ -28,6 +28,10 @@
         <activity
             android:name=".MapActivity"
             android:exported="true"/>
+
+        <activity
+            android:name=".SignalementIncident"
+            android:exported="true"/>
     </application>
 
 </manifest>
