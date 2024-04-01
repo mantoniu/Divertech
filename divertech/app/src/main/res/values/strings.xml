@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Divertech</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nameEventExemple">Evenement 1</string>
+    <string name="buttonReturn">←</string>
+    <string name="localisationEventExemple">Lieu : 50 rue de \nJilian Lubrat \n20110 Propriano</string>
+    <string name="bookParkingPlace">Réserver une place de parking</string>
+    <string name="lopus">Lorem ipsum dolor sit amet, consectetur \nadipiscing elit, sed do eiusmod tempor incididunt \nut labore et dolore magna aliqua. Ut enim ad minim \nveniam, quis nostrud exercitation ullamco laboris \nnisi ut aliquip ex ea commodo consequat. Duis \naute irure dolor in reprehenderit in voluptate velit \nesse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident,\n sunt in culpa qui officia deserunt mollit anim\n id est laborum</string>
+    <string name="report_incident">Signaler \nun incident</string>
+    <string name="lost_object">Objet perdu</string>
+    <string name="contact_admin">Contacter \nAdministrateurs</string>
 </resources>

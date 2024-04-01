@@ -12,7 +12,7 @@ public interface ClickableActivity {
         switch (page){
             case 1 : i = new Intent(getContext(),MainActivity.class);
             case 2 : i = new Intent(getContext(),MapActivity.class);
-            case 3 : i = new Intent(getContext(),EventActivity.class);
+            case 3 : i = new Intent(getContext(), ListEventActivity.class);
             default: i = new Intent(getContext(),MainActivity.class);
         }
         startActivity(i);
