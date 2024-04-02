@@ -1,0 +1,16 @@
+
+€	java:S1125"FDefine and throw a dedicated exception instead of using a generic one.(ˆ‡J$b1f7ae56-bb28-46e1-9bac-1172f0850a41
+†	java:S1127"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚ÒéüÿÿÿÿJ$0edc6306-7104-464d-a7b4-0ae916c3f582
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¬ñ˜üÿÿÿÿJ$295990f4-2db6-4c32-b469-51d53bd5f278
+š
+java:S1450"_Remove the "attachedActivity" field and declare it as a local variable in the relevant methods.(Ä‰jJ$447bd972-1ec4-452d-8f56-5196075213b3
+d
+java:S1185"(Remove this method to simply inherit it.(ßìê¯J$801f924f-532b-43a6-bc86-9de146a87618
+W
+java:S1854$"5Remove this useless assignment to local variable "n".(›æËöüÿÿÿÿ8À‡Ûç1
+H
+java:S1481$"&Remove this unused "n" local variable.(›æËöüÿÿÿÿ8Ã‡Ûç1
+N
+java:S1602)",Remove useless curly braces around statement(’¾…—ÿÿÿÿÿ8Ò‡Ûç1
+f
+java:S11816"%Catch Exception instead of Throwable.(‡˜ÚÚøÿÿÿÿJ$8b914ccf-f5a2-41a5-9d06-60f0c1943e56
