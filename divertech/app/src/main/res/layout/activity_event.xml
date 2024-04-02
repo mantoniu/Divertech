@@ -75,7 +75,6 @@
         android:id="@+id/goMap"
         android:layout_width="50dp"
         android:layout_height="50dp"
-
         android:src="@drawable/localisation"
         app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintRight_toRightOf="parent"
@@ -128,7 +127,6 @@
             android:layout_height="match_parent"
             android:text="@string/lopus"
             android:textSize="15sp"
-
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/goLostObject"
             app:layout_constraintTop_toBottomOf="@id/textBookParkingPlace"
