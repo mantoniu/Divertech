@@ -2,4 +2,6 @@
 /shelf/
 /workspace.xml
 # GitHub Copilot persisted chat sessions
-/copilot/chatSessions
+/copilot
+/sonarlint
+
