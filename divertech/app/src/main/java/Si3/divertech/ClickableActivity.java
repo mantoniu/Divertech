@@ -11,9 +11,6 @@ public interface ClickableActivity {
     default void onCick(int page){
         Intent i;
         switch (page){
-            case 1 : i = new Intent(getContext(),MainActivity.class);
-            case 2 : i = new Intent(getContext(),MapActivity.class);
-            case 3 : i = new Intent(getContext(), ListEventActivity.class);
             case 1 : {
                 i = new Intent(getContext(),MainActivity.class);
                 break;
