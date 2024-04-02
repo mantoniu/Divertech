@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "964760790476",
+    "project_id": "divertech-6032b",
+    "storage_bucket": "divertech-6032b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964760790476:android:ce691776283f1154692969",
+        "android_client_info": {
+          "package_name": "Si3.divertech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsgnDh8T-YzlpoY6G0-41eKFi1EKwPDgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
