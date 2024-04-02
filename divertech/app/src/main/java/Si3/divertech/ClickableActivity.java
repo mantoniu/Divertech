@@ -2,7 +2,6 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public interface ClickableActivity {
     Context getContext();
@@ -20,7 +19,7 @@ public interface ClickableActivity {
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(),EventActivity.class);
+                i = new Intent(getContext(), ChangementLangue.class);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);
