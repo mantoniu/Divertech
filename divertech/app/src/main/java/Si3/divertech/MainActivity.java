@@ -3,6 +3,7 @@ package Si3.divertech;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements ClickableActivity{
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
         FootMenu f = new FootMenu();
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
+
     }
 
     @Override
