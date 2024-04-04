@@ -34,7 +34,7 @@
             android:name=".MapActivity"
             android:exported="true" />
         <activity
-            android:name=".SignalementIncident"
+            android:name=".MultiPagesActivity"
             android:exported="true"/>
     </application>
 

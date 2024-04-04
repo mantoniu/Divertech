@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Divertech</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="SignalementIncident">Signalement d\'un incident</string>
-    <string name="ButtonSignalement">Signaler</string>
-    <string name="HintSignalement">Entrer le signalement ici</string>
     <string name="ReturnArrowDescription">Retour en arrière</string>
     <string name="nameEventExemple">Evenement 1</string>
     <string name="buttonReturn">←</string>
@@ -27,4 +24,10 @@
         <item>English</item>
         <item>Français</item>
     </string-array>
+    <string name="button_report">Signaler</string>
+    <string name="hint_report">Entrer le signalement ici</string>
+    <string name="button_objet">Envoyer</string>
+    <string name="hint_object_lost">Entrer la description de l\'objet</string>
+    <string name="button_contact">Envoyer</string>
+    <string name="hint_contact">Entrer votre demande ici</string>
 </resources>

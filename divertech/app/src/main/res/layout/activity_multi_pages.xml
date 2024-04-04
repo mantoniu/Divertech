@@ -32,7 +32,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/SignalementIncident"
+        android:text=""
         android:textSize="30sp"
         android:padding="5dp"
         android:layout_marginTop="30dp"
@@ -46,7 +46,7 @@
     </TextView>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/localisation"
+        android:id="@+id/text_input"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textSize="25sp"
@@ -57,25 +57,24 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttonSignalement">
+        app:layout_constraintBottom_toTopOf="@id/send_Button">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_area"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="start"
             android:inputType="textMultiLine"
-            android:hint="@string/HintSignalement" />
+            android:hint="" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/buttonSignalement"
+        android:id="@+id/send_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ButtonSignalement"
+        android:text=""
         android:layout_marginBottom="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
