@@ -2,7 +2,6 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public interface ClickableActivity {
     Context getContext();
@@ -12,15 +11,18 @@ public interface ClickableActivity {
         Intent i;
         switch (page){
             case 1 : {
-                i = new Intent(getContext(),MainActivity.class);
+                i = new Intent(getContext(),MultiPagesAdminActivity.class);
+                i.putExtra("type",EventActivity.REPORTING);
                 break;
             }
             case 2 :{
-                i = new Intent(getContext(),MapActivity.class);
+                i = new Intent(getContext(),MultiPagesAdminActivity.class);
+                i.putExtra("type",EventActivity.OBJET);
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(),EventActivity.class);
+                i = new Intent(getContext(),MultiPagesAdminActivity.class);
+                i.putExtra("type",EventActivity.CONTACT);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);
