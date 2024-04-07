@@ -10,25 +10,46 @@ import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
 import android.Manifest;
 import android.content.Intent;
+import android.hardware.camera2.CaptureRequest;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Range;
 import android.util.Size;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.camera2.interop.Camera2Interop;
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
+import androidx.camera.core.resolutionselector.AspectRatioStrategy;
+import androidx.camera.core.resolutionselector.ResolutionFilter;
+import androidx.camera.core.resolutionselector.ResolutionSelector;
+import androidx.camera.core.resolutionselector.ResolutionStrategy;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.common.MlKitException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
+    @Nullable
+    private Camera camera;
     private static final String TAG = "CameraXLivePreview";
     private ImageAnalysis analysisUseCase;
     private ProcessCameraProvider cameraProvider;
@@ -107,7 +128,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         }
     }
 
-    @Override // androidx.appcompat.app.AppCompatActivity, androidx.fragment.app.FragmentActivity, android.app.Activity
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (this.imageProcessor != null) {
@@ -137,9 +158,12 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         }
         this.previewUseCase = builder.build();
         this.previewUseCase.setSurfaceProvider(this.previewView.getSurfaceProvider());
+        camera =
+                cameraProvider.bindToLifecycle(this, cameraSelector, previewUseCase);
     }
 
-    private void bindAnalysisUseCase() {
+    
+    @OptIn(markerClass = ExperimentalCamera2Interop.class) private void bindAnalysisUseCase() {
         if (cameraProvider == null) {
             return;
         }
@@ -163,12 +187,17 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
             return;
         }
 
-        ImageAnalysis.Builder builder = new ImageAnalysis.Builder();
-        Size targetResolution = PreferenceUtils.getCameraXTargetResolution(this, CameraSelector.LENS_FACING_BACK);
-        if (targetResolution != null) {
-            builder.setTargetResolution(targetResolution);
-        }
-        analysisUseCase = builder.build();
+        Size targetResolution = PreferenceUtils.getCameraXTargetResolution(this, 1);
+        ResolutionSelector.Builder resolutionSelector = new ResolutionSelector.Builder();
+
+        if (targetResolution != null)
+            resolutionSelector.setResolutionStrategy(new ResolutionStrategy(targetResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER));
+
+        ImageAnalysis.Builder imageAnalysis = new ImageAnalysis.Builder()
+                .setResolutionSelector(resolutionSelector.build())
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST);
+
+        analysisUseCase = imageAnalysis.build();
 
         needUpdateGraphicOverlayImageSourceInfo = true;
         analysisUseCase.setAnalyzer(
@@ -196,7 +225,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
                     }
                 });
 
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, analysisUseCase);
+        camera = cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, analysisUseCase);
     }
     @Override
     public void onDataReceived(String qrData) {
