@@ -36,6 +36,9 @@
         <activity
             android:name=".MultiPagesAdminActivity"
             android:exported="true" />
+        <activity
+            android:name=".ListEventActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

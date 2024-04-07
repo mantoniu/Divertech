@@ -21,8 +21,7 @@ public interface ClickableActivity {
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(),MultiPagesAdminActivity.class);
-                i.putExtra("type",EventActivity.CONTACT);
+                i = new Intent(getContext(),ListEventActivity.class);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);
