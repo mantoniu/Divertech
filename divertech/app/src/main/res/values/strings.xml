@@ -22,6 +22,7 @@
     <string name="register">S\'inscrire</string>
     <string name="langue">Langue</string>
     <string name="admin_connection">Se connecter en tant qu\'Admin</string>
+    <string name="mes_evenements">Mes évènements</string>
     <string-array name="languages">
         <item>English</item>
         <item>Français</item>
