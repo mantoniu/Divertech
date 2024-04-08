@@ -37,10 +37,20 @@
         android:layout_height="0dp"
         android:layout_margin="20dp"
         android:dividerHeight="5dp"
-        app:layout_constraintBottom_toTopOf="@id/footMenu"
+        app:layout_constraintBottom_toTopOf="@id/button_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_page" />
+
+    <ImageView
+        android:id="@+id/button_add"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footMenu"
+        android:src="@drawable/add"/>
 
     <FrameLayout
         android:id="@+id/footMenu"
