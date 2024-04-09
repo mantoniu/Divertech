@@ -35,13 +35,16 @@
             android:exported="true" />
         <activity
             android:name=".MapActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MultiPagesActivity"
             android:exported="true"/>
         <activity
             android:name=".ChangementLangue"
             android:exported="true"/>
-        <activity android:name=".ProfileActivity"
+        <activity
+            android:name=".ProfileActivity"
             />
-
     </application>
 
 </manifest>
