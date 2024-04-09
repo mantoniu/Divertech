@@ -1,7 +1,8 @@
 <resources>
-    <string name="ReturnArrowDescription">Retour en arrière</string>
     <string name="app_name">Divertech</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ReturnArrowDescription">Retour en arrière</string>
+    <string name="Changement_Langue">Changement de langue</string>
     <string name="nameEventExemple">Evenement 1</string>
     <string name="buttonReturn">←</string>
     <string name="localisationEventExemple">Lieu : 50 rue de Jilian Lubrat 20110 Propriano</string>
@@ -23,8 +24,20 @@
     <string name="langue">Langue</string>
     <string name="admin_connection">Se connecter en tant qu\'Admin</string>
     <string name="mes_evenements">Mes évènements</string>
+    <string name="r_servation_d_une_place_de_parking">Réservation d\'une place de parking</string>
+    <string name="plaque_d_immatriculation">plaque d\'immatriculation</string>
+    <string name="envoyer_la_demande">Envoyer la demande</string>
+    <string name="choisir_un_horaire">Choisir un horaire</string>
+    <string name="selectionner_une_date">Selectionner une date</string>
+    <string name="selectionner_une_heure_cr_neau_de_2h">Selectionner une heure \n(créneau de 2h)</string>
     <string-array name="languages">
         <item>English</item>
         <item>Français</item>
     </string-array>
+    <string name="button_report">Signaler</string>
+    <string name="hint_report">Entrer le signalement ici</string>
+    <string name="button_objet">Envoyer</string>
+    <string name="hint_object_lost">Entrer la description de l\'objet</string>
+    <string name="button_contact">Envoyer</string>
+    <string name="hint_contact">Entrer votre demande ici</string>
 </resources>
