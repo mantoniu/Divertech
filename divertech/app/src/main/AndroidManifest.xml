@@ -40,7 +40,7 @@
             android:name=".MultiPagesActivity"
             android:exported="true"/>
         <activity
-            android:name=".ChangementLangue"
+            android:name=".LanguageModificationActivity"
             android:exported="true"/>
         <activity
             android:name=".ProfileActivity"

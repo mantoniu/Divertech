@@ -20,7 +20,7 @@ public class HeaderMenu extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_header_menu, container, false);
         View b = root.findViewById(R.id.languageIcon);
         b.setOnClickListener(click->{
-            Intent intent = new Intent(getContext(), ChangementLangue.class);
+            Intent intent = new Intent(getContext(), LanguageModificationActivity.class);
             startActivity(intent);
         });
         root.findViewById(R.id.profile_button).setOnClickListener(this::launchProfileActivity);

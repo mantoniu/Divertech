@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 
@@ -19,21 +20,21 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-        Intent changement = new Intent(getApplicationContext(), MultiPagesActivity.class);
-        View signalement = findViewById(R.id.bloc_reporting);
-        signalement.setOnClickListener(click-> {
-            changement.putExtra("type", REPORTING);
-            startActivity(changement);
+        Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
+        View alert = findViewById(R.id.bloc_reporting);
+        alert.setOnClickListener(click-> {
+            modification.putExtra("type", REPORTING);
+            startActivity(modification);
         });
         View contact = findViewById(R.id.bloc_contact);
         contact.setOnClickListener(click-> {
-            changement.putExtra("type", CONTACT);
-            startActivity(changement);
+            modification.putExtra("type", CONTACT);
+            startActivity(modification);
         });
         View objets = findViewById(R.id.bloc_lost_object);
         objets.setOnClickListener(click-> {
-            changement.putExtra("type", OBJET);
-            startActivity(changement);
+            modification.putExtra("type", OBJET);
+            startActivity(modification);
         });
 
         View b = findViewById(R.id.return_arrow);
@@ -42,7 +43,7 @@ public class EventActivity extends AppCompatActivity {
 
         ConstraintLayout parkingLayout = findViewById(R.id.parking);
         parkingLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ParkingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
             startActivity(intent);
         });
     }
