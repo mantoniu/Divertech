@@ -5,12 +5,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -20,14 +15,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         Button registerButton = findViewById(R.id.register);
-        registerButton.setOnClickListener(v -> {
-            finish();
-        });
+        registerButton.setOnClickListener(v -> finish());
 
         ImageView backButton = findViewById(R.id.goback);
-        backButton.setOnClickListener(v -> {
-            finish();
-        });
+        backButton.setOnClickListener(v -> finish());
 
         Spinner spinnerLanguages = findViewById(R.id.languages);
 

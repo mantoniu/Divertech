@@ -19,7 +19,7 @@ public interface ClickableActivity {
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(),EventActivity.class);
+                i = new Intent(getContext(), ChangementLangue.class);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);
