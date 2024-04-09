@@ -32,7 +32,7 @@
             android:exported="true"/>
         <activity
             android:name=".EventActivity"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".MapActivity"
             android:exported="true" />
@@ -40,17 +40,14 @@
             android:name=".MultiPagesActivity"
             android:exported="true"/>
         <activity
-            android:name=".LanguageModificationActivity"
-            android:exported="true"/>
+        android:name=".ChangementLangue"
+        android:exported="true"/>
         <activity
             android:name=".MultiPagesAdminActivity"
             android:exported="true" />
         <activity
             android:name=".ListEventActivity"
             android:exported="true" />
-        <activity
-            android:name=".ProfileActivity"
-            />
     </application>
 
 </manifest>

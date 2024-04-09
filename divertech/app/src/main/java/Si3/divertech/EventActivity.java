@@ -57,7 +57,7 @@ public class EventActivity extends AppCompatActivity {
 
         ConstraintLayout parkingLayout = findViewById(R.id.parking);
         parkingLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
+            Intent intent = new Intent(this, ParkingActivity.class);
             startActivity(intent);
         });
     }
