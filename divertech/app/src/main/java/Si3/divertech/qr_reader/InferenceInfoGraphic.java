@@ -10,7 +10,7 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
     private final long frameLatency;
     private final Integer framesPerSecond;
     private final GraphicOverlay overlay;
-    private boolean showLatencyInfo;
+    private final boolean showLatencyInfo;
     private final Paint textPaint;
 
     public InferenceInfoGraphic(GraphicOverlay overlay, long frameLatency, long detectorLatency, Integer framesPerSecond) {
