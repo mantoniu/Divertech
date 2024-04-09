@@ -55,7 +55,7 @@
         app:layout_constraintLeft_toLeftOf="parent">
 
     <TextView
-        android:id="@+id/text_input"
+        android:id="@+id/localisation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/localisationEventExemple"
@@ -74,9 +74,9 @@
         android:layout_height="80dp"
         android:layout_marginTop="-10dp"
         android:src="@drawable/image_default"
-        app:layout_constraintTop_toTopOf="@id/text_input"
+        app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/text_input"
+        app:layout_constraintRight_toLeftOf="@id/localisation"
         android:contentDescription="image of the event">
     </ImageView>
 
@@ -86,9 +86,9 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/location"
-        app:layout_constraintTop_toTopOf="@id/text_input"
+        app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/text_input">
+        app:layout_constraintLeft_toRightOf="@id/localisation">
     </ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

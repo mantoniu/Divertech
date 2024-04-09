@@ -16,7 +16,7 @@ public interface ClickableActivity {
                 break;
             }
             case 2 :{
-                i = new Intent(getContext(), MultiPagesActivity.class);
+                i = new Intent(getContext(), MapActivity.class);
                 break;
             }
             case 3 : {

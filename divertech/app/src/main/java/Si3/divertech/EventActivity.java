@@ -28,7 +28,7 @@ public class EventActivity extends AppCompatActivity {
         TextView place = findViewById(R.id.localisation);
         place.setText("Lieu : "+event.getPlace());
 
-        TextView description = findViewById(R.id.descriptionEvent);
+        TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
         Log.d("test",event.getDescription());
 

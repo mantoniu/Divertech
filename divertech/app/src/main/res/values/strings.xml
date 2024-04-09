@@ -40,4 +40,6 @@
     <string name="hint_object_lost">Entrer la description de l\'objet</string>
     <string name="button_contact">Envoyer</string>
     <string name="hint_contact">Entrer votre demande ici</string>
+    <string name="lost_object">Objet Perdu</string>
+    <string name="report_incident">Signalement</string>
 </resources>
