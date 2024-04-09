@@ -2,7 +2,6 @@ package Si3.divertech;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +40,15 @@ public class ListEventAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         convertView = convertView == null ? mInflater.inflate(R.layout.event_layout,parent, false) : convertView;
         convertView.setTag(position+1);
+
         TextView title = convertView.findViewById(R.id.title);
         TextView description = convertView.findViewById(R.id.description);
         ImageView image = convertView.findViewById(R.id.image);
+
         title.setText(listEvent.get(position+1).getTitle());
-        description.setText(listEvent.get(position+1).getDesciption());
+        description.setText(listEvent.get(position+1).getShortDesciption());
         image.setImageResource(listEvent.get(position+1).getImage());
+
         return convertView;
     }
 }

@@ -20,8 +20,16 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
         Event event = getIntent().getParcelableExtra("event");
         Log.d("test", event.getTitle());
+
         TextView titre = findViewById(R.id.nameEvent);
         titre.setText(event.getTitle());
+
+        TextView place = findViewById(R.id.localisation);
+        place.setText("Lieu : "+event.getPlace());
+
+        TextView description = findViewById(R.id.descriptionEvent);
+        description.setText(event.getDescription());
+        Log.d("test",event.getDescription());
 
     }
 }

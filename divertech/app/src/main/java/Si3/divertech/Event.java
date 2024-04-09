@@ -2,18 +2,17 @@ package Si3.divertech;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-
-import java.util.Arrays;
 
 public class Event implements Parcelable {
     protected int id;
     private String title;
     private int image;
-    private String desciption;
-    private String position;
+    private String shortDesciption;
+    private String place;
+    private String description;
+
 
     public static final Parcelable.Creator<Event> CREATOR
             = new Parcelable.Creator<Event>() {
@@ -21,6 +20,7 @@ public class Event implements Parcelable {
             return new Event(in.readInt(),
                     in.readString(),
                     in.readInt(),
+                    in.readString(),
                     in.readString(),
                     in.readString());
         }
@@ -33,12 +33,13 @@ public class Event implements Parcelable {
     public Event(Parcel in){
 
     }
-    public Event(int id, String title,int img,String description, String position){
+    public Event(int id, String title,int img,String shortDescription, String position,String description){
         this.id = id;
         this.title = title;
         this.image = img;
-        this.desciption = description;
-        this.position = position;
+        this.shortDesciption = shortDescription;
+        this.place = position;
+        this.description = description;
     }
 
     public String getTitle(){
@@ -49,11 +50,14 @@ public class Event implements Parcelable {
         return image;
     }
 
-    public String getDesciption(){
-        return desciption;
+    public String getShortDesciption(){
+        return shortDesciption;
     }
 
     public int getId(){ return id;}
+    public String getPlace(){ return place;}
+
+    public String getDescription(){return description;}
 
     @Override
     public int describeContents() {
@@ -65,8 +69,9 @@ public class Event implements Parcelable {
         dest.writeInt(id);
         dest.writeString(title);
         dest.writeInt(image);
-        dest.writeString(desciption);
-        dest.writeString(position);
+        dest.writeString(shortDesciption);
+        dest.writeString(place);
+        dest.writeString(description);
     }
 
     @Override
