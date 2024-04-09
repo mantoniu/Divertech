@@ -24,4 +24,6 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
     public Context getContext(){
         return getApplicationContext();
     }
+
+
 }

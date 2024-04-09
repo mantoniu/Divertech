@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:name="Si3.divertech.headerMenu"
+        android:name="Si3.divertech.HeaderMenu"
         tools:layout="@layout/fragment_header_menu"
         />
 
