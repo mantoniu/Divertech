@@ -15,11 +15,11 @@ public interface ClickableActivity {
                 break;
             }
             case 2 :{
-                i = new Intent(getContext(),MapActivity.class);
+                i = new Intent(getContext(), MultiPagesActivity.class);
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(), ChangementLangue.class);
+                i = new Intent(getContext(), EventActivity.class);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);
