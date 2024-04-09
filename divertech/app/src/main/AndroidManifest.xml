@@ -39,6 +39,9 @@
         <activity
             android:name=".ChangementLangue"
             android:exported="true"/>
+        <activity android:name=".ProfileActivity"
+            />
+
     </application>
 
 </manifest>
