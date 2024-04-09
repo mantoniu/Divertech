@@ -61,8 +61,6 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     private PreviewView previewView;
     private boolean flashLightState = false;
     private PopupWindow popupWindow;
-    private ColorFilter blackFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -99,10 +97,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         });
 
         ImageView returnButton = findViewById(R.id.back);
-        returnButton.setOnClickListener((click) -> {
-            Intent returnIntent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(returnIntent);
-        });
+        returnButton.setOnClickListener(click -> finish());
 
 
         new ViewModelProvider(this)
