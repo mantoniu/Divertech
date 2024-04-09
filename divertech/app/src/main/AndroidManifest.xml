@@ -29,10 +29,13 @@
             android:exported="true"/>
         <activity
             android:name=".EventActivity"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".MapActivity"
-            android:exported="true" />
+            android:exported="true"/>
+        <activity
+            android:name=".ChangementLangue"
+            android:exported="true"/>
     </application>
 
 </manifest>
