@@ -1,8 +1,8 @@
-package Si3.divertech.qr_reader.java.barcodescanner;
+package Si3.divertech.qr_reader.barcodescanner;
 
 import Si3.divertech.qr_reader.GraphicOverlay;
-import Si3.divertech.qr_reader.java.QRDataListener;
-import Si3.divertech.qr_reader.java.VisionProcessorBase;
+import Si3.divertech.qr_reader.QRDataListener;
+import Si3.divertech.qr_reader.VisionProcessorBase;
 import android.content.Context;
 import android.util.Log;
 

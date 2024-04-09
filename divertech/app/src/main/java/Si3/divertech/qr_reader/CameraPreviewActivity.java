@@ -1,11 +1,8 @@
-package Si3.divertech.qr_reader.java;
+package Si3.divertech.qr_reader;
 
 import Si3.divertech.MainActivity;
 import Si3.divertech.R;
-import Si3.divertech.qr_reader.CameraXViewModel;
-import Si3.divertech.qr_reader.GraphicOverlay;
-import Si3.divertech.qr_reader.VisionImageProcessor;
-import Si3.divertech.qr_reader.java.barcodescanner.BarcodeScannerProcessor;
+import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
 import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
 import android.Manifest;
@@ -16,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;

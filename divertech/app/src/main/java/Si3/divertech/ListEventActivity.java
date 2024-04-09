@@ -8,10 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import Si3.divertech.qr_reader.CameraPreviewActivity;
 
 public class ListEventActivity extends AppCompatActivity implements ClickableActivity{
 
@@ -37,7 +37,10 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
                 startActivity(intent);
             }
         });
-
+        findViewById(R.id.button_add).setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override

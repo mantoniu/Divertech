@@ -1,15 +1,8 @@
-package Si3.divertech.qr_reader.java;
+package Si3.divertech.qr_reader;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-import Si3.divertech.qr_reader.BitmapUtils;
-import Si3.divertech.qr_reader.CameraImageGraphic;
-import Si3.divertech.qr_reader.FrameMetadata;
-import Si3.divertech.qr_reader.GraphicOverlay;
-import Si3.divertech.qr_reader.InferenceInfoGraphic;
-import Si3.divertech.qr_reader.ScopedExecutor;
-import Si3.divertech.qr_reader.VisionImageProcessor;
 import Si3.divertech.qr_reader.preference.PreferenceUtils;
 import android.app.ActivityManager;
 import android.content.Context;

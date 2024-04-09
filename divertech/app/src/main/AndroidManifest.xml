@@ -27,7 +27,7 @@
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".qr_reader.java.CameraPreviewActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,8 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true"/>
+            android:name=".qr_reader.CameraPreviewActivity" />
         <activity
             android:name=".EventActivity"
             android:exported="true" />

@@ -1,4 +1,4 @@
-package Si3.divertech.qr_reader.java.barcodescanner;
+package Si3.divertech.qr_reader.barcodescanner;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
