@@ -10,9 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class HeaderMenu extends Fragment {
+
+    public HeaderMenu(){
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.fragment_header_menu,container,false);
+        View root =  inflater.inflate(R.layout.fragment_header_menu, container, false);
+        View b = root.findViewById(R.id.languageIcon);
+        b.setOnClickListener(click->{
+            Intent intent = new Intent(getContext(), ChangementLangue.class);
+            startActivity(intent);
+        });
         root.findViewById(R.id.profile_button).setOnClickListener(this::launchProfileActivity);
         return root;
     }
