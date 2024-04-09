@@ -46,9 +46,16 @@
     </ImageView>
 
     <!-- Première partie -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/place_and_image"
+        app:layout_constraintTop_toBottomOf="@+id/nameEvent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
     <TextView
-        android:id="@+id/text_input"
+        android:id="@+id/localisation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/localisationEventExemple"
@@ -56,7 +63,7 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/nameEvent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     </TextView>
@@ -67,9 +74,9 @@
         android:layout_height="80dp"
         android:layout_marginTop="-10dp"
         android:src="@drawable/image_default"
-        app:layout_constraintTop_toTopOf="@id/text_input"
+        app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/text_input"
+        app:layout_constraintRight_toLeftOf="@id/localisation"
         android:contentDescription="image of the event">
     </ImageView>
 
@@ -77,12 +84,13 @@
         android:id="@+id/logo_map"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/location"
-        app:layout_constraintTop_toTopOf="@id/text_input"
+        app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/text_input"
-        android:contentDescription="map logo">
+        app:layout_constraintLeft_toRightOf="@id/localisation">
     </ImageView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- parking -->
 
@@ -97,9 +105,11 @@
         android:background="@drawable/roundedbg"
         android:elevation="10dp"
         android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/place_and_image"
+
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input"
         android:focusable="true">
 
         <TextView
@@ -261,7 +271,7 @@
 
 
 
-    <!-- textes boutons bas -->
+
 
 
 
