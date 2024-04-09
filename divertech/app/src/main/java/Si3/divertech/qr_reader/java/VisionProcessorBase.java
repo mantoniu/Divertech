@@ -42,6 +42,8 @@ import java.util.TimerTask;
  * @param <T> The type of the detected feature.
  */
 public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
+    // Enable fps display
+    private final boolean fpsLog = false;
 
     private final ActivityManager activityManager;
     private final Timer fpsTimer = new Timer();
@@ -245,12 +247,14 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                             }
                             VisionProcessorBase.this.onSuccess(results, graphicOverlay);
                             if (!PreferenceUtils.shouldHideDetectionInfo(graphicOverlay.getContext())) {
-                                graphicOverlay.add(
-                                        new InferenceInfoGraphic(
-                                                graphicOverlay,
-                                                currentFrameLatencyMs,
-                                                currentDetectorLatencyMs,
-                                                framesPerSecond));
+                                if(fpsLog){
+                                    graphicOverlay.add(
+                                            new InferenceInfoGraphic(
+                                                    graphicOverlay,
+                                                    currentFrameLatencyMs,
+                                                    currentDetectorLatencyMs,
+                                                    framesPerSecond));
+                                }
                             }
                             graphicOverlay.postInvalidate();
                         })

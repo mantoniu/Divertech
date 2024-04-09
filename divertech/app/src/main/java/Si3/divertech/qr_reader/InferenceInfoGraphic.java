@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import androidx.core.view.ViewCompat;
 
 public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
-    private static final int TEXT_COLOR = -1;
     private static final float TEXT_SIZE = 60.0f;
     private final long detectorLatency;
     private final long frameLatency;
