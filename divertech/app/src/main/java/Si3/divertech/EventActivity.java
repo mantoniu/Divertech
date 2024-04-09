@@ -5,9 +5,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
-
+import android.widget.TextView;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -19,6 +19,21 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        Event event = getIntent().getParcelableExtra("event");
+        Log.d("test", event.getTitle());
+
+        TextView titre = findViewById(R.id.nameEvent);
+        titre.setText(event.getTitle());
+
+        TextView place = findViewById(R.id.localisation);
+        place.setText("Lieu : "+event.getPlace());
+
+        TextView description = findViewById(R.id.description_event);
+        description.setText(event.getDescription());
+        Log.d("test",event.getDescription());
+
+
+
         Intent changement = new Intent(getApplicationContext(), MultiPagesActivity.class);
         View signalement = findViewById(R.id.bloc_reporting);
         signalement.setOnClickListener(click-> {
