@@ -183,5 +183,8 @@
     <string name="pref_group_title_face_mesh" translatable="false">Face Mesh Detection</string>
     <string name="pref_title_face_mesh_use_case" translatable="false">Use Case</string>
     <string name="pref_key_face_mesh_use_case" translatable="false">face_mesh_use_case</string>
+    <string name="write_manually">Rentrer manuellement le code</string>
+    <string name="code_input_text">Veuillez saisir le code :</string>
+    <string name="validate">Valider</string>
 
 </resources>

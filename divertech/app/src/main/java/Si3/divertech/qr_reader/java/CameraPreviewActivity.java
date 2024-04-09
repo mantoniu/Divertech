@@ -9,26 +9,37 @@ import Si3.divertech.qr_reader.java.barcodescanner.BarcodeScannerProcessor;
 import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.hardware.camera2.CaptureRequest;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Range;
 import android.util.Size;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.camera2.interop.Camera2Interop;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
-import androidx.camera.core.resolutionselector.AspectRatioStrategy;
-import androidx.camera.core.resolutionselector.ResolutionFilter;
 import androidx.camera.core.resolutionselector.ResolutionSelector;
 import androidx.camera.core.resolutionselector.ResolutionStrategy;
 import androidx.camera.lifecycle.ProcessCameraProvider;
@@ -37,14 +48,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.common.MlKitException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -59,7 +63,12 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     private boolean needUpdateGraphicOverlayImageSourceInfo;
     private Preview previewUseCase;
     private PreviewView previewView;
+    private boolean flashLightState = false;
+    private PopupWindow popupWindow;
+    private ColorFilter blackFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +87,28 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
             Log.d(TAG, "graphicOverlay is null");
         }
 
+        ImageView flashLightButton = findViewById(R.id.flashlight);
+        flashLightButton.setOnClickListener((click) -> flashLightClick((ImageView) click));
+        Button manualCode = findViewById(R.id.manual_button);
+
+
+        manualCode.setOnClickListener(this::onButtonShowPopupWindowClick);
+
+        flashLightButton.getRootView().setOnTouchListener((v, event) -> {
+            if(popupWindow!=null){
+                popupWindow.dismiss();
+                return true;
+            }
+            return false;
+        });
+
+        ImageView returnButton = findViewById(R.id.back);
+        returnButton.setOnClickListener((click) -> {
+            Intent returnIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(returnIntent);
+        });
+
+
         new ViewModelProvider(this)
                 .get(CameraXViewModel.class)
                 .getProcessCameraProvider()
@@ -89,8 +120,51 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
                         });
     }
 
+    private void showKeyboard(EditText editText) {
+        editText.requestFocus();
+        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+        editText.postDelayed(() -> imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0), 200);
+    }
+
+    public void onButtonShowPopupWindowClick(View view) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.manual_code_popup, findViewById(R.id.popup));
+
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        this.popupWindow = new PopupWindow(popupView, width, height, true);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        EditText codeInput = popupView.findViewById(R.id.code_input);
+        showKeyboard(codeInput);
+
+        popupView.findViewById(R.id.close_button).setOnClickListener((click) -> {
+            if(popupWindow!=null){
+                popupWindow.dismiss();
+            }
+        });
+
+        popupView.findViewById(R.id.validate_code).setOnClickListener((clickedView) ->{
+            Intent receivedData = new Intent(getApplicationContext(), MainActivity.class);
+            receivedData.putExtra("qr_data", codeInput.getText().toString());
+            startActivity(receivedData);
+        });
+    }
+
+    private void flashLightClick(ImageView flashLightButton) {
+        if (camera != null && camera.getCameraInfo().hasFlashUnit()) {
+            flashLightState = !flashLightState;
+            camera.getCameraControl().enableTorch(flashLightState);
+
+            if(flashLightState)
+                flashLightButton.setImageResource(R.drawable.flash_light_off);
+            else flashLightButton.setImageResource(R.drawable.flash_light_on);
+        }
+    }
+
     @Override
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
     }
 
@@ -117,7 +191,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == 0) {
@@ -152,10 +226,15 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
             this.cameraProvider.unbind(this.previewUseCase);
         }
         Preview.Builder builder = new Preview.Builder();
+
         Size targetResolution = PreferenceUtils.getCameraXTargetResolution(this, 1);
-        if (targetResolution != null) {
-            builder.setTargetResolution(targetResolution);
-        }
+        ResolutionSelector.Builder resolutionSelector = new ResolutionSelector.Builder();
+
+        if (targetResolution != null)
+            resolutionSelector.setResolutionStrategy(new ResolutionStrategy(targetResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER));
+
+        builder.setResolutionSelector(resolutionSelector.build());
+
         this.previewUseCase = builder.build();
         this.previewUseCase.setSurfaceProvider(this.previewView.getSurfaceProvider());
         camera =
