@@ -16,11 +16,11 @@ public interface ClickableActivity {
                 break;
             }
             case 2 :{
-                i = new Intent(getContext(),MapActivity.class);
+                i = new Intent(getContext(), MapActivity.class);
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(),EventActivity.class);
+                i = new Intent(getContext(),ListEventActivity.class);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);

@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/headerMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:name="Si3.divertech.headerMenu"
+        android:name="Si3.divertech.HeaderMenu"
         tools:layout="@layout/fragment_header_menu"
         />
 
@@ -41,10 +41,18 @@
         android:src="@drawable/return_arrow"
         app:layout_constraintTop_toTopOf="@id/nameEvent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/nameEvent">
+        app:layout_constraintRight_toLeftOf="@id/nameEvent"
+        android:contentDescription="return arrow">
     </ImageView>
 
     <!-- Première partie -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/place_and_image"
+        app:layout_constraintTop_toBottomOf="@+id/nameEvent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
     <TextView
         android:id="@+id/localisation"
@@ -55,81 +63,104 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/nameEvent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     </TextView>
 
     <ImageView
-        android:id="@+id/imageEvent"
+        android:id="@+id/image_event"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="-10dp"
         android:src="@drawable/image_default"
         app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/localisation">
+        app:layout_constraintRight_toLeftOf="@id/localisation"
+        android:contentDescription="image of the event">
     </ImageView>
 
     <ImageView
-        android:id="@+id/goMap"
+        android:id="@+id/logo_map"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/localisation"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/location"
         app:layout_constraintTop_toTopOf="@id/localisation"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/localisation">
     </ImageView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- parking -->
 
-    <TextView
-        android:id="@+id/textBookParkingPlace"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bookParkingPlace"
-        android:textSize="15sp"
-        android:maxWidth="250dp"
-        android:textAlignment="center"
-        android:layout_marginTop="30dp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/localisation"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </TextView>
+        android:id="@+id/parking"
+        android:background="@drawable/roundedbg"
+        android:elevation="10dp"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/place_and_image"
 
-    <ImageView
-        android:id="@+id/goCar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/car"
-        android:layout_marginTop="-15dp"
-        app:layout_constraintTop_toTopOf="@id/textBookParkingPlace"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/textBookParkingPlace">
-    </ImageView>
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/textBookParkingPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bookParkingPlace"
+            android:textSize="15sp"
+            android:maxWidth="250dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/goCar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </TextView>
+
+        <ImageView
+            android:id="@+id/goCar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/car"
+            android:layout_marginTop="-15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/textBookParkingPlace">
+        </ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- texte central -->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/goLostObject"
-        app:layout_constraintTop_toBottomOf="@id/textBookParkingPlace"
+        app:layout_constraintBottom_toTopOf="@id/bloc_lost_object"
+        app:layout_constraintTop_toBottomOf="@id/parking"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:fillViewport="true"
         android:layout_margin="25dp"
         >
         <TextView
-            android:id="@+id/descriptionEvent"
+            android:id="@+id/description_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/lopus"
             android:textSize="15sp"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@id/goLostObject"
-            app:layout_constraintTop_toBottomOf="@id/textBookParkingPlace"
+            app:layout_constraintBottom_toTopOf="@id/logo_lost_object"
+            app:layout_constraintTop_toBottomOf="@id/parking"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
         </TextView>
@@ -137,77 +168,113 @@
 
     <!-- boutons bas -->
 
-    <ImageView
-        android:id="@+id/goLostObject"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/lost_object"
-        android:layout_marginTop="-50dp"
-        app:layout_constraintTop_toTopOf="@id/textObject"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bloc_lost_object"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/goReport"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/report_accident"
-        android:layout_marginTop="-50dp"
-        app:layout_constraintTop_toTopOf="@id/textObject"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/goLostObject">
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/goContactAdmin"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/contact_admin"
-        android:layout_marginTop="-50dp"
-        app:layout_constraintTop_toTopOf="@id/textObject"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/goLostObject">
-    </ImageView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp">
 
-    <!-- textes boutons bas -->
+        <ImageView
+            android:id="@+id/logo_lost_object"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/lost_object"
 
-    <TextView
-        android:id="@+id/textObject"
+            app:layout_constraintBottom_toTopOf="@id/text_object"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:contentDescription="losst object logo">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/text_object"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lost_object"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bloc_reporting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lost_object"
-        android:textSize="15sp"
-        android:textAlignment="center"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </TextView>
-
-    <TextView
-        android:id="@+id/textReport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/report_incident"
-        android:textSize="15sp"
-        android:textAlignment="center"
-        android:layout_marginBottom="30dp"
+        app:layout_constraintRight_toLeftOf="@id/bloc_lost_object"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/textObject">
-    </TextView>
+        android:layout_marginBottom="30dp">
 
-    <TextView
-        android:id="@+id/textContact"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/logo_report"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/report_accident"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/text_report"
+            app:layout_constraintRight_toRightOf="parent"
+            android:contentDescription="report logo">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/text_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report_incident"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bloc_contact"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/report_incident"
-        android:textSize="15sp"
-        android:layout_marginBottom="30dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/textObject">
-    </TextView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bloc_lost_object"
+        android:layout_marginBottom="17dp">
+
+        <ImageView
+            android:id="@+id/logo_contact_admin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/contact_admin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/text_contact"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:contentDescription="contact admin logo">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/text_contact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_admin"
+            android:textSize="15sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+        </TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
