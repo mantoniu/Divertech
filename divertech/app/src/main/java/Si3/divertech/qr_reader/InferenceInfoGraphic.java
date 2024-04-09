@@ -27,11 +27,6 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
         postInvalidate();
     }
 
-    public InferenceInfoGraphic(GraphicOverlay overlay) {
-        this(overlay, 0L, 0L, null);
-        this.showLatencyInfo = false;
-    }
-
     @Override
     public synchronized void draw(Canvas canvas) {
         canvas.drawText("InputImage size: " + this.overlay.getImageHeight() + "x" + this.overlay.getImageWidth(), 30.0f, 90.0f, this.textPaint);
