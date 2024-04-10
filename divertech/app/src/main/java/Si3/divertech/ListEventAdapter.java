@@ -9,15 +9,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 public class ListEventAdapter extends BaseAdapter {
 
-    private ListEvent listEvent;
+    private List<Event> listEvent;
     private Context context;
 
-    public ListEventAdapter(Context context, ListEvent listEvent){
+    public ListEventAdapter(Context context, Map<String, Event> eventMap){
         this.context = context;
-        this.listEvent = listEvent;
+        this.listEvent = new ArrayList<>(eventMap.values());
     }
 
     @Override
@@ -39,15 +44,15 @@ public class ListEventAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         convertView = convertView == null ? mInflater.inflate(R.layout.event_layout,parent, false) : convertView;
-        convertView.setTag(position+1);
+        convertView.setTag(position);
 
         TextView title = convertView.findViewById(R.id.title);
         TextView description = convertView.findViewById(R.id.description);
         ImageView image = convertView.findViewById(R.id.image);
 
-        title.setText(listEvent.get(position+1).getTitle());
-        description.setText(listEvent.get(position+1).getShortDesciption());
-        image.setImageResource(listEvent.get(position+1).getImage());
+        title.setText(listEvent.get(position).getTitle());
+        description.setText(listEvent.get(position).getShortDesciption());
+        image.setImageResource(listEvent.get(position).getImage());
 
         return convertView;
     }

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Event implements Parcelable {
-    protected int id;
+    protected String id;
     private String title;
     private int image;
     private String shortDesciption;
@@ -17,7 +17,7 @@ public class Event implements Parcelable {
     public static final Parcelable.Creator<Event> CREATOR
             = new Parcelable.Creator<Event>() {
         public Event createFromParcel(Parcel in) {
-            return new Event(in.readInt(),
+            return new Event(in.readString(),
                     in.readString(),
                     in.readInt(),
                     in.readString(),
@@ -33,7 +33,7 @@ public class Event implements Parcelable {
     public Event(Parcel in){
 
     }
-    public Event(int id, String title,int img,String shortDescription, String position,String description){
+    public Event(String id, String title, int img,String shortDescription, String position,String description){
         this.id = id;
         this.title = title;
         this.image = img;
@@ -54,7 +54,7 @@ public class Event implements Parcelable {
         return shortDesciption;
     }
 
-    public int getId(){ return id;}
+    public String getId(){ return id;}
     public String getPlace(){ return place;}
 
     public String getDescription(){return description;}
@@ -66,7 +66,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeInt(image);
         dest.writeString(shortDesciption);

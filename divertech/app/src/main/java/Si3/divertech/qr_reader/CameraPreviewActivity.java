@@ -1,5 +1,8 @@
 package Si3.divertech.qr_reader;
 
+import Si3.divertech.Event;
+import Si3.divertech.EventActivity;
+import Si3.divertech.ListEvent;
 import Si3.divertech.MainActivity;
 import Si3.divertech.R;
 import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
@@ -46,7 +49,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     private static final int CAMERA_PERMISSION_CODE = 100;
     @Nullable
     private Camera camera;
-    private static final String TAG = "CameraXLivePreview";
+    private static final String TAG = "CameraPreview";
     private ImageAnalysis analysisUseCase;
     private ProcessCameraProvider cameraProvider;
     private CameraSelector cameraSelector;
@@ -133,9 +136,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         });
 
         popupView.findViewById(R.id.validate_code).setOnClickListener((clickedView) ->{
-            Intent receivedData = new Intent(getApplicationContext(), MainActivity.class);
-            receivedData.putExtra("qr_data", codeInput.getText().toString());
-            startActivity(receivedData);
+            if(ListEvent.getEventMap().containsKey(codeInput.getText().toString()))
+                onDataReceived(codeInput.getText().toString());
         });
     }
 
@@ -294,10 +296,10 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         camera = cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, analysisUseCase);
     }
     @Override
-    public void onDataReceived(String qrData) {
-        Log.d("RECEIVED_DATA", qrData);
-        Intent receivedData = new Intent(this, MainActivity.class);
-        receivedData.putExtra("qr_data", qrData);
+    public void onDataReceived(String eventId) {
+        Log.d("RECEIVED_DATA", eventId);
+        Intent receivedData = new Intent(this, EventActivity.class);
+        receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
         startActivity(receivedData);
     }
 }

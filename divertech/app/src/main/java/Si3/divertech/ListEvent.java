@@ -2,11 +2,20 @@ package Si3.divertech;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ListEvent extends HashMap<Integer, Event> {
+public class ListEvent {
 
-    private final String DESCRIPTION = "\n" +
+    private static final Map<String, Event> eventMap = new HashMap<String, Event>() {{
+        put("0", new Event("0", "Event1", R.drawable.image_default, "Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien", "1 rue du noyé", DESCRIPTION));
+        put("1", new Event("1", "Event2", R.drawable.image_default, "Ceci est le deuxième évenement", "1 rue du noyé", DESCRIPTION));
+        put("2", new Event("2", "Event3", R.drawable.image_default, "Ceci est le troisième évenement", "1 rue du noyé", DESCRIPTION));
+        put("3", new Event("3", "Event4", R.drawable.image_default, "Ceci est le quatrième évenement", "1 rue du noyé", DESCRIPTION));
+        put("4", new Event("4", "Event5", R.drawable.image_default, "Ceci est le cinquième évenement", "1 rue du noyé", DESCRIPTION));
+    }};
+
+    private static final String DESCRIPTION = "\n" +
             "\n" +
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elit justo, tincidunt ut consequat in, egestas sed magna. Donec et elementum nulla. Nullam nec imperdiet velit. Maecenas lacus elit, cursus id vehicula et, commodo et lectus. Nullam sed urna malesuada sapien lacinia euismod a id tortor. Nullam iaculis mollis orci, vel suscipit urna egestas ac. Nullam quis nibh tristique, placerat lectus quis, elementum mauris. Maecenas sagittis, enim eget commodo pharetra, nulla dolor imperdiet leo, vel facilisis ligula diam sit amet mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;\n" +
             "\n" +
@@ -19,22 +28,18 @@ public class ListEvent extends HashMap<Integer, Event> {
             "Fusce scelerisque, dui ac scelerisque mollis, nulla mauris porta nulla, ac scelerisque orci erat sit amet diam. In blandit quam turpis. Nam vehicula et est nec mattis. Donec tincidunt neque metus, eget tempor libero euismod a. Morbi aliquet velit eget luctus facilisis. Duis id pulvinar elit. Pellentesque ac ipsum maximus, molestie nisi sed, tristique ipsum. Proin eget semper sapien, in venenatis ligula. Aliquam eget ligula a felis sollicitudin aliquet. Nulla facilisi. Sed pulvinar eros ipsum, eu aliquet odio tempus sit amet. In congue, augue at interdum tincidunt, ligula est imperdiet nisi, sit amet efficitur diam ante eu enim. Etiam pharetra tristique diam, nec bibendum libero suscipit vehicula. Duis imperdiet malesuada sem eget consectetur. Nulla consequat leo quam, nec interdum erat semper eget. Curabitur efficitur eros egestas nibh facilisis rutrum. ";
 
     public ListEvent(){
-        new HashMap<Integer,Event>();
     }
 
-    public void mock(){
-        put(1,new Event(1,"Event1",R.drawable.image_default,"Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien","1 rue du noyé",DESCRIPTION));
-        put(2,new Event(2,"Event2",R.drawable.image_default,"Ceci est le deuxième évenement","1 rue du noyé",DESCRIPTION));
-        put(3,new Event(3,"Event3",R.drawable.image_default,"Ceci est le troisième évenement","1 rue du noyé",DESCRIPTION));
-        put(4,new Event(4,"Event4",R.drawable.image_default,"Ceci est le quatrième évenement", "1 rue du noyé",DESCRIPTION));
-        put(5,new Event(5,"Event5",R.drawable.image_default,"Ceci est le cinquième évenement","1 rue du noyé",DESCRIPTION));
+    public static Map<String, Event> getEventMap(){
+        return eventMap;
     }
 
-    public void addEvent(Event event){put(event.getId(),event);
+    public void addEvent(Event event){
+        eventMap.put(event.getId(),event);
     }
 
-    public void addEvent(int id,String title,int img, String shortDescription, String position,String description){
-        Event event = new Event(id, title,img,shortDescription,position,description);
+    public void addEvent(String id, String title,int img, String shortDescription, String position,String description){
+        Event event = new Event(id, title, img, shortDescription, position, description);
         addEvent(event);
     }
 }

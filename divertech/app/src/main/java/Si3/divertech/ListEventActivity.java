@@ -24,19 +24,21 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         FootMenu f = new FootMenu();
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
-        ListEvent mock = new ListEvent();
-        mock.mock();
-        Log.d("test",mock.toString());
-        ListView listView = ((ListView)findViewById(R.id.listView));
-        listView.setAdapter(new ListEventAdapter(getContext(),mock));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent intent = new Intent(getContext(), EventActivity.class);
-                intent.putExtra("event", (Parcelable) mock.get(view.getTag()));
-                startActivity(intent);
-            }
+
+        Log.d("divertech","listEvent =" + ListEvent.getEventMap());
+
+        ListView listView = (findViewById(R.id.listView));
+        listView.setAdapter(new ListEventAdapter(getContext(), ListEvent.getEventMap()));
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getContext(), EventActivity.class);
+            String eventId = String.valueOf(view.getTag());
+            Log.d("VIEWTAG", eventId);
+            Log.d("TEST", String.valueOf(ListEvent.getEventMap().get(eventId)));
+            intent.putExtra("event", ListEvent.getEventMap().get(eventId));
+            startActivity(intent);
         });
+
         findViewById(R.id.button_add).setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);
             startActivity(intent);
