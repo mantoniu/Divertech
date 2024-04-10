@@ -2,7 +2,6 @@ package Si3.divertech.qr_reader.barcodescanner;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,8 +24,6 @@ public class BarcodeScannerProcessor extends VisionProcessorBase<List<Barcode>> 
     private static final String TAG = "BarcodeProcessor";
     private final QRDataListener qrDataListener;
     private final BarcodeScanner barcodeScanner;
-    private Toast toast;
-
     public BarcodeScannerProcessor(Context context, QRDataListener qrDataListener) {
         super(context);
         BarcodeScannerOptions options =
