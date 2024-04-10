@@ -1,13 +1,9 @@
 package Si3.divertech;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements ClickableActivity{
 

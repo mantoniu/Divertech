@@ -12,13 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class ListEventAdapter extends BaseAdapter {
 
-    private List<Event> listEvent;
-    private Context context;
+    private final List<Event> listEvent;
+    private final Context context;
 
     public ListEventAdapter(Context context, Map<String, Event> eventMap){
         this.context = context;

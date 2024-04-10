@@ -74,6 +74,7 @@ public class Event implements Parcelable {
         dest.writeString(description);
     }
 
+    @NonNull
     @Override
     public String toString(){
         return getId()+"test"+ getTitle();

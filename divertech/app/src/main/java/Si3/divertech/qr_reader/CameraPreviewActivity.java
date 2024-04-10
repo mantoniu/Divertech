@@ -1,13 +1,5 @@
 package Si3.divertech.qr_reader;
 
-import Si3.divertech.Event;
-import Si3.divertech.EventActivity;
-import Si3.divertech.ListEvent;
-import Si3.divertech.MainActivity;
-import Si3.divertech.R;
-import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
-import Si3.divertech.qr_reader.preference.PreferenceUtils;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -44,6 +36,12 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.mlkit.common.MlKitException;
+
+import Si3.divertech.EventActivity;
+import Si3.divertech.ListEvent;
+import Si3.divertech.R;
+import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
+import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
 public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
