@@ -326,5 +326,6 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         Intent receivedData = new Intent(this, EventActivity.class);
         receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
         startActivity(receivedData);
+        finish();
     }
 }
