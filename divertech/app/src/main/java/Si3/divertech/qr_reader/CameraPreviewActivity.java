@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -36,6 +37,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.mlkit.common.MlKitException;
+
+import java.util.AbstractMap.SimpleEntry;
 
 import Si3.divertech.EventActivity;
 import Si3.divertech.ListEvent;
@@ -58,6 +61,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     private PreviewView previewView;
     private boolean flashLightState = false;
     private PopupWindow popupWindow;
+    private PopupWindow errorPopup;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -90,6 +94,10 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
                 popupWindow.dismiss();
                 return true;
             }
+            if (errorPopup != null) {
+                errorPopup.dismiss();
+                return true;
+            }
             return false;
         });
 
@@ -114,28 +122,47 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         editText.postDelayed(() -> imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0), 200);
     }
 
-    public void onButtonShowPopupWindowClick(View view) {
+    public void showEventErrorPopup(View view) {
+        SimpleEntry<View, PopupWindow> popupData = createPopup(R.layout.event_not_found_popup);
+        this.errorPopup = popupData.getValue();
+
+        errorPopup.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        popupData.getKey().findViewById(R.id.close_button).setOnClickListener((click) -> errorPopup.dismiss());
+
+        popupData.getKey().findViewById(R.id.validate_code).setOnClickListener((click) -> errorPopup.dismiss());
+    }
+
+    private SimpleEntry<View, PopupWindow> createPopup(@LayoutRes int resId) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.manual_code_popup, findViewById(R.id.popup));
+        View popupView = inflater.inflate(resId, findViewById(R.id.popup));
 
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        this.popupWindow = new PopupWindow(popupView, width, height, true);
+        return new SimpleEntry<>(popupView, new PopupWindow(popupView, width, height, true));
+    }
+
+
+    public void onButtonShowPopupWindowClick(View view) {
+        SimpleEntry<View, PopupWindow> popupData = createPopup(R.layout.manual_code_popup);
+        this.popupWindow = popupData.getValue();
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        EditText codeInput = popupView.findViewById(R.id.code_input);
+        EditText codeInput = popupData.getKey().findViewById(R.id.code_input);
         showKeyboard(codeInput);
 
-        popupView.findViewById(R.id.close_button).setOnClickListener((click) -> {
-            if(popupWindow!=null){
+        popupData.getKey().findViewById(R.id.close_button).setOnClickListener((click) -> {
+            if (popupWindow != null)
                 popupWindow.dismiss();
-            }
         });
 
-        popupView.findViewById(R.id.validate_code).setOnClickListener((clickedView) ->{
-            if(ListEvent.getEventMap().containsKey(codeInput.getText().toString()))
-                onDataReceived(codeInput.getText().toString());
+        popupData.getKey().findViewById(R.id.validate_code).setOnClickListener((clickedView) -> {
+            popupWindow.dismiss();
+            String eventId = codeInput.getText().toString();
+            if (ListEvent.getEventMap().containsKey(eventId))
+                onDataReceived(eventId);
+            else showEventErrorPopup(getWindow().getDecorView().getRootView());
         });
     }
 

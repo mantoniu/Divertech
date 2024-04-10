@@ -25,6 +25,7 @@ public class BarcodeScannerProcessor extends VisionProcessorBase<List<Barcode>> 
     private static final String TAG = "BarcodeProcessor";
     private final QRDataListener qrDataListener;
     private final BarcodeScanner barcodeScanner;
+    private Toast toast;
 
     public BarcodeScannerProcessor(Context context, QRDataListener qrDataListener) {
         super(context);
@@ -60,10 +61,8 @@ public class BarcodeScannerProcessor extends VisionProcessorBase<List<Barcode>> 
             String eventId = barcodes.get(0).getDisplayValue();
             if(ListEvent.getEventMap().containsKey(barcodes.get(0).getDisplayValue()))
                 qrDataListener.onDataReceived(eventId);
-            else Toast.makeText(graphicOverlay.getContext(), "Cet évènement n'est pas reconnu", Toast.LENGTH_LONG).show();
         }
     }
-
 
     @Override
     protected void onFailure(@NonNull Exception e) {
