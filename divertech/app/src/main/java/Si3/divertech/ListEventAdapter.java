@@ -16,27 +16,31 @@ import java.util.Map;
 
 public class ListEventAdapter extends BaseAdapter {
 
-    private final List<Event> listEvent;
+    private final Map<String, Event> eventMap;
     private final Context context;
 
     public ListEventAdapter(Context context, Map<String, Event> eventMap){
         this.context = context;
-        this.listEvent = new ArrayList<>(eventMap.values());
+        this.eventMap = eventMap;
     }
 
     @Override
     public int getCount() {
-        return listEvent.size();
+        return eventMap.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listEvent.get(position);
+        return getEventList().get(position);
     }
 
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    private List<Event> getEventList() {
+        return new ArrayList<>(eventMap.values());
     }
 
     @Override
@@ -49,9 +53,11 @@ public class ListEventAdapter extends BaseAdapter {
         TextView description = convertView.findViewById(R.id.description);
         ImageView image = convertView.findViewById(R.id.image);
 
-        title.setText(listEvent.get(position).getTitle());
-        description.setText(listEvent.get(position).getShortDesciption());
-        image.setImageResource(listEvent.get(position).getImage());
+        List<Event> eventList = getEventList();
+
+        title.setText(eventList.get(position).getTitle());
+        description.setText(eventList.get(position).getShortDesciption());
+        image.setImageResource(eventList.get(position).getImage());
 
         return convertView;
     }

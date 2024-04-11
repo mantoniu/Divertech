@@ -14,7 +14,7 @@ import com.google.mlkit.vision.common.InputImage;
 
 import java.util.List;
 
-import Si3.divertech.ListEvent;
+import Si3.divertech.qr_reader.CameraPreviewActivity;
 import Si3.divertech.qr_reader.GraphicOverlay;
 import Si3.divertech.qr_reader.QRDataListener;
 import Si3.divertech.qr_reader.VisionProcessorBase;
@@ -48,6 +48,9 @@ public class BarcodeScannerProcessor extends VisionProcessorBase<List<Barcode>> 
     @Override
     protected void onSuccess(
             @NonNull List<Barcode> barcodes, @NonNull GraphicOverlay graphicOverlay) {
+        if (!CameraPreviewActivity.barcodeScanEnabled) {
+            return;
+        }
 
         if(!barcodes.isEmpty()){
             Barcode barcode = barcodes.get(0);
@@ -56,8 +59,7 @@ public class BarcodeScannerProcessor extends VisionProcessorBase<List<Barcode>> 
 
         if(!barcodes.isEmpty() && qrDataListener!=null){
             String eventId = barcodes.get(0).getDisplayValue();
-            if(ListEvent.getEventMap().containsKey(barcodes.get(0).getDisplayValue()))
-                qrDataListener.onDataReceived(eventId);
+            qrDataListener.onDataReceived(eventId);
         }
     }
 

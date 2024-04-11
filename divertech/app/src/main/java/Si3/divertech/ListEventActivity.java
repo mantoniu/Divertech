@@ -12,6 +12,8 @@ import Si3.divertech.qr_reader.CameraPreviewActivity;
 
 public class ListEventActivity extends AppCompatActivity implements ClickableActivity{
 
+    private ListEventAdapter listEventAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,9 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         Log.d("divertech","listEvent =" + ListEvent.getEventMap());
 
         ListView listView = (findViewById(R.id.listView));
-        listView.setAdapter(new ListEventAdapter(getContext(), ListEvent.getEventMap()));
+
+        listEventAdapter = new ListEventAdapter(getContext(), ListEvent.getUserEventMap());
+        listView.setAdapter(listEventAdapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getContext(), EventActivity.class);
@@ -40,6 +44,13 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
             Intent intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (listEventAdapter != null)
+            listEventAdapter.notifyDataSetChanged();
     }
 
     @Override
