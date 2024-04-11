@@ -1,6 +1,7 @@
 package Si3.divertech;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity, OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         mapFragment.onCreate(new Bundle());
         mapFragment.getMapAsync(this);
 
+        Intent intent = getIntent();
+        pos = intent.getIntExtra("pos",-1);
+
     }
 
 
@@ -43,14 +47,19 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        ListEvent listEvent = new ListEvent();
+        listEvent.mock();
+        for(Event event : listEvent.values()) {
+            // Add a marker in Sydney and move the camera
+            LatLng location = new LatLng(event.getLatitude(), event.getLongitude());
+            googleMap.addMarker(new MarkerOptions()
+                    .position(location)
+                    .title(event.getTitle()));
+        }
+        if(pos == -1)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
+        else
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(listEvent.get(pos).getLatitude(), listEvent.get(pos).getLongitude()),13));
     }
 }
 

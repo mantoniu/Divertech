@@ -1,8 +1,6 @@
 package Si3.divertech;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ListEvent extends HashMap<Integer, Event> {
 
@@ -23,18 +21,18 @@ public class ListEvent extends HashMap<Integer, Event> {
     }
 
     public void mock(){
-        put(1,new Event(1,"Event1",R.drawable.image_default,"Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien","1 rue du noyé",DESCRIPTION));
-        put(2,new Event(2,"Event2",R.drawable.image_default,"Ceci est le deuxième évenement","1 rue du noyé",DESCRIPTION));
-        put(3,new Event(3,"Event3",R.drawable.image_default,"Ceci est le troisième évenement","1 rue du noyé",DESCRIPTION));
-        put(4,new Event(4,"Event4",R.drawable.image_default,"Ceci est le quatrième évenement", "1 rue du noyé",DESCRIPTION));
-        put(5,new Event(5,"Event5",R.drawable.image_default,"Ceci est le cinquième évenement","1 rue du noyé",DESCRIPTION));
+        put(1,new Event(1,"Event1",R.drawable.image_default,"Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien","1 rue du noyé",DESCRIPTION,45.2654, 2.3777));
+        put(2,new Event(2,"Event2",R.drawable.image_default,"Ceci est le deuxième évenement","1 rue du noyé",DESCRIPTION, 43.38, 4.36));
+        put(3,new Event(3,"Event3",R.drawable.image_default,"Ceci est le troisième évenement","1 rue du noyé",DESCRIPTION,47.25, 5.25));
+        put(4,new Event(4,"Event4",R.drawable.image_default,"Ceci est le quatrième évenement", "1 rue du noyé",DESCRIPTION,48.85,3.3));
+        put(5,new Event(5,"Event5",R.drawable.image_default,"Ceci est le cinquième évenement","1 rue du noyé",DESCRIPTION,47.5,6.8));
     }
 
     public void addEvent(Event event){put(event.getId(),event);
     }
 
-    public void addEvent(int id,String title,int img, String shortDescription, String position,String description){
-        Event event = new Event(id, title,img,shortDescription,position,description);
+    public void addEvent(int id,String title,int img, String shortDescription, String position,String description,double latitude, double longitude){
+        Event event = new Event(id, title,img,shortDescription,position,description,latitude,longitude);
         addEvent(event);
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class EventActivity extends AppCompatActivity {
@@ -28,10 +29,17 @@ public class EventActivity extends AppCompatActivity {
         TextView place = findViewById(R.id.localisation);
         place.setText("Lieu : "+event.getPlace());
 
+        ImageView map = findViewById(R.id.logo_map);
+        map.setOnClickListener(click->{
+            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+            intent.putExtra("pos",event.getId());
+            startActivity(intent);
+            finish();
+        });
+
         TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
         Log.d("test",event.getDescription());
-
 
 
         Intent changement = new Intent(getApplicationContext(), MultiPagesActivity.class);
