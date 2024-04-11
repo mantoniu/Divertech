@@ -63,7 +63,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
     }
 }
 
-
+//TODO check geocoder
 
 
 
