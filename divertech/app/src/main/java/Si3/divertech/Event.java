@@ -13,8 +13,6 @@ public class Event implements Parcelable {
     private String place;
     private String description;
 
-    private double latitude;
-    private double longitude;
 
 
     public static final Parcelable.Creator<Event> CREATOR
@@ -25,25 +23,21 @@ public class Event implements Parcelable {
                     in.readInt(),
                     in.readString(),
                     in.readString(),
-                    in.readString(),
-                    in.readDouble(),
-                    in.readDouble());
-        }
+                    in.readString());}
 
         public Event[] newArray(int size) {
             return new Event[size];
         }
     };
 
-    public Event(int id, String title,int img,String shortDescription, String position,String description, double latitude, double longitude){
+    public Event(int id, String title,int img,String shortDescription, String position,String description){
         this.id = id;
         this.title = title;
         this.image = img;
         this.shortDesciption = shortDescription;
         this.place = position;
         this.description = description;
-        this.latitude = latitude;
-        this.longitude = longitude;
+
     }
 
     public String getTitle(){
@@ -63,13 +57,7 @@ public class Event implements Parcelable {
 
     public String getDescription(){return description;}
 
-    public double getLatitude() {
-        return latitude;
-    }
 
-    public double getLongitude() {
-        return longitude;
-    }
 
     @Override
     public int describeContents() {
@@ -84,8 +72,7 @@ public class Event implements Parcelable {
         dest.writeString(shortDesciption);
         dest.writeString(place);
         dest.writeString(description);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
+
     }
 
     @Override
