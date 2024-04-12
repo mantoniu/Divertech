@@ -8,23 +8,23 @@ public interface ClickableActivity {
     Context getContext();
 
     void startActivity(Intent intent);
-    default void onCick(int page){
-        Intent i;
+    default void onCick(int page, int currentPage){
+        Intent i = null;
         switch (page){
             case 1 : {
-                i = new Intent(getContext(),MainActivity.class);
+                if(currentPage != 1) i = new Intent(getContext(),MainActivity.class);
                 break;
             }
             case 2 :{
-                i = new Intent(getContext(), MapActivity.class);
+                if(currentPage != 2) i = new Intent(getContext(), MapActivity.class);
                 break;
             }
             case 3 : {
-                i = new Intent(getContext(),ListEventActivity.class);
+                if(currentPage != 3) i = new Intent(getContext(),ListEventActivity.class);
                 break;
             }
             default: i = new Intent(getContext(),MainActivity.class);
         }
-        startActivity(i);
+        if(i != null) startActivity(i);
     }
 }
