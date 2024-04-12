@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Configures live preview demo settings. */
 public class LivePreviewPreferenceFragment extends PreferenceFragment {
 
     @Override
