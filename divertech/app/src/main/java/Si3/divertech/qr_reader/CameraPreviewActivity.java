@@ -179,8 +179,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
             camera.getCameraControl().enableTorch(flashLightState);
 
             if(flashLightState)
-                flashLightButton.setImageResource(R.drawable.flash_light_off);
-            else flashLightButton.setImageResource(R.drawable.flash_light_on);
+                flashLightButton.setImageResource(R.drawable.flash_light_on);
+            else flashLightButton.setImageResource(R.drawable.flash_light_off);
         }
     }
 
