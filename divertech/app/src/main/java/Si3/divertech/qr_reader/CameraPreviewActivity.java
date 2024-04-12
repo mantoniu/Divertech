@@ -1,18 +1,9 @@
 package Si3.divertech.qr_reader;
 
-import Si3.divertech.MainActivity;
-import Si3.divertech.R;
-import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
-import Si3.divertech.qr_reader.preference.PreferenceUtils;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
@@ -25,11 +16,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
 import androidx.camera.core.Camera;
@@ -46,11 +40,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.mlkit.common.MlKitException;
 
+import Si3.divertech.EventActivity;
+import Si3.divertech.ListEvent;
+import Si3.divertech.R;
+import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
+import Si3.divertech.qr_reader.preference.PreferenceUtils;
+
 public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
     @Nullable
     private Camera camera;
-    private static final String TAG = "CameraXLivePreview";
+    private static final String TAG = "CameraPreview";
     private ImageAnalysis analysisUseCase;
     private ProcessCameraProvider cameraProvider;
     private CameraSelector cameraSelector;
@@ -61,8 +61,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     private PreviewView previewView;
     private boolean flashLightState = false;
     private PopupWindow popupWindow;
-    private ColorFilter blackFilter = new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-
+    private PopupWindow errorPopup;
+    public static boolean barcodeScanEnabled = true;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -89,20 +89,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
 
 
         manualCode.setOnClickListener(this::onButtonShowPopupWindowClick);
-
-        flashLightButton.getRootView().setOnTouchListener((v, event) -> {
-            if(popupWindow!=null){
-                popupWindow.dismiss();
-                return true;
-            }
-            return false;
-        });
-
         ImageView returnButton = findViewById(R.id.back);
-        returnButton.setOnClickListener((click) -> {
-            Intent returnIntent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(returnIntent);
-        });
+        returnButton.setOnClickListener(click -> finish());
 
 
         new ViewModelProvider(this)
@@ -122,30 +110,67 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         editText.postDelayed(() -> imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0), 200);
     }
 
-    public void onButtonShowPopupWindowClick(View view) {
+    public void showEventErrorPopup(@StringRes int textRes) {
+        errorPopup = createPopup(R.layout.event_not_found_popup);
+
+        errorPopup.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
+        View popupView = errorPopup.getContentView();
+
+        TextView text = popupView.findViewById(R.id.text_input);
+        text.setText(textRes);
+
+        View.OnClickListener listener = (click) -> dismissPopup(errorPopup);
+
+        popupView.findViewById(R.id.close_button).setOnClickListener(listener);
+
+        popupView.findViewById(R.id.validate_code).setOnClickListener(listener);
+    }
+
+
+    private PopupWindow createPopup(@LayoutRes int resId) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.manual_code_popup, findViewById(R.id.popup));
+        View popupView = inflater.inflate(resId, findViewById(R.id.popup));
 
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        this.popupWindow = new PopupWindow(popupView, width, height, true);
+
+        PopupWindow popup = new PopupWindow(popupView, width, height, true) {
+            @Override
+            public void dismiss() {
+                super.dismiss();
+                barcodeScanEnabled = true;
+            }
+        };
+
+        popup.setAnimationStyle(R.style.Animation);
+
+        return popup;
+    }
+
+
+    public void onButtonShowPopupWindowClick(View view) {
+        barcodeScanEnabled = false;
+        popupWindow = createPopup(R.layout.manual_code_popup);
+        View popupView = popupWindow.getContentView();
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         EditText codeInput = popupView.findViewById(R.id.code_input);
         showKeyboard(codeInput);
 
-        popupView.findViewById(R.id.close_button).setOnClickListener((click) -> {
-            if(popupWindow!=null){
-                popupWindow.dismiss();
-            }
-        });
+        popupView.findViewById(R.id.close_button).setOnClickListener((click) -> dismissPopup(popupWindow));
 
-        popupView.findViewById(R.id.validate_code).setOnClickListener((clickedView) ->{
-            Intent receivedData = new Intent(getApplicationContext(), MainActivity.class);
-            receivedData.putExtra("qr_data", codeInput.getText().toString());
-            startActivity(receivedData);
+        popupView.findViewById(R.id.validate_code).setOnClickListener((clickedView) -> {
+            dismissPopup(popupWindow);
+            String eventId = codeInput.getText().toString();
+            onDataReceived(eventId);
         });
+    }
+
+    private void dismissPopup(PopupWindow popup) {
+        if (popup != null && popup.isShowing()) {
+            popup.dismiss();
+        }
     }
 
     private void flashLightClick(ImageView flashLightButton) {
@@ -154,8 +179,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
             camera.getCameraControl().enableTorch(flashLightState);
 
             if(flashLightState)
-                flashLightButton.setImageResource(R.drawable.flash_light_off);
-            else flashLightButton.setImageResource(R.drawable.flash_light_on);
+                flashLightButton.setImageResource(R.drawable.flash_light_on);
+            else flashLightButton.setImageResource(R.drawable.flash_light_off);
         }
     }
 
@@ -276,8 +301,6 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
 
         needUpdateGraphicOverlayImageSourceInfo = true;
         analysisUseCase.setAnalyzer(
-                // imageProcessor.processImageProxy will use another thread to run the detection underneath,
-                // thus we can just runs the analyzer itself on main thread.
                 ContextCompat.getMainExecutor(this),
                 imageProxy -> {
                     if (needUpdateGraphicOverlayImageSourceInfo) {
@@ -303,10 +326,17 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         camera = cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, analysisUseCase);
     }
     @Override
-    public void onDataReceived(String qrData) {
-        Log.d("RECEIVED_DATA", qrData);
-        Intent receivedData = new Intent(this, MainActivity.class);
-        receivedData.putExtra("qr_data", qrData);
-        startActivity(receivedData);
+    public void onDataReceived(String eventId) {
+        Log.d("RECEIVED_DATA", eventId);
+        if (ListEvent.getEventMap().containsKey(eventId)) {
+            ListEvent.addUserEvent(eventId);
+            Intent receivedData = new Intent(this, EventActivity.class);
+            receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
+            startActivity(receivedData);
+            finish();
+        } else {
+            barcodeScanEnabled = false;
+            showEventErrorPopup(R.string.event_does_not_exist);
+        }
     }
 }

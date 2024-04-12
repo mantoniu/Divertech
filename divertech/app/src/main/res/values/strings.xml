@@ -64,7 +64,7 @@
     <string name="menu_item_settings" translatable="false">Settings</string>
     <string name="select_image" translatable="false">Select image</string>
     <string name="custom_object_detection" translatable="false">Custom Object Detector</string>
-
+    <string name="event_already_register" translatable="false">L\'évènement est déjà enregistré</string>
 
     <!-- Strings for camera settings. -->
     <string name="pref_category_key_camera" translatable="false">pckc</string>
@@ -87,7 +87,8 @@
     <!-- Strings for barcode scanning preference. -->
     <string name="pref_key_enable_auto_zoom" translatable="false">eaz</string>
     <string name="pref_title_enable_auto_zoom" translatable="false">Enable auto zoom</string>
-    <string name="write_manually">Rentrer manuellement le code</string>
-    <string name="code_input_text">Veuillez rentrer le code</string>
+    <string name="write_manually">Saisir le code manuellement</string>
+    <string name="code_input_text">Veuillez saisir le code</string>
     <string name="validate">Valider</string>
+    <string name="event_does_not_exist">L\'évènement n\'existe pas</string>
 </resources>

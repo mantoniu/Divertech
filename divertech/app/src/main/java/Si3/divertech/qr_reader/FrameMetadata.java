@@ -1,6 +1,5 @@
 package Si3.divertech.qr_reader;
 
-/* loaded from: classes4.dex */
 public class FrameMetadata {
     private final int height;
     private final int rotation;

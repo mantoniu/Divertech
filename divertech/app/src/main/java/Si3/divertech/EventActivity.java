@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -20,35 +21,45 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         Event event = getIntent().getParcelableExtra("event");
+
+        if(event==null) {
+            finish();
+            return;
+        }
+
         Log.d("test", event.getTitle());
 
         TextView titre = findViewById(R.id.nameEvent);
         titre.setText(event.getTitle());
 
         TextView place = findViewById(R.id.localisation);
-        place.setText("Lieu : "+event.getPlace());
+        place.setText(String.format("Lieu : %s", event.getPlace()));
 
         TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
-        Log.d("test",event.getDescription());
+        Log.d("Event description",event.getDescription());
 
+        Intent curIntent = getIntent();
+        String qrData = curIntent.getStringExtra("qr_data");
+        if (qrData != null) {
+            Toast.makeText(getApplicationContext(), qrData, Toast.LENGTH_LONG).show();
+        }
 
-
-        Intent changement = new Intent(getApplicationContext(), MultiPagesActivity.class);
-        View signalement = findViewById(R.id.bloc_reporting);
-        signalement.setOnClickListener(click-> {
-            changement.putExtra("type", REPORTING);
-            startActivity(changement);
+        Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
+        View report = findViewById(R.id.bloc_reporting);
+        report.setOnClickListener(click-> {
+            modification.putExtra("type", REPORTING);
+            startActivity(modification);
         });
         View contact = findViewById(R.id.bloc_contact);
         contact.setOnClickListener(click-> {
-            changement.putExtra("type", CONTACT);
-            startActivity(changement);
+            modification.putExtra("type", CONTACT);
+            startActivity(modification);
         });
         View objets = findViewById(R.id.bloc_lost_object);
         objets.setOnClickListener(click-> {
-            changement.putExtra("type", OBJET);
-            startActivity(changement);
+            modification.putExtra("type", OBJET);
+            startActivity(modification);
         });
 
         View b = findViewById(R.id.return_arrow);
