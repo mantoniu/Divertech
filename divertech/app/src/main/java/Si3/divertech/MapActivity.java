@@ -51,25 +51,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
     }
 
 
-    //@Override
-    //public void onMapReady(@NonNull GoogleMap googleMap) {
-    //    List<Address> liste;
-    //    Geocoder geocoder = new Geocoder(getContext());
-    //    try {
-    //        liste = geocoder.getFromLocationName("845 chemin des épinettes, 39300 Crotenay", 1);
-    //    } catch (IOException e) {
-    //        throw new RuntimeException(e);
-    //    }
-    //
-    //    LatLng location = new LatLng(liste.get(0).getLatitude(), liste.get(0).getLongitude());
-    //    googleMap.addMarker(new MarkerOptions()
-    //            .position(location)
-    //            .title("test"));
-    //    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
-    //
-    //}
-
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         ListEvent listEvent = new ListEvent();
@@ -80,7 +61,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
             LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
             googleMap.addMarker(new MarkerOptions()
                     .position(location)
-                    .title(event.getTitle()));
+                    .title(event.getTitle()+event.getShortDesciption()));
         }
         if(pos == -1)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
