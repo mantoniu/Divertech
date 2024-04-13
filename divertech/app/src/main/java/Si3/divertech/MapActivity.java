@@ -2,9 +2,11 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +30,9 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
 
     Map<String,Event> listEvent = ListEvent.getEventMap();
     private int pos;
+    DisplayMetrics metrics = new DisplayMetrics();
+
+
 
     class CustomMarkerPopUp implements GoogleMap.InfoWindowAdapter {
 
@@ -43,7 +48,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         @Override
         public View getInfoWindow(@NonNull Marker marker) {
             addInfoMarker(marker);
-            return customPopUp;
+            return customPopUp.getRootView();
         }
 
         public void addInfoMarker(Marker marker) {
@@ -53,6 +58,14 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
                 title.setText(event.getTitle());
                 TextView description = customPopUp.findViewById(R.id.description);
                 description.setText(event.getShortDesciption());
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    description.setMaxWidth((int) (metrics.heightPixels/1.6));
+                } else {
+                    description.setMaxWidth((int) (metrics.widthPixels/1.6));
+                }
+
+                //description.setLayoutParams(new ConstraintLayout.LayoutParams(metrics.widthPixels-150, ActionBar.LayoutParams.WRAP_CONTENT));
             }
         }
     }
@@ -60,6 +73,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         setContentView(R.layout.activity_map);
 
         Bundle b = new Bundle();
