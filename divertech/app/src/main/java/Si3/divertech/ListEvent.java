@@ -16,22 +16,22 @@ public class ListEvent {
             "\n" +
             "Fusce scelerisque, dui ac scelerisque mollis, nulla mauris porta nulla, ac scelerisque orci erat sit amet diam. In blandit quam turpis. Nam vehicula et est nec mattis. Donec tincidunt neque metus, eget tempor libero euismod a. Morbi aliquet velit eget luctus facilisis. Duis id pulvinar elit. Pellentesque ac ipsum maximus, molestie nisi sed, tristique ipsum. Proin eget semper sapien, in venenatis ligula. Aliquam eget ligula a felis sollicitudin aliquet. Nulla facilisi. Sed pulvinar eros ipsum, eu aliquet odio tempus sit amet. In congue, augue at interdum tincidunt, ligula est imperdiet nisi, sit amet efficitur diam ante eu enim. Etiam pharetra tristique diam, nec bibendum libero suscipit vehicula. Duis imperdiet malesuada sem eget consectetur. Nulla consequat leo quam, nec interdum erat semper eget. Curabitur efficitur eros egestas nibh facilisis rutrum. ";
 
-    private static final Event event0 = new Event("0", "Event1", R.drawable.image_default, "Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien", "1 rue du noyé", DESCRIPTION);
-    private static final Event event1 = new Event("1", "Event2", R.drawable.image_default, "Ceci est le deuxième évenement", "1 rue du noyé", DESCRIPTION);
-    private static final Event event2 = new Event("2", "Event3", R.drawable.image_default, "Ceci est le troisième évenement", "1 rue du noyé", DESCRIPTION);
-    private static final Event event3 = new Event("3", "Event4", R.drawable.image_default, "Ceci est le quatrième évenement", "1 rue du noyé", DESCRIPTION);
-    private static final Event event4 = new Event("4", "Event5", R.drawable.image_default, "Ceci est le cinquième évenement", "1 rue du noyé", DESCRIPTION);
+    private static final Event event0 = new Event("0", "Event1", R.drawable.image_default, "Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien", "83 cours Franklin Roosevelt, Marseille, 13009", DESCRIPTION);
+    private static final Event event1 = new Event("1", "Event2", R.drawable.image_default, "Ceci est le deuxième évenement", "30 rue du Château, Saint-Étienne, 42100", DESCRIPTION);
+    private static final Event event2 = new Event("2", "Event3", R.drawable.image_default, "Ceci est le troisième évenement", "41 avenue de Provence, Valenciennes, 59300", DESCRIPTION);
+    private static final Event event3 = new Event("3", "Event4", R.drawable.image_default, "Ceci est le quatrième évenement", "60 Rue Joseph Vernet, Bagneux, 92220", DESCRIPTION);
+    private static final Event event4 = new Event("4", "Event5", R.drawable.image_default, "Ceci est le cinquième évenement", "96 Avenue Millies Lacroix, Eaubonne, 95600", DESCRIPTION);
     private static final Map<String, Event> eventMap = new HashMap<String, Event>() {{
-        put("0", event0);
-        put("1", event1);
-        put("2", event2);
-        put("3", event3);
-        put("4", event4);
+        put(event0.getId(), event0);
+        put(event1.getId(), event1);
+        put(event2.getId(), event2);
+        put(event3.getId(), event3);
+        put(event4.getId(), event4);
     }};
 
     private static final Map<String, Event> userEventMap = new HashMap<String, Event>() {{
-        put("2", event2);
-        put("4", event4);
+        put(event2.getId(), event2);
+        put(event4.getId(), event4);
     }};
 
 
