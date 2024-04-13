@@ -3,7 +3,6 @@ package Si3.divertech;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +23,6 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
 
-        Log.d("divertech","listEvent =" + ListEvent.getEventMap());
-
         ListView listView = (findViewById(R.id.listView));
 
         listEventAdapter = new ListEventAdapter(getContext(), ListEvent.getUserEventMap());
@@ -34,9 +31,7 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getContext(), EventActivity.class);
             String eventId = String.valueOf(view.getTag());
-            Log.d("VIEWTAG", eventId);
-            Log.d("TEST", String.valueOf(ListEvent.getEventMap().get(eventId)));
-            intent.putExtra("event", ListEvent.getEventMap().get(eventId));
+            intent.putExtra("event", ListEvent.getUserEventMap().get(eventId));
             startActivity(intent);
         });
 

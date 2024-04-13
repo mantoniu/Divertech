@@ -47,13 +47,13 @@ public class ListEventAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         convertView = convertView == null ? mInflater.inflate(R.layout.event_layout,parent, false) : convertView;
-        convertView.setTag(position);
 
         TextView title = convertView.findViewById(R.id.title);
         TextView description = convertView.findViewById(R.id.description);
         ImageView image = convertView.findViewById(R.id.image);
 
         List<Event> eventList = getEventList();
+        convertView.setTag(eventList.get(position).getId());
 
         title.setText(eventList.get(position).getTitle());
         description.setText(eventList.get(position).getShortDesciption());

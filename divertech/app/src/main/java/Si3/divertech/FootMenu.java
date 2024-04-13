@@ -1,9 +1,7 @@
 package Si3.divertech;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +31,11 @@ public class FootMenu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         View root =  inflater.inflate(R.layout.fragment_foot_menu,container,false);
-        Integer n = requireArguments().getInt("page",1);
+        int n = requireArguments().getInt("page",1);
         for (int i=0;i<elements.size() ;i++){
             buttons.add(root.findViewById(elements.get(i)));
-            Log.d("test",buttons.get(i).toString());
             int finalI = i+1;
-            buttons.get(i).setOnClickListener(click->{activity.onCick(finalI,n);});
+            buttons.get(i).setOnClickListener(click-> activity.onCick(finalI,n));
         }
         return root;
     }

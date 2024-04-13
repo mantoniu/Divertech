@@ -5,7 +5,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +27,6 @@ public class EventActivity extends AppCompatActivity {
             return;
         }
 
-        Log.d("test", event.getTitle());
-
         TextView titre = findViewById(R.id.nameEvent);
         titre.setText(event.getTitle());
 
@@ -46,7 +43,6 @@ public class EventActivity extends AppCompatActivity {
 
         TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
-        Log.d("Event description",event.getDescription());
 
         Intent curIntent = getIntent();
         String qrData = curIntent.getStringExtra("qr_data");
