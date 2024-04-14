@@ -46,6 +46,7 @@
     <string name="hint_contact">Entrer votre demande ici</string>
     <string name="lost_object">Objet Perdu</string>
     <string name="report_incident">Signalement</string>
+    <string name="profil_admin_multi_vue">Nom : \nPrénom :</string>
 
     <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
     <string name="kotlin_entry_title" translatable="false">Run the ML Kit quickstart written in Kotlin</string>

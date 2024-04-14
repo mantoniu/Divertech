@@ -44,7 +44,7 @@
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nom : \nPrénom :"
+        android:text="profil_admin_multi_vue"
         android:textSize="20sp"
         android:padding="5dp"
         android:layout_marginTop="30dp"
