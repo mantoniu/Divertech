@@ -1,5 +1,7 @@
 package Si3.divertech;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,6 +10,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MultiPagesAdminActivity extends AppCompatActivity {
+
+    private String profil = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,18 @@ public class MultiPagesAdminActivity extends AppCompatActivity {
                 title.setText("Titre incident");
                 break;
         }
+
+        View call = findViewById(R.id.bloc_contact_phone);
+        call.setOnClickListener(click->{
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ListProfil.getProfilMap().get(profil).getPhoneNumber()));
+            startActivity(intent);
+        });
+
+        View mail = findViewById(R.id.bloc_contact_mail);
+        mail.setOnClickListener(click->{
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"+ListProfil.getProfilMap().get(profil).getEmail()));
+            startActivity(intent);
+        });
     }
 
 }
