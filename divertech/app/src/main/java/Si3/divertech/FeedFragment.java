@@ -12,15 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 
 public class FeedFragment extends Fragment {
     private final String TAG = "antoniu " + getClass().getSimpleName();
-    private List<? extends Adaptable> items = new ArrayList<>();
     private Context context;
     private FeedAdapter adapter;
 

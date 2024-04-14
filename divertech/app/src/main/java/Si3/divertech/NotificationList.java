@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NotificationList {
-    //TODO delete
-    private static String default_url = "https://static.vecteezy.com/system/resources/previews/010/366/202/original/bell-icon-transparent-notification-free-png.png";
+    private static final String default_url = "https://static.vecteezy.com/system/resources/previews/010/366/202/original/bell-icon-transparent-notification-free-png.png";
     private static final Notification notification1 = new Notification("0", "0", default_url, "Incident1", "Un incident à eu lieu");
     private static final Notification notification2 = new Notification("1", "1", default_url, "Incident2", "Un incident à eu lieu");
     private static final Notification notification3 = new Notification("2", "2", default_url, "Incident3", "Un incident à eu lieu");
