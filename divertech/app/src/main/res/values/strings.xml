@@ -91,4 +91,7 @@
     <string name="code_input_text">Veuillez saisir le code</string>
     <string name="validate">Valider</string>
     <string name="event_does_not_exist">L\'évènement n\'existe pas</string>
+    <string name="feed">Feed</string>
+    <string name="FEED_KEY">feed_data</string>
+    <string name="FEED_TYPE">feed_type</string>
 </resources>
