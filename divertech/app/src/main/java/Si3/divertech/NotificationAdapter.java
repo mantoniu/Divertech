@@ -17,7 +17,7 @@ import java.util.Map;
 public class NotificationAdapter extends BaseAdapter {
     private final Map<String, Notification> notificationMap;
     private final Context context;
-    private ClickableFragment fragment;
+    private final ClickableFragment fragment;
 
     public NotificationAdapter(ClickableFragment fragment, Context context, Map<String, Notification> notificationMap) {
         this.context = context;
@@ -69,9 +69,7 @@ public class NotificationAdapter extends BaseAdapter {
         notificationTitle.setText(ListEvent.getEvent(notification.getEventId()).getTitle());
         notificationContent.setText(notification.getTitle());
 
-        layoutItem.setOnClickListener((click) -> {
-            fragment.onClick(notification.getId());
-        });
+        layoutItem.setOnClickListener((click) -> fragment.onClick(notification.getId()));
 
         return layoutItem;
     }

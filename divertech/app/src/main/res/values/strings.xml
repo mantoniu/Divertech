@@ -94,4 +94,11 @@
     <string name="feed">Feed</string>
     <string name="FEED_KEY">feed_data</string>
     <string name="FEED_TYPE">feed_type</string>
+    <string name="event_picture">Event picture</string>
+    <string name="description">Description</string>
+    <string name="event_name">Nom de l\'event</string>
+    <string name="notification_type">Type de notification</string>
+    <string name="delete_button">Delete button</string>
+    <string name="close_button">Close button</string>
+    <string name="event_page">Page de l\'évènement</string>
 </resources>

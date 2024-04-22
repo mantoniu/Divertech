@@ -20,7 +20,7 @@ import java.util.Map;
 public class EventAdapter extends BaseAdapter {
     private final Map<String, Event> eventMap;
     private final Context context;
-    private ClickableFragment fragment;
+    private final ClickableFragment fragment;
 
     public EventAdapter(ClickableFragment fragment, Context context, Map<String, Event> eventMap) {
         this.context = context;
@@ -73,9 +73,7 @@ public class EventAdapter extends BaseAdapter {
         eventTitle.setText(event.getTitle());
         eventDescription.setText(event.getShortDescription());
 
-        layoutItem.setOnClickListener((click) -> {
-            fragment.onClick(event.getId());
-        });
+        layoutItem.setOnClickListener((click) -> fragment.onClick(event.getId()));
 
         return layoutItem;
     }

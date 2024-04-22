@@ -14,13 +14,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/event_picture" />
 
     <TextView
         android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nom"
+        android:text="@string/name"
         android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="15dp"
@@ -38,7 +39,7 @@
         android:textSize="14sp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
-        android:text="Description"
+        android:text="@string/description"
         app:layout_constraintTop_toBottomOf="@id/item_title"
         app:layout_constraintLeft_toLeftOf="@id/item_title"
         app:layout_constraintRight_toRightOf="parent"
