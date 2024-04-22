@@ -101,4 +101,6 @@
     <string name="delete_button">Delete button</string>
     <string name="close_button">Close button</string>
     <string name="event_page">Page de l\'évènement</string>
+    <string name="map_button">Map button</string>
+    <string name="add_to_calendar">Add to calendar button</string>
 </resources>

@@ -93,4 +93,8 @@ public class Event implements Parcelable {
     public String getDate() {
         return date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
+
+    public ZonedDateTime getZonedDate() {
+        return date;
+    }
 }
