@@ -26,6 +26,7 @@ public class EventActivity extends AppCompatActivity {
     public static final int CONTACT = 1;
     public static final int OBJET = 2;
     private static final int WRITE_CALENDAR_PERMISSION_CODE = 101;
+    private static final int READ_CALENDAR_PERMISSION_CODE = 102;
 
 
     @Override
@@ -35,6 +36,7 @@ public class EventActivity extends AppCompatActivity {
         Event event = getIntent().getParcelableExtra("event");
 
         checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
+        checkPermission(Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
 
         if(event==null) {
             finish();
