@@ -1,14 +1,14 @@
 package Si3.divertech;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -38,6 +38,7 @@ public class EventActivity extends AppCompatActivity {
         TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
         Log.d("Event description",event.getDescription());
+        Log.d("Event date", event.getDate());
 
         Intent curIntent = getIntent();
         String qrData = curIntent.getStringExtra("qr_data");

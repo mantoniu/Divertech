@@ -5,13 +5,17 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class Event implements Adaptable {
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Event implements Parcelable {
     protected String id;
     private String title;
     private String pictureUrl;
-    private String shortDesciption;
+    private String shortDescription;
     private String place;
     private String description;
+    private ZonedDateTime date;
 
     public static final Parcelable.Creator<Event> CREATOR
             = new Parcelable.Creator<Event>() {
@@ -21,7 +25,9 @@ public class Event implements Adaptable {
                     in.readString(),
                     in.readString(),
                     in.readString(),
-                    in.readString());
+                    in.readString(),
+                    ZonedDateTime.parse(in.readString(), DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            );
         }
 
         public Event[] newArray(int size) {
@@ -33,13 +39,14 @@ public class Event implements Adaptable {
 
     }
 
-    public Event(String id, String title, String pictureUrl, String shortDescription, String position, String description) {
+    public Event(String id, String title, String pictureUrl, String shortDescription, String position, String description, ZonedDateTime date) {
         this.id = id;
         this.title = title;
         this.pictureUrl = pictureUrl;
-        this.shortDesciption = shortDescription;
+        this.shortDescription = shortDescription;
         this.place = position;
         this.description = description;
+        this.date = date;
     }
 
     public String getTitle(){
@@ -51,7 +58,7 @@ public class Event implements Adaptable {
     }
 
     public String getShortDescription() {
-        return shortDesciption;
+        return shortDescription;
     }
 
     public String getId(){ return id;}
@@ -71,14 +78,19 @@ public class Event implements Adaptable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(pictureUrl);
-        dest.writeString(shortDesciption);
+        dest.writeString(shortDescription);
         dest.writeString(place);
         dest.writeString(description);
+        dest.writeString(date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
     }
 
     @NonNull
     @Override
     public String toString(){
         return getId()+"test"+ getTitle();
+    }
+
+    public String getDate() {
+        return date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 }
