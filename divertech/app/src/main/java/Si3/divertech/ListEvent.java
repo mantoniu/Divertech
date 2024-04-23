@@ -1,5 +1,8 @@
 package Si3.divertech;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +18,11 @@ public class ListEvent {
             "Etiam quis urna velit. Quisque tristique sapien vel venenatis laoreet. Quisque feugiat est et leo cursus vestibulum. Suspendisse elit ipsum, pharetra vehicula sollicitudin id, tincidunt vel libero. Quisque maximus turpis ac ex suscipit consectetur. Cras dictum tempor ultricies. Sed eu turpis eget dolor vulputate fringilla nec quis quam.\n" +
             "\n" +
             "Fusce scelerisque, dui ac scelerisque mollis, nulla mauris porta nulla, ac scelerisque orci erat sit amet diam. In blandit quam turpis. Nam vehicula et est nec mattis. Donec tincidunt neque metus, eget tempor libero euismod a. Morbi aliquet velit eget luctus facilisis. Duis id pulvinar elit. Pellentesque ac ipsum maximus, molestie nisi sed, tristique ipsum. Proin eget semper sapien, in venenatis ligula. Aliquam eget ligula a felis sollicitudin aliquet. Nulla facilisi. Sed pulvinar eros ipsum, eu aliquet odio tempus sit amet. In congue, augue at interdum tincidunt, ligula est imperdiet nisi, sit amet efficitur diam ante eu enim. Etiam pharetra tristique diam, nec bibendum libero suscipit vehicula. Duis imperdiet malesuada sem eget consectetur. Nulla consequat leo quam, nec interdum erat semper eget. Curabitur efficitur eros egestas nibh facilisis rutrum. ";
-
-    private static final Event event0 = new Event("0", "Event1", R.drawable.image_default, "Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien", "1 rue du noyé", DESCRIPTION);
-    private static final Event event1 = new Event("1", "Event2", R.drawable.image_default, "Ceci est le deuxième évenement", "1 rue du noyé", DESCRIPTION);
-    private static final Event event2 = new Event("2", "Event3", R.drawable.image_default, "Ceci est le troisième évenement", "1 rue du noyé", DESCRIPTION);
-    private static final Event event3 = new Event("3", "Event4", R.drawable.image_default, "Ceci est le quatrième évenement", "1 rue du noyé", DESCRIPTION);
-    private static final Event event4 = new Event("4", "Event5", R.drawable.image_default, "Ceci est le cinquième évenement", "1 rue du noyé", DESCRIPTION);
+    private static final Event event0 = new Event("0", "Concert", "https://github.com/mantoniu/Divertech/blob/main/image/event1-cropped.jpg?raw=true", "Ceci est le premier évenement et c'est un long texte pour tester que ça marche bien", "1 rue du noyé", DESCRIPTION, LocalDateTime.of(2024, 8, 20, 0, 0).atZone(ZoneId.systemDefault()));
+    private static final Event event1 = new Event("1", "Festival", "https://github.com/mantoniu/Divertech/blob/main/image/event2-cropped.jpg?raw=true", "Ceci est le deuxième évenement", "1 rue du noyé", DESCRIPTION, LocalDateTime.of(2024, 8, 13, 20, 0).atZone(ZoneId.systemDefault()));
+    private static final Event event2 = new Event("2", "Film", "https://github.com/mantoniu/Divertech/blob/main/image/event3-cropped.jpg?raw=true", "Ceci est le troisième évenement", "1 rue du noyé", DESCRIPTION, LocalDateTime.of(2024, 9, 19, 21, 0).atZone(ZoneId.systemDefault()));
+    private static final Event event3 = new Event("3", "Loto", "https://github.com/mantoniu/Divertech/blob/main/image/event4-cropped.jpg?raw=true", "Ceci est le quatrième évenement", "1 rue du noyé", DESCRIPTION, LocalDateTime.of(2024, 7, 24, 14, 30).atZone(ZoneId.systemDefault()));
+    private static final Event event4 = new Event("4", "Marché de Noel", "https://github.com/mantoniu/Divertech/blob/main/image/event5-cropped.jpg?raw=true", "Ceci est le cinquième évenement", "1 rue du noyé", DESCRIPTION, LocalDateTime.of(2024, 12, 20, 14, 0).atZone(ZoneId.systemDefault()));
     private static final Map<String, Event> eventMap = new HashMap<String, Event>() {{
         put("0", event0);
         put("1", event1);
@@ -30,7 +32,7 @@ public class ListEvent {
     }};
 
     private static final Map<String, Event> userEventMap = new HashMap<String, Event>() {{
-        put("2", event2);
+        put("0", event0);
         put("4", event4);
     }};
 
@@ -46,8 +48,8 @@ public class ListEvent {
         eventMap.put(event.getId(),event);
     }
 
-    public static void addEvent(String id, String title, int img, String shortDescription, String position, String description) {
-        Event event = new Event(id, title, img, shortDescription, position, description);
+    public static void addEvent(String id, String title, String pictureUrl, String shortDescription, String position, String description, ZonedDateTime date) {
+        Event event = new Event(id, title, pictureUrl, shortDescription, position, description, date);
         addEvent(event);
     }
 
@@ -58,5 +60,9 @@ public class ListEvent {
     public static void addUserEvent(String eventId) {
         if (eventMap.containsKey(eventId))
             userEventMap.put(eventId, eventMap.get(eventId));
+    }
+
+    public static Event getEvent(String id) {
+        return eventMap.get(id);
     }
 }
