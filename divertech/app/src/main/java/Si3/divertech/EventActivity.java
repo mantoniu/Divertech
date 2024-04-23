@@ -9,13 +9,17 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.squareup.picasso.Picasso;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -83,6 +87,10 @@ public class EventActivity extends AppCompatActivity {
         b.setOnClickListener(click-> finish());
 
         findViewById(R.id.calendar_add).setOnClickListener((click) -> addEventToCalendar(event));
+
+        Picasso.get().load(event.getPictureUrl()).into((ImageView) findViewById(R.id.image_event));
+
+        ((TextView) findViewById(R.id.date)).setText(event.getFormattedDate());
 
         ConstraintLayout parkingLayout = findViewById(R.id.parking);
         parkingLayout.setOnClickListener(v -> {
@@ -161,7 +169,17 @@ public class EventActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, permission) == -1) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
         } else {
-            Log.d("TEST", "Permission already granted");
+            Log.d("PERMISSION", "Permission already granted");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_CALENDAR_PERMISSION_CODE || requestCode == WRITE_CALENDAR_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == 0) {
+                Log.d("PERMISSION", "Calendar Permission Granted");
+            } else Log.d("PERMISSION", "Camera Permission Denied");
         }
     }
 }

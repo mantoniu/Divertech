@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Event implements Parcelable {
     protected String id;
@@ -92,6 +93,10 @@ public class Event implements Parcelable {
 
     public String getDate() {
         return date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    public String getFormattedDate() {
+        return date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy à HH:mm", Locale.getDefault()));
     }
 
     public ZonedDateTime getZonedDate() {
