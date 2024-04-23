@@ -10,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import Si3.divertech.qr_reader.CameraPreviewActivity;
 
 public class ListEventActivity extends AppCompatActivity implements ClickableActivity{
-
-    private ListEventAdapter listEventAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,17 +20,12 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
 
-        ListView listView = (findViewById(R.id.listView));
-
-        listEventAdapter = new ListEventAdapter(getContext(), ListEvent.getUserEventMap());
-        listView.setAdapter(listEventAdapter);
-
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(getContext(), EventActivity.class);
-            String eventId = String.valueOf(view.getTag());
-            intent.putExtra("event", ListEvent.getUserEventMap().get(eventId));
-            startActivity(intent);
-        });
+        // Event feed fragment
+        Bundle feedFragmentBundle = new Bundle();
+        FeedFragment feedFragment = new FeedFragment();
+        feedFragmentBundle.putInt(getString(R.string.FEED_TYPE), FeedType.EVENTS.ordinal());
+        feedFragment.setArguments(feedFragmentBundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.events_feed, feedFragment).commit();
 
         findViewById(R.id.button_add).setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);
@@ -44,8 +36,6 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
     @Override
     protected void onResume() {
         super.onResume();
-        if (listEventAdapter != null)
-            listEventAdapter.notifyDataSetChanged();
     }
 
     @Override

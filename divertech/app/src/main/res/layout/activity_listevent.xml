@@ -17,30 +17,29 @@
         />
 
     <TextView
-        android:id="@+id/title_page"
-        android:layout_width="match_parent"
+        android:id="@+id/feed_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/listView"
+        android:textStyle="bold"
+        android:text="@string/mes_evenements"
+        android:layout_marginTop="30dp"
+        android:textSize="40sp"
+        android:layout_marginBottom="20sp"
         app:layout_constraintTop_toBottomOf="@id/headerMenu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:textSize="30sp"
-        android:layout_margin="30dp"
-        android:background="@drawable/back"
-        android:gravity="center"
-        android:text="@string/mes_evenements"/>
+        app:layout_constraintBottom_toTopOf="@id/events_feed" />
 
 
-    <ListView
-        android:id="@+id/listView"
+    <FrameLayout
+        android:id="@+id/events_feed"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:dividerHeight="5dp"
         app:layout_constraintBottom_toTopOf="@id/button_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_page" />
+        app:layout_constraintTop_toBottomOf="@id/feed_title" />
 
     <ImageView
         android:id="@+id/button_add"
