@@ -47,7 +47,7 @@
             android:exported="true" />
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="${MAP_API_KEY}"/>
+                android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY" />
         <activity
             android:name=".MultiPagesActivity"
             android:exported="true"/>

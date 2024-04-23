@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,13 +60,15 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
             if(event!=null) {
                 TextView title = customPopUp.findViewById(R.id.title);
                 title.setText(event.getTitle());
+                ImageView picture = customPopUp.findViewById(R.id.image);
+                Picasso.get().load(event.getPictureUrl()).into(picture);
                 TextView description = customPopUp.findViewById(R.id.description);
                 description.setText(event.getShortDescription());
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    description.setMaxWidth((int) (metrics.heightPixels/1.6));
+                    description.setMaxWidth((int) (metrics.heightPixels / 1.6));
                 } else {
-                    description.setMaxWidth((int) (metrics.widthPixels/1.6));
+                    description.setMaxWidth((int) (metrics.widthPixels / 1.6));
                 }
 
                 //description.setLayoutParams(new ConstraintLayout.LayoutParams(metrics.widthPixels-150, ActionBar.LayoutParams.WRAP_CONTENT));
