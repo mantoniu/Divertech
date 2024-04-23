@@ -165,7 +165,7 @@
 
     <!-- texte central -->
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bloc_lost_object"
@@ -173,21 +173,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:fillViewport="true"
-        android:layout_margin="25dp"
-        >
+        android:layout_margin="25dp">
+
         <TextView
             android:id="@+id/description_event"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/lopus"
             android:textSize="15sp"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@id/logo_lost_object"
-            app:layout_constraintTop_toBottomOf="@id/parking"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
-        </TextView>
-    </androidx.core.widget.NestedScrollView>
+            android:textAlignment="center" />
+
+    </ScrollView>
 
     <!-- boutons bas -->
 
