@@ -51,7 +51,7 @@ public class EventActivity extends AppCompatActivity {
         titre.setText(event.getTitle());
 
         TextView place = findViewById(R.id.localisation);
-        place.setText(String.format("Lieu : %s", event.getPlace()));
+        place.setText(event.getPlace());
 
         ImageView map = findViewById(R.id.logo_map);
         map.setOnClickListener(click->{
