@@ -8,9 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,13 +53,6 @@ public class EventAdapter extends BaseAdapter {
         ImageView eventImage = layoutItem.findViewById(R.id.item_image);
         TextView eventTitle = layoutItem.findViewById(R.id.item_title);
         TextView eventDescription = layoutItem.findViewById(R.id.item_content);
-
-
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone((ConstraintLayout) layoutItem);
-        constraintSet.connect(R.id.item_content, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0);
-        constraintSet.applyTo((ConstraintLayout) layoutItem);
-
 
         // Filling the layout with notifications values
         Event event = getItemsList().get(position);
