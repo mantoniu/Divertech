@@ -47,13 +47,19 @@ public class EventActivity extends AppCompatActivity {
             return;
         }
 
-        Log.d("test", event.getTitle());
-
         TextView titre = findViewById(R.id.nameEvent);
         titre.setText(event.getTitle());
 
         TextView place = findViewById(R.id.localisation);
-        place.setText(String.format("Lieu : %s", event.getPlace()));
+        place.setText(event.getPlace());
+
+        ImageView map = findViewById(R.id.logo_map);
+        map.setOnClickListener(click->{
+            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
+            intent.putExtra("pos",event.getId());
+            startActivity(intent);
+            finish();
+        });
 
         TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
