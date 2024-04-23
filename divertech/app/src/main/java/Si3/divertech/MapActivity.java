@@ -59,7 +59,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
                 TextView title = customPopUp.findViewById(R.id.title);
                 title.setText(event.getTitle());
                 TextView description = customPopUp.findViewById(R.id.description);
-                description.setText(event.getShortDesciption());
+                description.setText(event.getShortDescription());
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     description.setMaxWidth((int) (metrics.heightPixels/1.6));
