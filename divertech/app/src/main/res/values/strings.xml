@@ -13,7 +13,7 @@
     <string name="close">Fermer la\ndemande</string>
     <string name="contact_admin">Contacter Administrateurs</string>
     <string name="password">Mot de passe</string>
-    <string name="connexion">Login</string>
+    <string name="connexion">Se connecter</string>
     <string name="email">Email</string>
     <string name="inscription">Pas de compte ? S\'inscrire</string>
     <string name="name">Nom</string>
@@ -103,4 +103,12 @@
     <string name="event_page">Page de l\'évènement</string>
     <string name="map_button">Map button</string>
     <string name="add_to_calendar">Add to calendar button</string>
+    <string name="ou">ou</string>
+    <string name="se_connecter_avec_google">Se connecter avec google</string>
+
+
+
+
+    <string name="web_client_id">964760790476-5g9c18ev4pctf466muuf2mabmegu61qt.apps.googleusercontent.com</string>
+    <string name="confirmer_le_mot_de_passe">confirmer le mot de passe</string>
 </resources>
