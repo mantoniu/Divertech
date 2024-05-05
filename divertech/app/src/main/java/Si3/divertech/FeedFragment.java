@@ -20,8 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Map;
-
 
 public class FeedFragment extends Fragment implements ClickableFragment {
     private final String TAG = "antoniu " + getClass().getSimpleName();
@@ -46,11 +44,11 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         feedType = FeedType.values()[requireArguments().getInt(getString(R.string.FEED_TYPE))];
 
         if (feedType == FeedType.NOTIFICATION) {
-            Map<String, Notification> notificationMap = NotificationList.getNotificationMap();
-            adapter = new NotificationAdapter(this, getContext(), notificationMap);
+            adapter = new NotificationAdapter(this, getContext(), NotificationList.getNotificationMap());
+            NotificationList.setAdapter(adapter);
         } else {
-            Map<String, Event> eventMap = ListEvent.getUserEventMap();
-            adapter = new EventAdapter(this, getContext(), eventMap);
+            adapter = new EventAdapter(this, getContext(), ListEvent.getEventMap());
+            ListEvent.setAdapter(adapter);
         }
 
         listView.setAdapter(adapter);

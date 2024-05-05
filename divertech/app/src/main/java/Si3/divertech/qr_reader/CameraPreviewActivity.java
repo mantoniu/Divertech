@@ -329,7 +329,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     public void onDataReceived(String eventId) {
         Log.d("RECEIVED_DATA", eventId);
         if (ListEvent.getEventMap().containsKey(eventId)) {
-            ListEvent.addUserEvent(eventId);
+            //TODO
+            //ListEvent.addUserEvent(eventId);
             Intent receivedData = new Intent(this, EventActivity.class);
             receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
             startActivity(receivedData);

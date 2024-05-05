@@ -154,7 +154,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
        //    geocoder.getFromLocationName(event.getPlace(), 1,42,-6,52,9,geocodeListener);
        //} else {
        try {
-           address = Objects.requireNonNull(geocoder.getFromLocationName(event.getPlace(), 1)).get(0);
+           address = Objects.requireNonNull(geocoder.getFromLocationName(event.getPosition(), 1)).get(0);
        } catch (IOException e) {
            throw new RuntimeException(e);
        }
