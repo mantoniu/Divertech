@@ -1,8 +1,12 @@
 package Si3.divertech;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,10 +18,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener{
 
     private FirebaseAuth mAuth;
-    private boolean areFieldsValid = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +29,15 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         ImageView backButton = findViewById(R.id.goback);
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            finish();
+        });
 
         Spinner spinner = findViewById(R.id.language);
         LangAdapter adapter = new LangAdapter(this);
+        spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(adapter);
+        spinner.setSelection(LanguageSelected.LANGUAGE_SELECTED.equals("fr") ? 0 : 1);
 
         Button registerButton = findViewById(R.id.register);
         registerButton.setOnClickListener(v -> {
@@ -91,4 +98,18 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(LanguageSelected.LANGUAGE_SELECTED.equals((String) parent.getItemAtPosition(position)))
+            return;
+        LanguageSelected.LANGUAGE_SELECTED = (String) parent.getItemAtPosition(position);
+        LanguageSelected.setLanguage(this);
+        recreate();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
 }

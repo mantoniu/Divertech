@@ -1,6 +1,7 @@
 package Si3.divertech;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -31,6 +32,14 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //if not english or french set to english
+        if(!Resources.getSystem().getConfiguration().getLocales().get(0).getLanguage().equals("en") && !Resources.getSystem().getConfiguration().getLocales().get(0).getLanguage().equals("fr")){
+            LanguageSelected.LANGUAGE_SELECTED="en";
+        }
+        else{
+            LanguageSelected.LANGUAGE_SELECTED= Resources.getSystem().getConfiguration().getLocales().get(0).getLanguage();
+        }
+        LanguageSelected.setLanguage(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
