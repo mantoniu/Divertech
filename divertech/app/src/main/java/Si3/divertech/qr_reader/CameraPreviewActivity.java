@@ -46,7 +46,7 @@ import Si3.divertech.R;
 import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
 import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
-public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener {
+public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener, DataBaseListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
     @Nullable
     private Camera camera;
@@ -328,16 +328,27 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     @Override
     public void onDataReceived(String eventId) {
         Log.d("RECEIVED_DATA", eventId);
-        if (ListEvent.getEventMap().containsKey(eventId)) {
-            //TODO
-            //ListEvent.addUserEvent(eventId);
-            Intent receivedData = new Intent(this, EventActivity.class);
-            receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
-            startActivity(receivedData);
-            finish();
+        if (!ListEvent.containsEvent(eventId)) {
+            ListEvent.eventExists(eventId, this);
+        }
+        goToEventActivity(eventId);
+    }
+
+    @Override
+    public void onDataBaseResponse(String eventId, boolean eventExists) {
+        if (eventExists) {
+            ListEvent.requestEvent(eventId);
+            goToEventActivity(eventId);
         } else {
             barcodeScanEnabled = false;
             showEventErrorPopup(R.string.event_does_not_exist);
         }
+    }
+
+    private void goToEventActivity(String eventId) {
+        Intent receivedData = new Intent(this, EventActivity.class);
+        receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
+        startActivity(receivedData);
+        finish();
     }
 }

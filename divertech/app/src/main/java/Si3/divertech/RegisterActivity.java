@@ -1,7 +1,6 @@
 package Si3.divertech;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -11,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -37,6 +36,10 @@ public class RegisterActivity extends AppCompatActivity {
             TextInputEditText username = findViewById(R.id.username);
             TextInputEditText password = findViewById(R.id.password);
             TextInputEditText confirmPassword = findViewById(R.id.confirm_password);
+            TextInputEditText address = findViewById(R.id.address);
+            TextInputEditText name = findViewById(R.id.firstName);
+            TextInputEditText lastName = findViewById(R.id.name);
+            TextInputEditText phoneNumber = findViewById(R.id.phone);
 
             if(username.getText().toString().isEmpty()){
                 TextInputLayout usernameLayout = findViewById(R.id.username_container);
@@ -81,6 +84,10 @@ public class RegisterActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null && name.getText() != null && lastName.getText() != null && address.getText() != null && phoneNumber.getText() != null) {
+                                UserData.writeNewUser(user.getUid(), name.getText().toString(), lastName.getText().toString(), username.getText().toString(), address.getText().toString(), phoneNumber.getText().toString(), spinner.getSelectedItem().toString());
+                            }
                             Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {

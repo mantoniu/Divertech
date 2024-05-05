@@ -9,17 +9,19 @@ public class User {
     private String lastName;
     private String address;
     private String phoneNumber;
+    private String language;
 
     public User() {
     }
 
-    public User(String id, String email, String name, String lastName, String address, String phoneNumber) {
+    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.language = language;
     }
 
     public String getId() {
@@ -46,6 +48,10 @@ public class User {
         return phoneNumber;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -56,6 +62,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", language='" + language + '\'' +
                 '}';
     }
 
