@@ -2,12 +2,15 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public interface ClickableActivity {
     Context getContext();
 
     void startActivity(Intent intent);
+
+    void overridePendingTransition(int resId1, int resId2);
+
+    void finish();
     default void onCick(int page, int currentPage){
         Intent i = null;
         switch (page){
@@ -25,6 +28,9 @@ public interface ClickableActivity {
             }
             default: i = new Intent(getContext(),MainActivity.class);
         }
-        if(i != null) startActivity(i);
+        if (i != null) {
+            startActivity(i);
+            overridePendingTransition(0, 0);
+        }
     }
 }

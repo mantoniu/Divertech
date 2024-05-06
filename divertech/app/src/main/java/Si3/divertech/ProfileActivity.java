@@ -1,5 +1,6 @@
 package Si3.divertech;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -29,6 +30,13 @@ public class ProfileActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.phone_number)).setText(user.getPhoneNumber());
         ((TextView) findViewById(R.id.email)).setText(user.getEmail());
         ((TextView) findViewById(R.id.language)).setText(user.getLanguage());
+
+        findViewById(R.id.modify_button).setOnClickListener(click -> {
+            Intent updateIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+            updateIntent.putExtra("update", "");
+            startActivity(updateIntent);
+            finish();
+        });
 
         findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
     }

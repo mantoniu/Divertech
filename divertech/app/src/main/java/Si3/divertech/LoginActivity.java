@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                UserData.requestUserData(user.getUid());
+                                UserData.requestUserData(user);
                                 ListEvent.requestData();
                             }
                             Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();

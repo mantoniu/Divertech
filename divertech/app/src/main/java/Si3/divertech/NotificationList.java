@@ -46,6 +46,13 @@ public class NotificationList {
 
     public static void deleteNotification(String id) {
         notificationMap.remove(id);
+
+        String userId = UserData.getUserId();
+        if (userId == null)
+            return;
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(userId).child("notifications").child(id).removeValue();
     }
 
     public static void setAdapter(BaseAdapter adapter) {

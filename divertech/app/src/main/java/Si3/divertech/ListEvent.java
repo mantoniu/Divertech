@@ -51,7 +51,6 @@ public class ListEvent {
                     event.setId(eventId);
                     ListEvent.addEvent(event);
                     listener.onDataBaseResponse(eventId, true);
-                    Log.d("UNIQUE", "");
                 } else {
                     listener.onDataBaseResponse(eventId, false);
                 }
