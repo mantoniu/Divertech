@@ -40,16 +40,17 @@ public class UserData {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                connectedUser = dataSnapshot.getValue(User.class);
-                if (connectedUser == null)
-                    return;
+                String name = dataSnapshot.child("name").getValue(String.class);
+                String lastName = dataSnapshot.child("lastName").getValue(String.class);
+                String address = dataSnapshot.child("address").getValue(String.class);
+                String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
+                String language = dataSnapshot.child("language").getValue(String.class);
+                Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
 
-                connectedUser.setId(userId);
-                connectedUser.setEmail(userEmail);
+                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, admin != null ? admin : false);
 
                 Log.d("CONNECTED USER", connectedUser.toString());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d("TAG", databaseError.getMessage());
@@ -69,6 +70,7 @@ public class UserData {
         usersRef.child("name").setValue(name);
         usersRef.child("phoneNumber").setValue(phoneNumber);
         usersRef.child("language").setValue(language);
+        usersRef.child("admin").setValue("true");
     }
 
     public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password) {

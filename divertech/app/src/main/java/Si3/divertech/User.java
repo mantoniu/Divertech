@@ -11,10 +11,12 @@ public class User {
     private String phoneNumber;
     private String language;
 
+    private boolean isAdmin;
+
     public User() {
     }
 
-    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language) {
+    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language, boolean isAdmin) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -22,6 +24,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.language = language;
+        this.isAdmin = isAdmin;
     }
 
     public String getId() {
@@ -52,6 +55,10 @@ public class User {
         return language;
     }
 
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -63,6 +70,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
+                ", admin='" + isAdmin + '\'' +
                 '}';
     }
 

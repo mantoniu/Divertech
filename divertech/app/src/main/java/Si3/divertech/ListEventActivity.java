@@ -20,10 +20,10 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listevent);
         Bundle b = new Bundle();
-        b.putInt("page",3);
+        b.putInt("page", 3);
         FootMenu f = new FootMenu();
         f.setArguments(b);
-        getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
 
 
         // Event feed fragment
@@ -35,8 +35,13 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         getSupportFragmentManager().beginTransaction().add(R.id.events_feed, feedFragment).commit();
 
         findViewById(R.id.button_add).setOnClickListener(click -> {
-            Intent intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);
-            startActivity(intent);
+            if (UserData.getConnectedUser().getIsAdmin()) {
+                Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
