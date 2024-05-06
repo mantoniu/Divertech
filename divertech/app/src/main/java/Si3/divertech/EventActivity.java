@@ -48,6 +48,15 @@ public class EventActivity extends AppCompatActivity {
             Intent report = new Intent(getApplicationContext(), AdminReportActivity.class);
             View reportButton = findViewById(R.id.admin_report_bloc);
             reportButton.setOnClickListener(click -> startActivity(report));
+
+            View feed = findViewById(R.id.bloc_feed_admin);
+            feed.setOnClickListener(click -> {
+                Log.d("Admin", event.getId() + " ");
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("eventId", event.getId());
+                startActivity(intent);
+            });
+
             updateInfo(event);
         } else {
             setContentView(R.layout.activity_event);
