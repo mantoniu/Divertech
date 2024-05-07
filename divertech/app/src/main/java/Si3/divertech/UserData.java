@@ -70,7 +70,7 @@ public class UserData {
         usersRef.child("name").setValue(name);
         usersRef.child("phoneNumber").setValue(phoneNumber);
         usersRef.child("language").setValue(language);
-        usersRef.child("admin").setValue("true");
+        usersRef.child("admin").setValue(false);
     }
 
     public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password) {
