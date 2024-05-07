@@ -62,22 +62,29 @@ public class UserData {
         return connectedUser;
     }
 
-    public static void writeNewUser(String userId, String name, String lastName, String address, String phoneNumber, String language) {
+    public static void writeNewUser(String userId, String firstName, String lastName, String mail, String phoneNumber, String language, String address,String postalCode, String city) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
-        usersRef.child("address").setValue(address);
+        usersRef.child("firstName").setValue(firstName);
         usersRef.child("lastName").setValue(lastName);
-        usersRef.child("name").setValue(name);
+        usersRef.child("mail").setValue(mail);
         usersRef.child("phoneNumber").setValue(phoneNumber);
         usersRef.child("language").setValue(language);
+        if(address != null)
+            usersRef.child("address").setValue(address);
+        if(postalCode != null)
+            usersRef.child("postalCode").setValue(postalCode);
+        if(city != null)
+            usersRef.child("city").setValue(city);
+
         usersRef.child("admin").setValue(false);
     }
 
-    public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password) {
+    public static void updateUser(String userId, String firstName, String lastName, String email, String phoneNumber, String language, String address,String postalCode, String city, String password) {
         if (firebaseUser == null)
             return;
 
-        writeNewUser(userId, name, lastName, address, phoneNumber, language);
+        writeNewUser(userId, firstName, lastName, email, phoneNumber, language, address, postalCode, city);
 
         AuthCredential credential = EmailAuthProvider
                 .getCredential(Objects.requireNonNull(firebaseUser.getEmail()), password);

@@ -126,6 +126,21 @@
     <string name="describe_event_hint">Décriver votre évènement ici :</string>
     <string name="report_title">Titre du signalement</string>
     <string name="dateExample">10 aout 2024 23h30</string>
+    <string name="informations_personnelles">Informations personnelles</string>
+    <string name="informations_de_localisation">Informations de localisation</string>
+    <string name="information_de_connexion">Information de connexion</string>
+    <string name="code_postal">Code postal</string>
+    <string name="ville">Ville</string>
+    <string name="exemple_doe">exemple : Doe</string>
+    <string name="exemple_john">exemple : John</string>
+    <string name="n_cessite_6_caract_res_minimum_et_1_chiffre_1_lettre_majuscule_et_1_lettre_minuscule">nécessite 6 caractères minimum et 1 chiffre, 1 lettre majuscule et 1 lettre minuscule</string>
+    <string name="exemple_limoges">exemple : Limoges</string>
+    <string name="exemple_36000">exemple : 36000</string>
+    <string name="exemple_06_chemin_de_la_croix">exemple : 06 chemin de la croix</string>
+    <string name="exemple_0632317473">exemple : 0632317473</string>
+    <string name="exemple_johndoe_gmail_com">exemple : johndoe@gmail.com</string>
+    <string name="les_champs_ci_dessous_sont_obligatoires">les champs ci-dessous sont obligatoires</string>
+    <string name="choisir_une_langue_pour_l_application">Choisir une langue pour l\'application</string>
 
 
 </resources>
