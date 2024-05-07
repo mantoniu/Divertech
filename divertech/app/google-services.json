@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "964760790476",
+    "firebase_url": "https://divertech-6032b-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "divertech-6032b",
     "storage_bucket": "divertech-6032b.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "Si3.divertech"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "964760790476-ok4k1qsje3usi62b21ikgkbsd04rvbl9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "Si3.divertech",
+            "certificate_hash": "98157b7021e57b7730d42e728fd671166682b23a"
+          }
+        },
+        {
+          "client_id": "964760790476-5g9c18ev4pctf466muuf2mabmegu61qt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCsgnDh8T-YzlpoY6G0-41eKFi1EKwPDgc"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964760790476-5g9c18ev4pctf466muuf2mabmegu61qt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

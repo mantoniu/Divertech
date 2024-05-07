@@ -14,7 +14,7 @@ public class Event implements Parcelable {
     private String title;
     private String pictureUrl;
     private String shortDescription;
-    private String place;
+    private String position;
     private String description;
     private ZonedDateTime date;
 
@@ -27,7 +27,7 @@ public class Event implements Parcelable {
                     in.readString(),
                     in.readString(),
                     in.readString(),
-                    ZonedDateTime.parse(in.readString(), DateTimeFormatter.ISO_ZONED_DATE_TIME)
+                    in.readString()
             );
         }
 
@@ -40,12 +40,19 @@ public class Event implements Parcelable {
 
     }
 
+    public Event() {
+    }
+
+    public Event(String id, String title, String pictureUrl, String shortDescription, String position, String description, String date) {
+        this(id, title, pictureUrl, shortDescription, position, description, ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+    }
+
     public Event(String id, String title, String pictureUrl, String shortDescription, String position, String description, ZonedDateTime date) {
         this.id = id;
         this.title = title;
         this.pictureUrl = pictureUrl;
         this.shortDescription = shortDescription;
-        this.place = position;
+        this.position = position;
         this.description = description;
         this.date = date;
     }
@@ -63,7 +70,10 @@ public class Event implements Parcelable {
     }
 
     public String getId(){ return id;}
-    public String getPlace(){ return place;}
+
+    public String getPosition() {
+        return position;
+    }
 
     public String getDescription() {
         return description;
@@ -80,23 +90,39 @@ public class Event implements Parcelable {
         dest.writeString(title);
         dest.writeString(pictureUrl);
         dest.writeString(shortDescription);
-        dest.writeString(place);
+        dest.writeString(position);
         dest.writeString(description);
         dest.writeString(date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
     }
 
     @NonNull
     @Override
-    public String toString(){
-        return getId()+"test"+ getTitle();
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                ", position='" + position + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                '}';
     }
 
     public String getDate() {
         return date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
+    public void setDate(String date) {
+        this.date = ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+    }
+
     public String getFormattedDate() {
         return date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy à HH:mm", Locale.getDefault()));
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ZonedDateTime getZonedDate() {

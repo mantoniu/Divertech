@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class FeedFragment extends Fragment implements ClickableFragment {
@@ -44,17 +45,32 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         ListView listView = view.findViewById(R.id.feed);
 
         feedType = FeedType.values()[requireArguments().getInt(getString(R.string.FEED_TYPE))];
+        String eventId = requireArguments().getString("eventId");
 
         if (feedType == FeedType.NOTIFICATION) {
-            Map<String, Notification> notificationMap = NotificationList.getNotificationMap();
-            adapter = new NotificationAdapter(this, getContext(), notificationMap);
+            if (eventId != null) {
+                adapter = new NotificationAdapter(this, getContext(), filter(eventId, NotificationList.getNotificationMap()));
+                NotificationList.setAdapter(adapter);
+            } else {
+                adapter = new NotificationAdapter(this, getContext(), NotificationList.getNotificationMap());
+                NotificationList.setAdapter(adapter);
+            }
         } else {
-            Map<String, Event> eventMap = ListEvent.getUserEventMap();
-            adapter = new EventAdapter(this, getContext(), eventMap);
+            adapter = new EventAdapter(this, getContext(), ListEvent.getEventMap());
+            ListEvent.setAdapter(adapter);
         }
 
         listView.setAdapter(adapter);
         return view;
+    }
+
+    public Map<String, Notification> filter(String eventId, Map<String, Notification> map) {
+        Map<String, Notification> mapping = map.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getEventId().equals(eventId))
+                .collect(Collectors.toMap(java.util.Map.Entry::getKey, java.util.Map.Entry::getValue));
+        Log.d("Admin", mapping.toString() + "ok" + map + eventId);
+        return mapping;
     }
 
     @Nullable
@@ -85,7 +101,7 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("event", ListEvent.getEventMap().get(notification.getEventId()));
+            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
             startActivity(intent);
         });
 
@@ -104,8 +120,14 @@ public class FeedFragment extends Fragment implements ClickableFragment {
             intent.putExtra("event", ListEvent.getEventMap().get(itemId));
             startActivity(intent);
         } else {
-            Log.d("CLICKED_FRAGMENT", "");
-            createPopup(NotificationList.getNotification(itemId));
+            if (UserData.getConnectedUser().getIsAdmin()) {
+                Intent intent = new Intent(getContext(), MultiPagesAdminActivity.class);
+                intent.putExtra("type", NotificationTypes.CONTACT);
+                startActivity(intent);
+            } else {
+                Log.d("CLICKED_FRAGMENT", "");
+                createPopup(NotificationList.getNotification(itemId));
+            }
         }
     }
 }

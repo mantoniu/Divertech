@@ -2,17 +2,11 @@ package Si3.divertech;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,6 +16,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
@@ -34,26 +29,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        TextView register = (TextView)findViewById(R.id.register);
+        TextView register = findViewById(R.id.register);
         register.setOnClickListener(click -> {
             Intent i = new Intent(this, RegisterActivity.class);
             startActivity(i);
         });
 
-        Button login = (Button)findViewById(R.id.login);
+        Button login = findViewById(R.id.login);
         login.setOnClickListener(click -> {
-            TextInputEditText username = (TextInputEditText)findViewById(R.id.username);
-            TextInputEditText password = (TextInputEditText)findViewById(R.id.password);
+            TextInputEditText username = findViewById(R.id.username);
+            TextInputEditText password = findViewById(R.id.password);
 
             if(username.getText().toString().isEmpty()){
-                TextInputLayout usernameLayout = (TextInputLayout)findViewById(R.id.username_container);
+                TextInputLayout usernameLayout = findViewById(R.id.username_container);
                 usernameLayout.setError("Nom d'utilisateur requis");
                 findViewById(R.id.username).requestFocus();
                 return;
             }
 
             if(password.getText().toString().isEmpty()){
-                TextInputLayout passwordLayout = (TextInputLayout)findViewById(R.id.password_container);
+                TextInputLayout passwordLayout = findViewById(R.id.password_container);
                 passwordLayout.setError("Mot de passe requis");
                 findViewById(R.id.password).requestFocus();
                 return;
@@ -62,9 +57,15 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                UserData.requestUserData(user);
+                                ListEvent.requestData();
+                            }
                             Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(this, MainActivity.class);
                             startActivity(i);
+                            finish();
                         } else {
                             Toast.makeText(this, "Impossible de se connecter :(", Toast.LENGTH_SHORT).show();
                         }
@@ -79,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        Button google = (Button)findViewById(R.id.google);
+        Button google = findViewById(R.id.google);
         google.setOnClickListener(click -> signInGoogle());
     }
 
@@ -110,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(this, MainActivity.class);
                         startActivity(i);
+                        finish();
                     } else {
                         Toast.makeText(this, "Impossible de se connecter avec Google :(", Toast.LENGTH_SHORT).show();
                     }

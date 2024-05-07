@@ -33,76 +33,110 @@ public class EventActivity extends AppCompatActivity {
     private static final int READ_CALENDAR_PERMISSION_CODE = 102;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
         Event event = getIntent().getParcelableExtra("event");
 
-        checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
-        checkPermission(Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
+        if (UserData.getConnectedUser().getIsAdmin()) {
+            setContentView(R.layout.activity_admin_event);
+            Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
+            modification.putExtra("event", event);
+            View change = findViewById(R.id.bloc_edit);
+            change.setOnClickListener(click -> startActivity(modification));
+            Intent report = new Intent(getApplicationContext(), AdminReportActivity.class);
+            View reportButton = findViewById(R.id.admin_report_bloc);
+            reportButton.setOnClickListener(click -> startActivity(report));
 
-        if(event==null) {
-            finish();
-            return;
+            View feed = findViewById(R.id.bloc_feed_admin);
+            feed.setOnClickListener(click -> {
+                Log.d("Admin", event.getId() + " ");
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("eventId", event.getId());
+                startActivity(intent);
+            });
+
+            updateInfo(event);
+        } else {
+            setContentView(R.layout.activity_event);
+            Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
+            View report = findViewById(R.id.bloc_reporting);
+            report.setOnClickListener(click -> {
+                modification.putExtra("type", REPORTING);
+                startActivity(modification);
+            });
+            View contact = findViewById(R.id.bloc_contact);
+            contact.setOnClickListener(click -> {
+                modification.putExtra("type", CONTACT);
+                startActivity(modification);
+            });
+            View objets = findViewById(R.id.bloc_lost_object);
+            objets.setOnClickListener(click -> {
+                modification.putExtra("type", OBJET);
+                startActivity(modification);
+            });
+
+
+            checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
+            checkPermission(Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
+
+            if (event == null) {
+                finish();
+                return;
+            }
+
+
+            ImageView map = findViewById(R.id.logo_map);
+            map.setOnClickListener(click -> {
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                intent.putExtra("pos", event.getId());
+                startActivity(intent);
+                finish();
+            });
+
+            Intent curIntent = getIntent();
+            String qrData = curIntent.getStringExtra("qr_data");
+            if (qrData != null) {
+                Toast.makeText(getApplicationContext(), qrData, Toast.LENGTH_LONG).show();
+            }
+
+
+            findViewById(R.id.calendar_add).setOnClickListener((click) -> addEventToCalendar(event));
+
+            ConstraintLayout parkingLayout = findViewById(R.id.parking);
+            parkingLayout.setOnClickListener(v -> {
+                Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
+                startActivity(intent);
+            });
+            updateInfo(event);
         }
+    }
 
+    private void updateInfo(Event event) {
         TextView titre = findViewById(R.id.nameEvent);
         titre.setText(event.getTitle());
 
         TextView place = findViewById(R.id.localisation);
-        place.setText(event.getPlace());
-
-        ImageView map = findViewById(R.id.logo_map);
-        map.setOnClickListener(click->{
-            Intent intent = new Intent(getApplicationContext(),MapActivity.class);
-            intent.putExtra("pos",event.getId());
-            startActivity(intent);
-            finish();
-        });
+        place.setText(event.getPosition());
 
         TextView description = findViewById(R.id.description_event);
         description.setText(event.getDescription());
-        Log.d("Event description",event.getDescription());
-        Log.d("Event date", event.getDate());
-
-        Intent curIntent = getIntent();
-        String qrData = curIntent.getStringExtra("qr_data");
-        if (qrData != null) {
-            Toast.makeText(getApplicationContext(), qrData, Toast.LENGTH_LONG).show();
-        }
-
-        Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
-        View report = findViewById(R.id.bloc_reporting);
-        report.setOnClickListener(click-> {
-            modification.putExtra("type", REPORTING);
-            startActivity(modification);
-        });
-        View contact = findViewById(R.id.bloc_contact);
-        contact.setOnClickListener(click-> {
-            modification.putExtra("type", CONTACT);
-            startActivity(modification);
-        });
-        View objets = findViewById(R.id.bloc_lost_object);
-        objets.setOnClickListener(click-> {
-            modification.putExtra("type", OBJET);
-            startActivity(modification);
-        });
 
         View b = findViewById(R.id.return_arrow);
-        b.setOnClickListener(click-> finish());
-
-        findViewById(R.id.calendar_add).setOnClickListener((click) -> addEventToCalendar(event));
+        b.setOnClickListener(click -> finish());
 
         Picasso.get().load(event.getPictureUrl()).into((ImageView) findViewById(R.id.image_event));
 
         ((TextView) findViewById(R.id.date)).setText(event.getFormattedDate());
+    }
 
-        ConstraintLayout parkingLayout = findViewById(R.id.parking);
-        parkingLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
-            startActivity(intent);
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //event = ListEvent.getEventMap().get(event.getId());
+        //updateInfo();
+        Log.d("test", "teststssg");
     }
 
     private void addEventToCalendar(Event event) {
