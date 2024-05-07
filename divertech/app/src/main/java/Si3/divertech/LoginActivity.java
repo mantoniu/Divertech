@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(this, MainActivity.class);
                             startActivity(i);
+                            finish();
                         } else {
                             Toast.makeText(this, "Impossible de se connecter :(", Toast.LENGTH_SHORT).show();
                         }
@@ -110,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(this, MainActivity.class);
                         startActivity(i);
+                        finish();
                     } else {
                         Toast.makeText(this, "Impossible de se connecter avec Google :(", Toast.LENGTH_SHORT).show();
                     }

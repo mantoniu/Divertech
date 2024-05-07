@@ -39,33 +39,37 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".qr_reader.CameraPreviewActivity" />
+            android:exported="true" />
+        <activity android:name=".qr_reader.CameraPreviewActivity" />
         <activity
             android:name=".EventActivity"
             android:exported="true" />
         <activity
             android:name=".MapActivity"
             android:exported="true" />
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY" />
+
         <activity
             android:name=".MultiPagesActivity"
-            android:exported="true"/>
+            android:exported="true" />
+        <activity
+            android:name=".CreateEventActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdminReportActivity"
+            android:exported="true" />
         <activity
             android:name=".LanguageModificationActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".MultiPagesAdminActivity"
             android:exported="true" />
         <activity
             android:name=".ListEventActivity"
             android:exported="true" />
-        <activity
-            android:name=".ProfileActivity"
-            />
+        <activity android:name=".ProfileActivity" />
     </application>
 </manifest>
