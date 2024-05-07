@@ -40,6 +40,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.mlkit.common.MlKitException;
 
+import Si3.divertech.DataBaseListener;
+import Si3.divertech.DataBaseResponses;
 import Si3.divertech.EventActivity;
 import Si3.divertech.ListEvent;
 import Si3.divertech.R;
@@ -48,6 +50,7 @@ import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
 public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener, DataBaseListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
+    private String eventId;
     @Nullable
     private Camera camera;
     private static final String TAG = "CameraPreview";
@@ -111,6 +114,9 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     }
 
     public void showEventErrorPopup(@StringRes int textRes) {
+        if (errorPopup != null)
+            return;
+
         errorPopup = createPopup(R.layout.event_not_found_popup);
 
         errorPopup.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
@@ -119,7 +125,10 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         TextView text = popupView.findViewById(R.id.text_input);
         text.setText(textRes);
 
-        View.OnClickListener listener = (click) -> dismissPopup(errorPopup);
+        View.OnClickListener listener = (click) -> {
+            dismissPopup(errorPopup);
+            errorPopup = null;
+        };
 
         popupView.findViewById(R.id.close_button).setOnClickListener(listener);
 
@@ -162,8 +171,8 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
 
         popupView.findViewById(R.id.validate_code).setOnClickListener((clickedView) -> {
             dismissPopup(popupWindow);
-            String eventId = codeInput.getText().toString();
-            onDataReceived(eventId);
+            String id = codeInput.getText().toString();
+            onDataReceived(id);
         });
     }
 
@@ -329,14 +338,19 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     public void onDataReceived(String eventId) {
         Log.d("RECEIVED_DATA", eventId);
         if (!ListEvent.containsEvent(eventId)) {
+            this.eventId = eventId;
             ListEvent.eventExists(eventId, this);
+            return;
         }
         goToEventActivity(eventId);
     }
 
     @Override
-    public void onDataBaseResponse(String eventId, boolean eventExists) {
-        if (eventExists) {
+    public void onDataBaseResponse(DataBaseResponses response) {
+        if (eventId == null)
+            return;
+
+        if (response == DataBaseResponses.SUCCESS) {
             ListEvent.requestEvent(eventId);
             goToEventActivity(eventId);
         } else {
@@ -347,6 +361,7 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
 
     private void goToEventActivity(String eventId) {
         Intent receivedData = new Intent(this, EventActivity.class);
+        //TODO A MODIF SINGLETON
         receivedData.putExtra("event", ListEvent.getEventMap().get(eventId));
         startActivity(receivedData);
         finish();
