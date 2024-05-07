@@ -27,12 +27,12 @@
         android:layout_height="30dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/language"
-        app:layout_constraintRight_toLeftOf="@id/profile_button"
+        app:layout_constraintRight_toLeftOf="@id/profile_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageView
-        android:id="@+id/profile_button"
+        android:id="@+id/profile_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="5dp"

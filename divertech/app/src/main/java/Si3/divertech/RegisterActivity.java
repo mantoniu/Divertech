@@ -88,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null && name.getText() != null && lastName.getText() != null && address.getText() != null && phoneNumber.getText() != null) {
+                                //TODO add picture URL
                                 UserData.writeNewUser(user.getUid(), name.getText().toString(), lastName.getText().toString(), address.getText().toString(), phoneNumber.getText().toString(), spinner.getSelectedItem().toString());
                             }
                             Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();

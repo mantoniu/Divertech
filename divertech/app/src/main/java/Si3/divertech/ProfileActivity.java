@@ -2,6 +2,7 @@ package Si3.divertech;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -30,6 +33,9 @@ public class ProfileActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.phone_number)).setText(user.getPhoneNumber());
         ((TextView) findViewById(R.id.email)).setText(user.getEmail());
         ((TextView) findViewById(R.id.language)).setText(user.getLanguage());
+
+        if (!user.getPictureUrl().isEmpty())
+            Picasso.get().load(user.getPictureUrl()).into((ImageView) findViewById(R.id.profile_image));
 
         findViewById(R.id.modify_button).setOnClickListener(click -> {
             Intent updateIntent = new Intent(getApplicationContext(), EditUserActivity.class);

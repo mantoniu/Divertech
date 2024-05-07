@@ -68,7 +68,6 @@ public class FeedFragment extends Fragment implements ClickableFragment {
             adapter.notifyDataSetChanged();
     }
 
-
     private void createPopup(Notification notification) {
         LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.notification_popup, requireActivity().findViewById(R.id.notification_popup));

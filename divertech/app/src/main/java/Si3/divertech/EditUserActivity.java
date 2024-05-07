@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -44,6 +46,8 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
 
         findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
 
+        if (!user.getPictureUrl().isEmpty())
+            Picasso.get().load(user.getPictureUrl()).into((ImageView) findViewById(R.id.profile_picture));
         username.setText(user.getEmail());
         address.setText(user.getAddress());
         name.setText(user.getName());
@@ -92,8 +96,8 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
                 ((TextInputLayout) popupView.findViewById(R.id.password_container)).setError("Le mot de passe est requis");
                 return;
             }
-
-            UserData.updateUser(name, lastName, address, phoneNumber, language, email, password.getText().toString(), this);
+            //TODO picture url
+            UserData.updateUser(name, lastName, address, phoneNumber, language, email, password.getText().toString(), " ", this);
         });
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());

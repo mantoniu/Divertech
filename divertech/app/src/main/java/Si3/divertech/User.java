@@ -10,12 +10,13 @@ public class User {
     private String address;
     private String phoneNumber;
     private String language;
+    private String pictureUrl = "";
     private boolean admin;
 
     public User() {
     }
 
-    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language, boolean admin) {
+    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language, String pictureUrl, boolean admin) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -23,6 +24,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.language = language;
+        this.pictureUrl = pictureUrl;
     }
 
     public String getId() {
@@ -53,6 +55,10 @@ public class User {
         return language;
     }
 
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -64,6 +70,8 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", admin=" + admin +
                 '}';
     }
 

@@ -45,9 +45,10 @@ public class UserData {
                 String address = dataSnapshot.child("address").getValue(String.class);
                 String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
                 String language = dataSnapshot.child("language").getValue(String.class);
+                String pictureUrl = dataSnapshot.child("pictureUrl").getValue(String.class);
                 Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
 
-                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, admin != null ? admin : false);
+                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, pictureUrl, admin != null ? admin : false);
 
                 Log.d("CONNECTED USER", connectedUser.toString());
             }
@@ -64,6 +65,10 @@ public class UserData {
     }
 
     public static void writeNewUser(String userId, String name, String lastName, String address, String phoneNumber, String language) {
+        writeNewUser(userId, name, lastName, address, phoneNumber, language, "");
+    }
+
+    public static void writeNewUser(String userId, String name, String lastName, String address, String phoneNumber, String language, String pictureUrl) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         usersRef.child("address").setValue(address);
@@ -71,13 +76,12 @@ public class UserData {
         usersRef.child("name").setValue(name);
         usersRef.child("phoneNumber").setValue(phoneNumber);
         usersRef.child("language").setValue(language);
+        usersRef.child("pictureUrl").setValue(pictureUrl);
     }
 
-    public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password, DataBaseListener listener) {
+    public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password, String pictureUrl, DataBaseListener listener) {
         if (firebaseUser == null)
             return;
-
-        writeNewUser(userId, name, lastName, address, phoneNumber, language);
 
         AuthCredential credential = EmailAuthProvider
                 .getCredential(Objects.requireNonNull(firebaseUser.getEmail()), password);
@@ -85,6 +89,7 @@ public class UserData {
         firebaseUser.reauthenticate(credential)
                 .addOnCompleteListener(task -> {
                     if (task.getException() == null && task.isSuccessful()) {
+                        writeNewUser(userId, name, lastName, address, phoneNumber, language);
                         firebaseUser.updateEmail(email)
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {
