@@ -40,12 +40,14 @@ public class UserData {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                connectedUser = dataSnapshot.getValue(User.class);
-                if (connectedUser == null)
-                    return;
+                String name = dataSnapshot.child("name").getValue(String.class);
+                String lastName = dataSnapshot.child("lastName").getValue(String.class);
+                String address = dataSnapshot.child("address").getValue(String.class);
+                String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
+                String language = dataSnapshot.child("language").getValue(String.class);
+                Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
 
-                connectedUser.setId(userId);
-                connectedUser.setEmail(userEmail);
+                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, admin != null ? admin : false);
 
                 Log.d("CONNECTED USER", connectedUser.toString());
             }
@@ -71,7 +73,7 @@ public class UserData {
         usersRef.child("language").setValue(language);
     }
 
-    public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password) {
+    public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password, DataBaseListener listener) {
         if (firebaseUser == null)
             return;
 
@@ -82,11 +84,12 @@ public class UserData {
 
         firebaseUser.reauthenticate(credential)
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.getException() == null && task.isSuccessful()) {
                         firebaseUser.updateEmail(email)
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {
                                         UserData.requestUserData(firebaseUser);
+                                        listener.onDataBaseResponse(DataBaseResponses.SUCCESS);
                                     } else {
                                         Exception exception = task2.getException();
                                         if (exception != null) {
@@ -95,8 +98,7 @@ public class UserData {
                                     }
                                 });
                     } else {
-                        Exception exception = task.getException();
-                        Log.d("RE-AUTHENTICATION ERROR", "", exception);
+                        listener.onDataBaseResponse(DataBaseResponses.BAD_PASSWORD);
                     }
                 });
 

@@ -10,11 +10,12 @@ public class User {
     private String address;
     private String phoneNumber;
     private String language;
+    private boolean admin;
 
     public User() {
     }
 
-    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language) {
+    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language, boolean admin) {
         this.id = id;
         this.email = email;
         this.name = name;

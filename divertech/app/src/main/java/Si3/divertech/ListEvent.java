@@ -14,8 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import Si3.divertech.qr_reader.DataBaseListener;
-
 public class ListEvent {
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private static final Map<String, Event> eventMap = new HashMap<>();
@@ -50,9 +48,9 @@ public class ListEvent {
 
                     event.setId(eventId);
                     ListEvent.addEvent(event);
-                    listener.onDataBaseResponse(eventId, true);
+                    listener.onDataBaseResponse(DataBaseResponses.SUCCESS);
                 } else {
-                    listener.onDataBaseResponse(eventId, false);
+                    listener.onDataBaseResponse(DataBaseResponses.EVENT_DOES_NOT_EXIST);
                 }
             }
 

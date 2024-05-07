@@ -40,6 +40,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-storage")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.google.mlkit:camera:16.0.0-beta3")
     implementation("androidx.multidex:multidex:2.0.1")

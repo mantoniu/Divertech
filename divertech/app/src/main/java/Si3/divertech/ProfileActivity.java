@@ -32,8 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.language)).setText(user.getLanguage());
 
         findViewById(R.id.modify_button).setOnClickListener(click -> {
-            Intent updateIntent = new Intent(getApplicationContext(), RegisterActivity.class);
-            updateIntent.putExtra("update", "");
+            Intent updateIntent = new Intent(getApplicationContext(), EditUserActivity.class);
             startActivity(updateIntent);
             finish();
         });

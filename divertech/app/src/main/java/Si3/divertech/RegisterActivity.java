@@ -1,7 +1,6 @@
 package Si3.divertech;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -34,19 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputEditText phoneNumber = findViewById(R.id.phone);
         ImageView backButton = findViewById(R.id.goback);
         Button registerButton = findViewById(R.id.register);
-
-        update = getIntent().getStringExtra("update") != null;
-
-        if (update) {
-            User connectedUser = UserData.getConnectedUser();
-            username.setText(connectedUser.getEmail());
-            address.setText(connectedUser.getAddress());
-            name.setText(connectedUser.getName());
-            lastName.setText(connectedUser.getLastName());
-            phoneNumber.setText(connectedUser.getPhoneNumber());
-            findViewById(R.id.confirm_password_container).setVisibility(View.GONE);
-            registerButton.setText(R.string.save_modifications);
-        }
 
         backButton.setOnClickListener(v -> finish());
 
@@ -82,39 +68,34 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            if (update) {
-                UserData.updateUser(name.getText().toString(), lastName.getText().toString(), address.getText().toString(), phoneNumber.getText().toString(), spinner.getSelectedItem().toString(), username.getText().toString(), password.getText().toString());
-                finish();
-            } else {
-                if (confirmPassword.getText().toString().isEmpty()) {
-                    TextInputLayout confirmPasswordLayout = findViewById(R.id.confirm_password_container);
-                    confirmPasswordLayout.setError("Confirmation du mot de passe requise");
-                    findViewById(R.id.confirm_password).requestFocus();
-                    return;
-                }
-
-                if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
-                    TextInputLayout confirmPasswordLayout = findViewById(R.id.confirm_password_container);
-                    confirmPasswordLayout.setError("Les mots de passe ne correspondent pas");
-                    findViewById(R.id.confirm_password).requestFocus();
-                    return;
-                }
-
-
-                mAuth.createUserWithEmailAndPassword(username.getText().toString(), password.getText().toString())
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                if (user != null && name.getText() != null && lastName.getText() != null && address.getText() != null && phoneNumber.getText() != null) {
-                                    UserData.writeNewUser(user.getUid(), name.getText().toString(), lastName.getText().toString(), address.getText().toString(), phoneNumber.getText().toString(), spinner.getSelectedItem().toString());
-                                }
-                                Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
-                                finish();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "Impossible de s'inscrire. Vérifiez votre adresse email", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            if (confirmPassword.getText().toString().isEmpty()) {
+                TextInputLayout confirmPasswordLayout = findViewById(R.id.confirm_password_container);
+                confirmPasswordLayout.setError("Confirmation du mot de passe requise");
+                findViewById(R.id.confirm_password).requestFocus();
+                return;
             }
+
+            if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+                TextInputLayout confirmPasswordLayout = findViewById(R.id.confirm_password_container);
+                confirmPasswordLayout.setError("Les mots de passe ne correspondent pas");
+                findViewById(R.id.confirm_password).requestFocus();
+                return;
+            }
+
+
+            mAuth.createUserWithEmailAndPassword(username.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null && name.getText() != null && lastName.getText() != null && address.getText() != null && phoneNumber.getText() != null) {
+                                UserData.writeNewUser(user.getUid(), name.getText().toString(), lastName.getText().toString(), address.getText().toString(), phoneNumber.getText().toString(), spinner.getSelectedItem().toString());
+                            }
+                            Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "Impossible de s'inscrire. Vérifiez votre adresse email", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 }
