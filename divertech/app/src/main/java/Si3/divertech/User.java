@@ -11,12 +11,12 @@ public class User {
     private String phoneNumber;
     private String language;
     private String pictureUrl = "";
-    private boolean admin;
+    private boolean isAdmin;
 
     public User() {
     }
 
-    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language, String pictureUrl, boolean admin) {
+    public User(String id, String email, String name, String lastName, String address, String phoneNumber, String language, String pictureUrl, boolean isAdmin) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -24,6 +24,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.language = language;
+        this.isAdmin = isAdmin;
         this.pictureUrl = pictureUrl;
     }
 
@@ -55,6 +56,10 @@ public class User {
         return language;
     }
 
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
     public String getPictureUrl() {
         return pictureUrl;
     }
@@ -71,7 +76,7 @@ public class User {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
                 ", pictureUrl='" + pictureUrl + '\'' +
-                ", admin=" + admin +
+                ", admin=" + isAdmin +
                 '}';
     }
 

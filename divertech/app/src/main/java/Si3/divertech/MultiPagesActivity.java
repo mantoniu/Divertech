@@ -21,6 +21,7 @@ public class MultiPagesActivity extends AppCompatActivity {
         EditText hint = findViewById(R.id.edit_text_area);
         Button button = findViewById(R.id.send_Button);
         int type = getIntent().getIntExtra("type",0);
+        button.setOnClickListener(click -> forward());
 
         switch (type) {
             case EventActivity.CONTACT:
@@ -39,6 +40,10 @@ public class MultiPagesActivity extends AppCompatActivity {
                 button.setText(R.string.button_report);
                 break;
         }
+    }
+
+    private void forward() {
+        finish();
     }
 
 }

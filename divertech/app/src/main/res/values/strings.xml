@@ -116,6 +116,18 @@
     <string name="user_email">nom.prenom@gmail.com</string>
     <string name="user_language">Français</string>
     <string name="save_modifications">Enregistrer les modifications</string>
+
+    <string name="text_edit_event">Modifier l\'évènement</string>
+    <string name="text_edit_admin_report">Signaler une information</string>
+    <string name="text_feed_admin">Accéder au fil de l\'évènement</string>
+    <string name="text_check">Valider</string>
+    <string name="text_cancel">Annuler</string>
+    <string name="short_description">Entrer ici une courte description</string>
+    <string name="describe_event_hint">Décriver votre évènement ici :</string>
+    <string name="report_title">Titre du signalement</string>
+    <string name="dateExample">10 aout 2024 23h30</string>
+
+
     <string name="enter_password">Entrez votre mot de passe</string>
     <string name="confirm_modifications">Confirmer les modifications</string>
 </resources>

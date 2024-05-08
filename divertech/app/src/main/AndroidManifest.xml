@@ -66,6 +66,12 @@
             android:name=".MultiPagesActivity"
             android:exported="true" />
         <activity
+            android:name=".CreateEventActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdminReportActivity"
+            android:exported="true" />
+        <activity
             android:name=".LanguageModificationActivity"
             android:exported="true" />
         <activity
@@ -76,5 +82,4 @@
             android:exported="true" />
         <activity android:name=".ProfileActivity" />
     </application>
-
 </manifest>

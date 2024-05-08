@@ -48,7 +48,7 @@ public class UserData {
                 String pictureUrl = dataSnapshot.child("pictureUrl").getValue(String.class);
                 Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
 
-                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, pictureUrl, admin != null ? admin : false);
+                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language,pictureUrl, admin != null ? admin : false);
 
                 Log.d("CONNECTED USER", connectedUser.toString());
             }
@@ -76,6 +76,7 @@ public class UserData {
         usersRef.child("name").setValue(name);
         usersRef.child("phoneNumber").setValue(phoneNumber);
         usersRef.child("language").setValue(language);
+        usersRef.child("admin").setValue(false);
         if (!pictureUrl.isEmpty()) usersRef.child("pictureUrl").setValue(pictureUrl);
     }
 
