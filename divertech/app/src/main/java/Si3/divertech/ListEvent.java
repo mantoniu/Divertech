@@ -13,9 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
-public class ListEvent extends Observable {
+public class ListEvent {
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private static final Map<String, Event> eventMap = new HashMap<>();
     private static BaseAdapter adapter;
