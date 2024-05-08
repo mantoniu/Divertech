@@ -58,7 +58,7 @@ public class NotificationAdapter extends BaseAdapter {
 
         // Filling the layout with notifications values
         Notification notification = getItemsList().get(position);
-        Log.d("TITLE", notification.getTitle());
+        Log.d("TITLE", NotificationTypes.values()[notification.getType()].getTitle());
 
         deleteButton.setOnClickListener(click -> {
             NotificationList.deleteNotification(notification.getId());
@@ -69,7 +69,7 @@ public class NotificationAdapter extends BaseAdapter {
 
         Picasso.get().load(ListEvent.getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
         notificationTitle.setText(ListEvent.getEvent(notification.getEventId()).getTitle());
-        notificationContent.setText(notification.getTitle());
+        notificationContent.setText(NotificationTypes.values()[notification.getType()].getTitle());
 
         layoutItem.setOnClickListener((click) -> fragment.onClick(notification.getId()));
 

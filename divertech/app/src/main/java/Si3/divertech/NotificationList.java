@@ -36,8 +36,8 @@ public class NotificationList {
     }
 
 
-    public static void addNotification(String id, String eventId, int type, String description) {
-        addNotification(new Notification(id, eventId, type, description));
+    public static void addNotification(String id, String eventId, int type, String description, String userCreatorId) {
+        addNotification(new Notification(id, eventId, type, description, userCreatorId));
     }
 
     public static void deleteNotification(Notification notification) {
@@ -74,6 +74,7 @@ public class NotificationList {
                 notificationMap.clear();
                 for (DataSnapshot registrationSnapshot : snapshot.getChildren()) {
                     String notificationId = registrationSnapshot.getValue(String.class);
+                    Log.d("Notif add1", snapshot.toString());
                     if (notificationId == null)
                         return;
 
@@ -86,9 +87,10 @@ public class NotificationList {
                             String eventId = snapshot.child("eventId").getValue(String.class);
                             String description = snapshot.child("description").getValue(String.class);
                             Integer type = snapshot.child("type").getValue(Integer.class);
-
+                            String userCreatorId = snapshot.child("userCreatorId").getValue(String.class);
+                            Log.d("Notif add", snapshot.toString());
                             if (type != null) {
-                                Notification notification = new Notification(notificationId, eventId, type, description);
+                                Notification notification = new Notification(notificationId, eventId, type, description, userCreatorId);
                                 Log.d("NOTIFICATION", notification.toString());
                                 NotificationList.addNotification(notification);
                             }

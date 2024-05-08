@@ -37,12 +37,12 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Event event = getIntent().getParcelableExtra("event");
-
+        String eventId = getIntent().getStringExtra("id");
+        Event event = ListEvent.getEventMap().get(eventId);
         if (UserData.getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
             Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
-            modification.putExtra("event", event);
+            modification.putExtra("eventId", event.getId());
             View change = findViewById(R.id.bloc_edit);
             change.setOnClickListener(click -> startActivity(modification));
             Intent report = new Intent(getApplicationContext(), AdminReportActivity.class);
