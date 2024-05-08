@@ -141,6 +141,9 @@
     <string name="exemple_johndoe_gmail_com">exemple : johndoe@gmail.com</string>
     <string name="les_champs_ci_dessous_sont_obligatoires">les champs ci-dessous sont obligatoires</string>
     <string name="choisir_une_langue_pour_l_application">Choisir une langue pour l\'application</string>
+    <string name="mes_v_nements">Mes événements</string>
+    <string name="mon_feed">Mon feed</string>
+    <string name="localisation">Localisation</string>
 
 
 </resources>
