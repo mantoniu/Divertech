@@ -3,7 +3,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ReturnArrowDescription">Retour en arrière</string>
     <string name="Changement_Langue">Changement de langue</string>
-    <string name="nameEventExemple">Evenement 1</string>
+    <string name="nameEventExemple">Evenement</string>
     <string name="buttonReturn">←</string>
     <string name="localisationEventExemple">50, Rue de Jilian Lubrat 20110 Propriano</string>
     <string name="bookParkingPlace">Réserver une place de parking</string>

@@ -26,50 +26,68 @@
             android:name=".LoginActivity"
             android:exported="true" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action
+                    android:name="android.intent.action.MAIN"
+                    android:configChanges="orientation|keyboardHidden|screenSize" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ParkingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
-        <activity android:name=".qr_reader.CameraPreviewActivity" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".qr_reader.CameraPreviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".EventActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MapActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY" />
+            android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <activity
             android:name=".MultiPagesActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".CreateEventActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".AdminReportActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".LanguageModificationActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MultiPagesAdminActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".ListEventActivity"
-            android:exported="true" />
-        <activity android:name=".ProfileActivity" />
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".ProfileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 </manifest>

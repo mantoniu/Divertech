@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/white">
 
     <fragment
         android:id="@+id/headerMenu"
@@ -13,18 +14,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:name="Si3.divertech.HeaderMenu"
-        tools:layout="@layout/fragment_header_menu"
-        />
+        tools:layout="@layout/fragment_header_menu" />
 
     <TextView
         android:id="@+id/feed_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:textColor="@color/logo_blue"
         android:text="@string/mes_evenements"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:textSize="40sp"
-        android:layout_marginBottom="20sp"
         app:layout_constraintTop_toBottomOf="@id/headerMenu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -35,7 +36,6 @@
         android:id="@+id/events_feed"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:dividerHeight="5dp"
         app:layout_constraintBottom_toTopOf="@id/button_add"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -43,13 +43,15 @@
 
     <ImageView
         android:id="@+id/button_add"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/events_feed"
         app:layout_constraintBottom_toTopOf="@id/footMenu"
-        android:src="@drawable/add"/>
+        android:src="@drawable/add" />
 
     <FrameLayout
         android:id="@+id/footMenu"
