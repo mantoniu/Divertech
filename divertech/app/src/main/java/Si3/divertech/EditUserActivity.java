@@ -35,6 +35,7 @@ import java.util.Objects;
 public class EditUserActivity extends AppCompatActivity implements DataBaseListener {
     private static final int REQUEST_CODE_IMAGE_CROPPER = 123;
     private String newImageURL = "";
+    private boolean waitingUpload = false;
     private TextInputEditText password;
     private View popupView;
 
@@ -90,6 +91,12 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
         phoneNumber.setText(user.getPhoneNumber());
 
         findViewById(R.id.save_modifications).setOnClickListener(click -> {
+            if (waitingUpload) {
+                Toast.makeText(getApplicationContext(), "Upload de l'image en cours ...", Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+
             if (!(checkInput(username, findViewById(R.id.username_container), "Email requis")
                     && checkInput(lastName, findViewById(R.id.name_container), "Nom requis")
                     && checkInput(name, findViewById(R.id.firstName_container), "Prénom requis")
@@ -161,6 +168,7 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
     public void showErrorMessage(ProgressBar progressBar) {
         Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.INVISIBLE);
+        waitingUpload = false;
     }
 
     public void uploadImage(String url) {
@@ -169,6 +177,7 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
 
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
+        waitingUpload = true;
 
         try {
             InputStream inputStream = getContentResolver().openInputStream(Uri.parse(url));
@@ -188,6 +197,7 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
                     Log.d("NEWIMAGEURL", newImageURL);
                     Picasso.get().load(newImageURL).into((ImageView) findViewById(R.id.profile_picture));
                     progressBar.setVisibility(View.INVISIBLE);
+                    waitingUpload = false;
                 }).addOnFailureListener(exception -> showErrorMessage(progressBar));
             }).addOnFailureListener(exception -> {
                 showErrorMessage(progressBar);
