@@ -1,5 +1,9 @@
 package Si3.divertech;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -8,18 +12,29 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class EditUserActivity extends AppCompatActivity implements DataBaseListener {
+    private static final int REQUEST_CODE_IMAGE_CROPPER = 123;
+    private String newImageURL = "";
     private TextInputEditText password;
     private View popupView;
 
@@ -43,11 +58,31 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
         TextInputEditText name = findViewById(R.id.firstName);
         TextInputEditText lastName = findViewById(R.id.name);
         TextInputEditText phoneNumber = findViewById(R.id.phone);
+        ImageView profilePicture = findViewById(R.id.profile_picture);
 
         findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
 
+
+        ActivityResultLauncher<Intent> startCrop = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            uploadImage(data.getStringExtra("croppedImageUri"));
+                        }
+                    }
+                }
+        );
+
+        profilePicture.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), ImageCropperActivity.class);
+            startCrop.launch(intent);
+        });
+
         if (!user.getPictureUrl().isEmpty())
-            Picasso.get().load(user.getPictureUrl()).into((ImageView) findViewById(R.id.profile_picture));
+            Picasso.get().load(user.getPictureUrl()).into(profilePicture);
+
         username.setText(user.getEmail());
         address.setText(user.getAddress());
         name.setText(user.getName());
@@ -97,7 +132,7 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
                 return;
             }
             //TODO picture url
-            UserData.updateUser(name, lastName, address, phoneNumber, language, email, password.getText().toString(), " ", this);
+            UserData.updateUser(name, lastName, address, phoneNumber, language, email, password.getText().toString(), newImageURL, this);
         });
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
@@ -120,6 +155,47 @@ public class EditUserActivity extends AppCompatActivity implements DataBaseListe
                 password.requestFocus();
                 break;
             default:
+        }
+    }
+
+    public void showErrorMessage(ProgressBar progressBar) {
+        Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void uploadImage(String url) {
+        if (url == null)
+            return;
+
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(Uri.parse(url));
+
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] data = stream.toByteArray();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference filePath = storage.getReference().child("/users/" + UserData.getUserId() + ".jpg");
+            UploadTask uploadTask = filePath.putBytes(data);
+
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(uri -> {
+                    newImageURL = uri.toString();
+                    Log.d("NEWIMAGEURL", newImageURL);
+                    Picasso.get().load(newImageURL).into((ImageView) findViewById(R.id.profile_picture));
+                    progressBar.setVisibility(View.INVISIBLE);
+                }).addOnFailureListener(exception -> showErrorMessage(progressBar));
+            }).addOnFailureListener(exception -> {
+                showErrorMessage(progressBar);
+            });
+
+            inputStream.close();
+        } catch (Exception e) {
+            showErrorMessage(progressBar);
         }
     }
 }

@@ -76,7 +76,7 @@ public class UserData {
         usersRef.child("name").setValue(name);
         usersRef.child("phoneNumber").setValue(phoneNumber);
         usersRef.child("language").setValue(language);
-        usersRef.child("pictureUrl").setValue(pictureUrl);
+        if (!pictureUrl.isEmpty()) usersRef.child("pictureUrl").setValue(pictureUrl);
     }
 
     public static void updateUser(String name, String lastName, String address, String phoneNumber, String language, String email, String password, String pictureUrl, DataBaseListener listener) {
@@ -89,7 +89,7 @@ public class UserData {
         firebaseUser.reauthenticate(credential)
                 .addOnCompleteListener(task -> {
                     if (task.getException() == null && task.isSuccessful()) {
-                        writeNewUser(userId, name, lastName, address, phoneNumber, language);
+                        writeNewUser(userId, name, lastName, address, phoneNumber, language, pictureUrl);
                         firebaseUser.updateEmail(email)
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {

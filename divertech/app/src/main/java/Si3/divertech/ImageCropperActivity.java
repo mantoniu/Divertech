@@ -1,0 +1,113 @@
+package Si3.divertech;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
+import com.canhub.cropper.CropImageView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class ImageCropperActivity extends AppCompatActivity {
+    ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            Intent data = result.getData();
+            if (data != null && data.getData() != null) {
+                Uri imageUri = data.getData();
+                launchImageCropper(imageUri);
+            }
+        } else finish();
+    });
+
+    private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            getImageFile();
+        } else {
+            permissionDenied();
+        }
+    });
+
+    ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
+        if (result.isSuccessful()) {
+            Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(getApplicationContext(), true));
+            saveCroppedImage(cropped);
+        }
+        finish();
+    });
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        if (intent == null)
+            return;
+
+        if (isPermitted()) {
+            getImageFile();
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            requestPermission.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    private void getImageFile() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        getImage.launch(intent);
+    }
+
+    private boolean isPermitted() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R)
+            return ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        return true;
+    }
+
+    private void launchImageCropper(Uri uri) {
+        CropImageOptions cropImageOptions = new CropImageOptions();
+        cropImageOptions.imageSourceIncludeGallery = true;
+        cropImageOptions.imageSourceIncludeCamera = true;
+        cropImageOptions.cropShape = CropImageView.CropShape.OVAL;
+        cropImageOptions.fixAspectRatio = true;
+        cropImageOptions.aspectRatioX = 150;
+        cropImageOptions.aspectRatioY = 150;
+        CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
+        cropImage.launch(cropImageContractOptions);
+    }
+
+    private void permissionDenied() {
+        Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG).show();
+    }
+
+    private void saveCroppedImage(Bitmap bitmap) {
+        File tempFile;
+        try {
+            tempFile = File.createTempFile("cropped_image", ".jpg", getCacheDir());
+            FileOutputStream out = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("croppedImageUri", Uri.fromFile(tempFile).toString());
+            setResult(RESULT_OK, resultIntent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
