@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:background="@color/white">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,6 @@
         app:layout_constraintRight_toRightOf="parent"
         android:name="Si3.divertech.HeaderMenu"
         tools:layout="@layout/fragment_header_menu"
-
         />
 
     <TextView
@@ -62,7 +61,8 @@
             app:maxImageSize="40dp"
             app:elevation="0dp"
             app:tint="@color/black"
-            android:backgroundTint="#BFFFFFFF" />
+            android:backgroundTint="#BFFFFFFF"
+            android:contentDescription="@string/add_event" />
     </RelativeLayout>
 
     <FrameLayout

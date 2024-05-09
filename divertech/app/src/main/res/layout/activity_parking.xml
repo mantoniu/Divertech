@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/header_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,8 @@
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_menu" />
+            app:layout_constraintTop_toBottomOf="@id/header_menu"
+            android:contentDescription="@string/buttonReturn" />
 
         <TextView
             android:id="@+id/title"
@@ -44,7 +45,8 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-            android:id="@+id/caption_adresse"
+            android:id="@+id/caption_address"
+            android:labelFor="@id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/adresse"
@@ -56,7 +58,7 @@
             />
 
         <EditText
-            android:id="@+id/adresse"
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -64,9 +66,11 @@
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/caption_adresse" />
+            app:layout_constraintTop_toBottomOf="@+id/caption_address"
+            android:autofillHints="address" />
 
         <TextView
+            android:labelFor="@id/phone"
             android:id="@+id/caption_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +79,7 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/adresse"
+            app:layout_constraintTop_toBottomOf="@id/address"
             />
 
         <EditText
@@ -87,7 +91,8 @@
             android:inputType="phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/caption_phone" />
+            app:layout_constraintTop_toBottomOf="@+id/caption_phone"
+            android:autofillHints="phone" />
 
         <TextView
             android:id="@+id/caption_license_plate"
@@ -111,7 +116,8 @@
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/caption_license_plate" />
+            app:layout_constraintTop_toBottomOf="@+id/caption_license_plate"
+            android:autofillHints="license_plate" />
 
         <!--date picker-->
         <TextView

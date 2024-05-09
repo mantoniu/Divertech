@@ -25,7 +25,7 @@
     <string name="admin_connection">Se connecter en tant qu\'Admin</string>
     <string name="mes_evenements">Mes évènements</string>
     <string name="r_servation_d_une_place_de_parking">Réservation d\'une place de parking</string>
-    <string name="plaque_d_immatriculation">plaque d\'immatriculation</string>
+    <string name="plaque_d_immatriculation">Plaque d\'immatriculation</string>
     <string name="envoyer_la_demande">Envoyer la demande</string>
     <string name="choisir_un_horaire">Choisir un horaire</string>
     <string name="selectionner_une_date">Selectionner une date</string>
@@ -129,6 +129,8 @@
     <string name="events">Mes évènements</string>
     <string name="notifications">Notifications</string>
     <string name="title">Title</string>
+    <string name="flashlight_button">FlashLight button</string>
+    <string name="add_event">Add event</string>
 
 
 </resources>
