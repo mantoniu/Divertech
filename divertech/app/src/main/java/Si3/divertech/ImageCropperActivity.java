@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -107,7 +108,7 @@ public class ImageCropperActivity extends AppCompatActivity {
             resultIntent.putExtra("croppedImageUri", Uri.fromFile(tempFile).toString());
             setResult(RESULT_OK, resultIntent);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d("Cache image error", "", e);
         }
     }
 }

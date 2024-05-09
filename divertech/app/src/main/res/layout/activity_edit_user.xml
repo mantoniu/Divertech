@@ -24,28 +24,27 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/ReturnArrowDescription" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profile_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profile_picture_container"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:cardCornerRadius="250dp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <ImageView
                 android:id="@+id/profile_picture"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/profile"
-                app:shapeAppearanceOverlay="@style/circleImageView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:foreground="@drawable/edit_picture"
+                android:scaleType="centerCrop"
                 android:contentDescription="@string/profile_picture" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -53,11 +52,10 @@
             android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/profile_container"
+            app:layout_constraintLeft_toRightOf="@id/profile_picture_container"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/profile_container"
-            app:layout_constraintBottom_toBottomOf="@id/profile_container" />
-
+            app:layout_constraintTop_toTopOf="@id/profile_picture_container"
+            app:layout_constraintBottom_toBottomOf="@id/profile_picture_container" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -69,7 +67,7 @@
             app:startIconDrawable="@drawable/id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_container">
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_container">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name"
