@@ -126,6 +126,8 @@
     <string name="describe_event_hint">Décriver votre évènement ici :</string>
     <string name="report_title">Titre du signalement</string>
     <string name="dateExample">10 aout 2024 23h30</string>
+    <string name="events">Mes évènements</string>
+    <string name="notifications">Notifications</string>
 
 
 </resources>
