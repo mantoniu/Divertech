@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/headerMenu"
+    <fragment
+        android:id="@+id/header_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:background="@drawable/back"
-        app:layout_constraintTop_toBottomOf="@+id/headerMenu"
+        app:layout_constraintTop_toBottomOf="@+id/header_menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="@id/nameEvent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/nameEvent"
-        android:contentDescription="return arrow" />
+        android:contentDescription="@string/return_arrow_description" />
 
     <!-- Première partie -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toTopOf="@id/localisation"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/localisation"
-            android:contentDescription="image of the event" />
+            android:contentDescription="@string/image_of_the_event" />
 
         <TextView
             android:id="@+id/date"
@@ -140,7 +140,7 @@
             app:layout_constraintBottom_toTopOf="@id/text_admin_report"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="logo signalement" />
+            android:contentDescription="@string/report_logo" />
 
         <TextView
             android:id="@+id/text_admin_report"
@@ -177,7 +177,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toTopOf="@id/text_edit"
             app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="report logo" />
+            android:contentDescription="@string/report_logo" />
 
         <TextView
             android:id="@+id/text_edit"
@@ -212,7 +212,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/text_feed_admin"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:contentDescription="feed admin logo" />
+            android:contentDescription="@string/feed_admin_logo" />
 
         <TextView
             android:id="@+id/text_feed_admin"

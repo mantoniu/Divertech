@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,8 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/headerMenu"
+    <fragment
+        android:id="@+id/header_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,13 +30,13 @@
         android:id="@+id/nameEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Nom"
+        android:hint="@string/name"
         android:textSize="40sp"
         android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:padding="5dp"
         android:background="@drawable/back"
-        app:layout_constraintTop_toBottomOf="@+id/headerMenu"
+        app:layout_constraintTop_toBottomOf="@+id/header_menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="@id/nameEvent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/nameEvent"
-        android:contentDescription="return arrow" />
+        android:contentDescription="@string/return_arrow_description" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
@@ -95,7 +95,7 @@
             app:layout_constraintTop_toTopOf="@id/localisation"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/localisation"
-            android:contentDescription="image of the event" />
+            android:contentDescription="@string/image_of_the_event" />
 
         <TextView
             android:id="@+id/date"
@@ -109,7 +109,6 @@
             app:layout_constraintTop_toBottomOf="@id/localisation"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
-        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -160,7 +159,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toTopOf="@id/cancel_text"
             app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="report logo" />
+            android:contentDescription="@string/report_logo" />
 
         <TextView
             android:id="@+id/cancel_text"
@@ -195,7 +194,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/text_check"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:contentDescription="feed admin logo" />
+            android:contentDescription="@string/feed_admin_logo" />
 
         <TextView
             android:id="@+id/text_check"

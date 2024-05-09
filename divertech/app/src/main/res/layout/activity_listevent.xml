@@ -8,14 +8,13 @@
     android:background="@color/white">
 
     <fragment
-        android:id="@+id/headerMenu"
+        android:id="@+id/header_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:name="Si3.divertech.HeaderMenu"
         tools:layout="@layout/fragment_header_menu"
-
         />
 
     <TextView
@@ -28,7 +27,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:textSize="40sp"
-        app:layout_constraintTop_toBottomOf="@id/headerMenu"
+        app:layout_constraintTop_toBottomOf="@id/header_menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/events_feed"
@@ -62,7 +61,8 @@
             app:maxImageSize="40dp"
             app:elevation="0dp"
             app:tint="@color/black"
-            android:backgroundTint="#BFFFFFFF" />
+            android:backgroundTint="#BFFFFFFF"
+            android:contentDescription="@string/add_event" />
     </RelativeLayout>
 
     <FrameLayout
