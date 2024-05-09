@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +26,8 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         FootMenu f = new FootMenu();
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
-
+        View headerView = findViewById(R.id.header_menu);
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.events);
 
         // Event feed fragment
         Bundle feedFragmentBundle = new Bundle();

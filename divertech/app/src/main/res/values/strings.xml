@@ -128,6 +128,7 @@
     <string name="dateExample">10 aout 2024 23h30</string>
     <string name="events">Mes évènements</string>
     <string name="notifications">Notifications</string>
+    <string name="title">Title</string>
 
 
 </resources>
