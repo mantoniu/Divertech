@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,10 +17,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 
 import java.time.ZoneId;
@@ -37,7 +39,8 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Event event = getIntent().getParcelableExtra("event");
+        String eventId = getIntent().getStringExtra("eventId");
+        Event event = ListEvent.getEvent(eventId);
 
         if (UserData.getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
@@ -104,7 +107,7 @@ public class EventActivity extends AppCompatActivity {
 
             findViewById(R.id.calendar_add).setOnClickListener((click) -> addEventToCalendar(event));
 
-            ConstraintLayout parkingLayout = findViewById(R.id.parking);
+            MaterialCardView parkingLayout = findViewById(R.id.parking);
             parkingLayout.setOnClickListener(v -> {
                 Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
                 startActivity(intent);
@@ -114,8 +117,11 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void updateInfo(Event event) {
-        TextView titre = findViewById(R.id.nameEvent);
-        titre.setText(event.getTitle());
+        TextView title = findViewById(R.id.nameEvent);
+        SpannableString content = new SpannableString(event.getTitle());
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        title.setText(content);
+
 
         TextView place = findViewById(R.id.localisation);
         place.setText(event.getPosition());

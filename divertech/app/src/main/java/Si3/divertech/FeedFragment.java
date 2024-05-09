@@ -4,12 +4,16 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -101,9 +105,11 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
+            intent.putExtra("eventId", notification.getEventId());
+            Log.d("TEST", ListEvent.getEventMap().get(notification.getEventId()).toString());
             startActivity(intent);
         });
+        popupView.findViewById(R.id.layout).setOnClickListener((click) -> popup.dismiss());
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
@@ -111,13 +117,14 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
+
     }
 
     @Override
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("event", ListEvent.getEventMap().get(itemId));
+            intent.putExtra("eventId", itemId);
             startActivity(intent);
         } else {
             if (UserData.getConnectedUser().getIsAdmin()) {
@@ -129,5 +136,20 @@ public class FeedFragment extends Fragment implements ClickableFragment {
                 createPopup(NotificationList.getNotification(itemId));
             }
         }
+    }
+
+
+    public static <ViewGroupOverlay> void applyDim(@NonNull ViewGroup parent, float dimAmount) {
+        Drawable dim = new ColorDrawable(Color.BLACK);
+        dim.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+        dim.setAlpha((int) (255 * dimAmount));
+
+        android.view.ViewGroupOverlay overlay = parent.getOverlay();
+        overlay.add(dim);
+    }
+
+    public static void clearDim(@NonNull ViewGroup parent) {
+        ViewGroupOverlay overlay = parent.getOverlay();
+        overlay.clear();
     }
 }
