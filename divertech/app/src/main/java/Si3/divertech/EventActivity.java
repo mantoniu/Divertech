@@ -26,9 +26,6 @@ import java.time.ZonedDateTime;
 
 public class EventActivity extends AppCompatActivity {
 
-    public static final int REPORTING = 0;
-    public static final int CONTACT = 1;
-    public static final int OBJET = 2;
     private static final int WRITE_CALENDAR_PERMISSION_CODE = 101;
     private static final int READ_CALENDAR_PERMISSION_CODE = 102;
 
@@ -63,21 +60,8 @@ public class EventActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_event);
             Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
-            //View report = findViewById(R.id.bloc_reporting);
-            //report.setOnClickListener(click -> {
-            //    modification.putExtra("type", REPORTING);
-            //    startActivity(modification);
-            //});
             View contact = findViewById(R.id.contact_organizer);
-            contact.setOnClickListener(click -> {
-                modification.putExtra("type", CONTACT);
-                startActivity(modification);
-            });
-            //View objets = findViewById(R.id.bloc_lost_object);
-            //objets.setOnClickListener(click -> {
-            //    modification.putExtra("type", OBJET);
-            //    startActivity(modification);
-            //});
+            contact.setOnClickListener(click -> startActivity(modification));
 
 
             checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
@@ -155,7 +139,6 @@ public class EventActivity extends AppCompatActivity {
         super.onResume();
         //event = ListEvent.getEventMap().get(event.getId());
         //updateInfo();
-        Log.d("test", "teststssg");
     }
 
     private void addEventToCalendar(Event event) {

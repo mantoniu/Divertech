@@ -2,6 +2,7 @@ package Si3.divertech;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,23 +41,23 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.login);
         login.setOnClickListener(click -> {
             ProgressBar loading = findViewById(R.id.progress);
-            loading.setVisibility(loading.VISIBLE);
+            loading.setVisibility(View.VISIBLE);
             TextInputEditText username = findViewById(R.id.username);
             TextInputEditText password = findViewById(R.id.password);
-
+            assert (username.getText() != null);
             if(username.getText().toString().isEmpty()){
                 TextInputLayout usernameLayout = findViewById(R.id.username_container);
                 usernameLayout.setError("Nom d'utilisateur requis");
                 findViewById(R.id.username).requestFocus();
-                loading.setVisibility(loading.GONE);
+                loading.setVisibility(View.GONE);
                 return;
             }
-
+            assert (password.getText() != null);
             if(password.getText().toString().isEmpty()){
                 TextInputLayout passwordLayout = findViewById(R.id.password_container);
                 passwordLayout.setError("Mot de passe requis");
                 findViewById(R.id.password).requestFocus();
-                loading.setVisibility(loading.GONE);
+                loading.setVisibility(View.GONE);
                 return;
             }
 
@@ -76,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(this, "Impossible de se connecter", Toast.LENGTH_SHORT).show();
                             TextInputLayout passwordLayout = findViewById(R.id.password_container);
                             passwordLayout.setError("Nom d'utilisateur ou mot de passe incorrect");
-                            loading.setVisibility(loading.GONE);
-
+                            loading.setVisibility(View.GONE);
                         }
                     });
         });

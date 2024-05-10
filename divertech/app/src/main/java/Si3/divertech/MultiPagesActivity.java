@@ -1,14 +1,23 @@
 package Si3.divertech;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class MultiPagesActivity extends AppCompatActivity {
+
+    private NotificationTypes type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,32 +26,31 @@ public class MultiPagesActivity extends AppCompatActivity {
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
 
-        TextView title = findViewById(R.id.title);
-        EditText hint = findViewById(R.id.edit_text_area);
         Button button = findViewById(R.id.send_Button);
-        int type = getIntent().getIntExtra("type",0);
         button.setOnClickListener(click -> forward());
 
-        switch (type) {
-            case EventActivity.CONTACT:
-                title.setText(R.string.contact_admin);
-                hint.setHint(R.string.hint_contact);
-                button.setText(R.string.button_contact);
-                break;
-            case EventActivity.OBJET:
-                title.setText(R.string.lost_object);
-                hint.setHint(R.string.hint_object_lost);
-                button.setText(R.string.button_objet);
-                break;
-            default:
-                title.setText(R.string.report_incident);
-                hint.setHint(R.string.hint_report);
-                button.setText(R.string.button_report);
-                break;
-        }
+        View headerView = findViewById(R.id.header_menu);
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.contact);
+
+        NotificationTypeAdapter adapter = new NotificationTypeAdapter(getApplicationContext(), R.layout.list_item, new ArrayList<>(Arrays.stream(NotificationTypes.values()).collect(Collectors.toList())));
+        AutoCompleteTextView test = findViewById(R.id.selector);
+        test.setAdapter(adapter);
+        test.setOnItemClickListener((parent, arg1, position, arg3) -> type = adapter.getItem(position));
+        test.setOnDismissListener(() -> {
+                    TextInputLayout typeMassageLayout = findViewById(R.id.type_message_selection);
+                    if (((AutoCompleteTextView) findViewById(R.id.selector)).getText().toString().isEmpty()) {
+                        typeMassageLayout.setErrorEnabled(true);
+                        typeMassageLayout.setError(getResources().getText(R.string.error_type_message));
+                        findViewById(R.id.selector).requestFocus();
+                    } else {
+                        typeMassageLayout.setErrorEnabled(false);
+                    }
+                }
+        );
     }
 
     private void forward() {
+        Log.d("TEST", type.getTitle());
         finish();
     }
 

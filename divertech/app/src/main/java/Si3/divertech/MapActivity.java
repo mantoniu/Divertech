@@ -83,7 +83,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         setContentView(R.layout.activity_map);
 
         View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText("Carte des évènements");
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.ma_carte);
 
         pos = getIntent().getStringExtra("pos");
 

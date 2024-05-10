@@ -46,7 +46,7 @@
     <string name="hint_contact">Entrer votre demande ici</string>
     <string name="lost_object">Objet Perdu</string>
     <string name="report_incident">Signalement</string>
-
+    <string name="error_type_message">Veuillez choisir un type de message</string>
     <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
     <string name="kotlin_entry_title" translatable="false">Run the ML Kit quickstart written in Kotlin</string>
     <string name="ok" translatable="false">OK</string>
@@ -165,6 +165,11 @@
     <string name="mes_v_nements">Mes événements</string>
     <string name="mon_feed">Mon feed</string>
     <string name="localisation">Localisation</string>
+    <string name="contact">Contact</string>
+    <string name="ma_carte">Ma Carte</string>
+    <string name="hint_type_message_selection">Sélectionner le type de message</string>
+    <string name="hint_message_contact">Votre message</string>
+    <string name="send">Envoyer</string>
 
 
 </resources>

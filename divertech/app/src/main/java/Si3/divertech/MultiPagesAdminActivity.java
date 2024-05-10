@@ -19,13 +19,13 @@ public class MultiPagesAdminActivity extends AppCompatActivity {
         close.setOnClickListener(click -> finish());
         TextView title = findViewById(R.id.title);
         EditText hint = findViewById(R.id.edit_text_area);
-        int type = getIntent().getIntExtra("type",0);
-
+        int index = getIntent().getIntExtra("type", 0);
+        NotificationTypes type = NotificationTypes.values()[index];
         switch (type) {
-            case EventActivity.CONTACT:
+            case CONTACT:
                 title.setText("Objet message");
                 break;
-            case EventActivity.OBJET:
+            case LOST_OBJECT:
                 title.setText("Objet Perdu");
                 break;
             default:
