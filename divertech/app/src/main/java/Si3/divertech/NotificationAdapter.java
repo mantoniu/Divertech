@@ -5,33 +5,53 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class NotificationAdapter extends ObserverAdapter {
-    private List<Notification> notificationList;
+public class NotificationAdapter extends BaseAdapter {
+    private final String eventId;
     private final Context context;
     private final ClickableFragment fragment;
 
 
-    public NotificationAdapter(ClickableFragment fragment, Context context, List<Notification> notificationList) {
+    public NotificationAdapter(ClickableFragment fragment, Context context, String eventId) {
         this.context = context;
         this.fragment = fragment;
-        this.notificationList = notificationList;
-    }
-
-    public NotificationAdapter(ClickableFragment fragment, Context context) {
-        this(fragment, context, null);
+        this.eventId = eventId;
     }
 
     public List<Notification> getItemsList() {
-        if (notificationList != null)
-            return notificationList;
+        if (eventId != null)
+            return filterByEventId();
         return NotificationList.getInstance().getNotifications();
+    }
+
+    public List<Notification> filterByEventId() {
+        return NotificationList.getInstance().getNotifications()
+                .stream()
+                .filter(event -> event.getEventId().equals(eventId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int getCount() {
+        return getItemsList().size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return getItemsList().get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override

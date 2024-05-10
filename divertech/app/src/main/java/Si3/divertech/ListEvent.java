@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import Si3.divertech.qr_reader.DataBaseListener;
-
 public class ListEvent extends Observable {
     private static ListEvent instance;
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -62,15 +60,15 @@ public class ListEvent extends Observable {
 
                     event.setId(eventId);
                     addEvent(event);
-                    listener.onDataBaseResponse(eventId, true);
-                } else {
-                    listener.onDataBaseResponse(eventId, false);
-                }
+                    listener.onDataBaseResponse(eventId, DataBaseResponses.SUCCESS);
+                } else
+                    listener.onDataBaseResponse(eventId, DataBaseResponses.EVENT_DOES_NOT_EXIST);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("EVENT EXISTS REQUEST ERROR : ", error.getMessage());
+                listener.onDataBaseResponse(eventId, DataBaseResponses.ERROR);
             }
         });
     }
@@ -79,11 +77,11 @@ public class ListEvent extends Observable {
         DatabaseReference registrationsRef = rootRef.child("Registrations");
         DatabaseReference newRegistrationRef = registrationsRef.push();
         newRegistrationRef.child("eventId").setValue(eventId);
-        newRegistrationRef.child("userId").setValue(UserData.getUserId());
+        newRegistrationRef.child("userId").setValue(UserData.getInstance().getUserId());
     }
 
     public void requestData() {
-        String userId = UserData.getUserId();
+        String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
 

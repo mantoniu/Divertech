@@ -29,7 +29,7 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
 
         findViewById(R.id.button_add).setOnClickListener(click -> {
             Intent intent;
-            if (UserData.getConnectedUser().getIsAdmin()) {
+            if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
                 intent = new Intent(getApplicationContext(), CreateEventActivity.class);
             } else {
                 intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);

@@ -7,6 +7,10 @@ android {
     namespace = "Si3.divertech"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "Si3.divertech"
         minSdk = 24

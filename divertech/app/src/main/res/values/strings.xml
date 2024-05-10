@@ -144,6 +144,7 @@
     <string name="mes_v_nements">Mes événements</string>
     <string name="mon_feed">Mon feed</string>
     <string name="localisation">Localisation</string>
+    <string name="servor_error">Impossible de communiquer avec le serveur</string>
 
 
 </resources>

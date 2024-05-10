@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class EventAdapter extends ObserverAdapter {
+public class EventAdapter extends BaseAdapter {
     private final Context context;
     private final ClickableFragment fragment;
 
@@ -22,6 +23,21 @@ public class EventAdapter extends ObserverAdapter {
 
     public List<Event> getItemsList() {
         return ListEvent.getInstance().getEvents();
+    }
+
+    @Override
+    public int getCount() {
+        return getItemsList().size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return getItemsList().get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override

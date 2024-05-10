@@ -45,7 +45,7 @@ public class NotificationList extends Observable {
     public void deleteNotification(String id) {
         notificationMap.remove(id);
 
-        String userId = UserData.getUserId();
+        String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
 
@@ -54,8 +54,7 @@ public class NotificationList extends Observable {
     }
 
     public void requestData() {
-        Log.d("NOTIF REQUEST", "");
-        String userId = UserData.getUserId();
+        String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
 

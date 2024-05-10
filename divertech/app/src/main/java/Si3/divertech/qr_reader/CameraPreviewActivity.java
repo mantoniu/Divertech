@@ -40,6 +40,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.mlkit.common.MlKitException;
 
+import Si3.divertech.DataBaseListener;
+import Si3.divertech.DataBaseResponses;
 import Si3.divertech.EventActivity;
 import Si3.divertech.ListEvent;
 import Si3.divertech.R;
@@ -335,13 +337,21 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     }
 
     @Override
-    public void onDataBaseResponse(String eventId, boolean eventExists) {
-        if (eventExists) {
-            ListEvent.getInstance().requestEvent(eventId);
-            goToEventActivity(eventId);
-        } else {
-            barcodeScanEnabled = false;
-            showEventErrorPopup(R.string.event_does_not_exist);
+    public void onDataBaseResponse(Object o, DataBaseResponses response) {
+        switch (response) {
+            case SUCCESS:
+                String eventId = (String) o;
+                ListEvent.getInstance().requestEvent(eventId);
+                goToEventActivity(eventId);
+                break;
+            case EVENT_DOES_NOT_EXIST:
+                barcodeScanEnabled = false;
+                showEventErrorPopup(R.string.event_does_not_exist);
+                break;
+            default:
+                barcodeScanEnabled = false;
+                showEventErrorPopup(R.string.servor_error);
+                break;
         }
     }
 

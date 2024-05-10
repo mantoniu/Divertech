@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -19,13 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class FeedFragment extends Fragment implements ClickableFragment {
+public class FeedFragment extends Fragment implements ClickableFragment, Observer {
     private Context context;
-    private ObserverAdapter adapter;
+    private BaseAdapter adapter;
     private FeedType feedType;
 
     public FeedFragment() {
@@ -46,23 +47,15 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         String eventId = requireArguments().getString("eventId");
 
         if (feedType == FeedType.NOTIFICATION) {
-            adapter = new NotificationAdapter(this, getContext(), eventId != null ? filterNotificationByEvent(eventId) : null);
-            NotificationList.getInstance().addObserver(adapter);
-            ListEvent.getInstance().addObserver(adapter);
+            adapter = new NotificationAdapter(this, getContext(), eventId);
+            NotificationList.getInstance().addObserver(this);
+            ListEvent.getInstance().addObserver(this);
         } else {
             adapter = new EventAdapter(this, getContext());
-            ListEvent.getInstance().addObserver(adapter);
+            ListEvent.getInstance().addObserver(this);
         }
         listView.setAdapter(adapter);
         return view;
-    }
-
-    public List<Notification> filterNotificationByEvent(String eventId) {
-        NotificationList.getInstance().getNotifications().add(new Notification());
-        return NotificationList.getInstance().getNotifications()
-                .stream()
-                .filter(event -> event.getEventId().equals(eventId))
-                .collect(Collectors.toList());
     }
 
     @Nullable
@@ -112,7 +105,7 @@ public class FeedFragment extends Fragment implements ClickableFragment {
             intent.putExtra("event", ListEvent.getInstance().getEvent(itemId));
             startActivity(intent);
         } else {
-            if (UserData.getConnectedUser().getIsAdmin()) {
+            if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
                 Intent intent = new Intent(getContext(), MultiPagesAdminActivity.class);
                 intent.putExtra("type", NotificationTypes.CONTACT);
                 startActivity(intent);
@@ -121,5 +114,10 @@ public class FeedFragment extends Fragment implements ClickableFragment {
                 createPopup(NotificationList.getInstance().getNotification(itemId));
             }
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        adapter.notifyDataSetChanged();
     }
 }

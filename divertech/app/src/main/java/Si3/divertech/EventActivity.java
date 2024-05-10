@@ -39,7 +39,7 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Event event = getIntent().getParcelableExtra("event");
 
-        if (UserData.getConnectedUser().getIsAdmin()) {
+        if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
             Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
             modification.putExtra("event", event);
@@ -51,13 +51,15 @@ public class EventActivity extends AppCompatActivity {
 
             View feed = findViewById(R.id.bloc_feed_admin);
             feed.setOnClickListener(click -> {
+                if (event == null)
+                    return;
                 Log.d("Admin", event.getId() + " ");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("eventId", event.getId());
                 startActivity(intent);
             });
 
-            updateInfo(event);
+            if (event != null) updateInfo(event);
         } else {
             setContentView(R.layout.activity_event);
             Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
