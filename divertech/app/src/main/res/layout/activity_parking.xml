@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ParkingActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+    tools:context=".ParkingActivity"
+    android:background="@color/white">
 
         <fragment
             android:id="@+id/header_menu"
@@ -18,167 +14,155 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:name="Si3.divertech.HeaderMenu"
-            tools:layout="@layout/fragment_header_menu"
-            />
+            tools:layout="@layout/fragment_header_menu" />
 
-        <ImageView
-            android:id="@+id/goback"
+        <ImageButton
+            android:id="@+id/return_arrow"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/goback"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/return_arrow_description"
+            android:background="@drawable/roundbackground"
+            android:src="@drawable/return_arrow"
             app:layout_constraintTop_toBottomOf="@id/header_menu"
-            android:contentDescription="@string/buttonReturn" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/adress_container"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="@string/r_servation_d_une_place_de_parking"
-            android:textSize="30sp"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goback"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/caption_address"
-            android:labelFor="@id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/adresse"
-            android:layout_marginTop="16dp"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            />
-
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:background="@color/light_gray"
-            android:inputType="textPostalAddress"
+            android:layout_marginTop="40dp"
+            android:hint="Adresse"
+            app:startIconDrawable="@drawable/home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/caption_address"
-            android:autofillHints="address" />
+            app:layout_constraintTop_toBottomOf="@id/return_arrow">
 
-        <TextView
-            android:labelFor="@id/phone"
-            android:id="@+id/caption_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone"
-            android:layout_marginTop="16dp"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address"
-            />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/adress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/phone"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/phone_number_container"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:background="@color/light_gray"
-            android:inputType="phone"
+            android:layout_marginTop="20dp"
+            android:hint="Numéro de téléphone"
+            app:startIconDrawable="@drawable/phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/caption_phone"
-            android:autofillHints="phone" />
+            app:layout_constraintTop_toBottomOf="@id/adress_container">
 
-        <TextView
-            android:id="@+id/caption_license_plate"
-            android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/licence_plate_container"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="@string/plaque_d_immatriculation"
-            android:layout_marginTop="16dp"
-
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone"
-            />
-
-        <EditText
-            android:id="@+id/license_plate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:background="@color/light_gray"
-            android:inputType="textPostalAddress"
+            android:layout_marginTop="20dp"
+            android:hint="Numéro de plaque d'imatriculation"
+            app:startIconDrawable="@drawable/phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/caption_license_plate"
-            android:autofillHints="license_plate" />
+            app:layout_constraintTop_toBottomOf="@id/phone_number_container">
 
-        <!--date picker-->
-        <TextView
-            android:layout_marginTop="16dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/licence_plate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_date"
+            android:layout_width="300dp"
+            app:strokeWidth="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/licence_plate_container"
+            app:cardElevation="10dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+                        <ImageView
+                            android:id="@+id/calendar"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/calendar"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/add_to_calendar" />
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/selectionner_une_date"
+                            android:textSize="18sp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            app:layout_constraintLeft_toRightOf="@id/calendar"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                        <ImageView
+                            android:id="@+id/arrow_forward"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/arrow_forward"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/map_button" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
             android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/selectionner_une_date"
-            android:background="@drawable/roundedbg"
-            android:padding="10dp"
-            android:textSize="20sp"
+            android:layout_marginTop="40dp"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toBottomOf="@id/license_plate"
+            app:layout_constraintTop_toBottomOf="@id/licence_plate_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/caption_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/selectionner_une_heure_cr_neau_de_2h"
-            android:textAlignment="center"
-            android:layout_marginTop="16dp"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/datePicker"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <Spinner
-            android:id="@+id/hourSpinner"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/caption_hour"/>
-
-
 
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/send_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/envoyer_la_demande"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/green"
-            app:layout_constraintTop_toBottomOf="@id/hourSpinner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            />
+            android:text="Envoyer la demande"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
 
-
-
-
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

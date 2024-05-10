@@ -46,7 +46,7 @@
     <string name="hint_contact">Entrer votre demande ici</string>
     <string name="lost_object">Objet Perdu</string>
     <string name="report_incident">Signalement</string>
-    <string name="error_type_message">Veuillez choisir un type de message</string>
+    <string name="error_type_message">Veuillez choisir un type</string>
     <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
     <string name="kotlin_entry_title" translatable="false">Run the ML Kit quickstart written in Kotlin</string>
     <string name="ok" translatable="false">OK</string>

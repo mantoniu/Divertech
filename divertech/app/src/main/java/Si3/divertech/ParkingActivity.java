@@ -1,23 +1,16 @@
 package Si3.divertech;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import java.util.Arrays;
-import java.util.Calendar;
+import com.google.android.material.card.MaterialCardView;
 
 public class ParkingActivity extends AppCompatActivity {
 
@@ -28,45 +21,25 @@ public class ParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking);
 
-        ImageView returnToEvent = findViewById(R.id.goback);
+        ImageView returnToEvent = findViewById(R.id.return_arrow);
         returnToEvent.setOnClickListener(v -> finish());
 
-        Button parkingButton = findViewById(R.id.submit);
+        Button parkingButton = findViewById(R.id.send_Button);
         parkingButton.setOnClickListener(v -> finish());
 
-        TextView datePicker = findViewById(R.id.datePicker);
-        datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
+        View headerView = findViewById(R.id.header_menu);
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText("Place de parking");
+
+        MaterialCardView datePicker = findViewById(R.id.card_date);
+        datePicker.setOnClickListener(click -> {
+            CreateEventActivity.DatePickerFragment newFragment = new CreateEventActivity.DatePickerFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
             }
+            ft.addToBackStack(null);
+            newFragment.show(ft, "datePicker");
         });
-
-        Spinner spinner = findViewById(R.id.hourSpinner);
-        ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,availableHours);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-    }
-
-
-    private void showDatePickerDialog() {
-        // Get current date
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
-                String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
-                TextView datePicker = findViewById(R.id.datePicker);
-                String date = getResources().getString(R.string.selectionner_une_date);
-                String newDate = date + " : " + selectedDate;
-                datePicker.setText(newDate);
-            }
-        }, year, month, day);
-        datePickerDialog.show();
     }
 }
