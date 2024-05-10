@@ -119,7 +119,5 @@ public class UserData extends Observable {
                         Log.d("RE-AUTHENTICATION ERROR", "", task.getException());
                     }
                 });
-
-
     }
 }

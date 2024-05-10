@@ -56,14 +56,13 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
             if (marker.getTag() == null)
                 return;
 
-            Event event = ListEvent.getInstance().getEvent(marker.getTag().toString());
-            if(event!=null) {
+            if (ListEvent.getInstance().getEvent(marker.getTag().toString()) != null) {
                 TextView title = customPopUp.findViewById(R.id.title);
-                title.setText(event.getTitle());
+                title.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getTitle());
                 ImageView picture = customPopUp.findViewById(R.id.image);
-                Picasso.get().load(event.getPictureUrl()).into(picture);
+                Picasso.get().load(ListEvent.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
                 TextView description = customPopUp.findViewById(R.id.description);
-                description.setText(event.getShortDescription());
+                description.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     description.setMaxWidth((int) (metrics.heightPixels / 1.6));
@@ -124,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
             address = getAdress(Objects.requireNonNull(ListEvent.getInstance().getEvent(pos)));
             LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-            markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
+            markers.stream().filter(marker -> Objects.equals(marker.getTag(), pos)).findFirst().ifPresent(Marker::showInfoWindow);
         }
 
         googleMap.setOnInfoWindowClickListener(marker -> {
