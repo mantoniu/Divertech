@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
                                 UserData.requestUserData(user);
-                                ListEvent.requestData();
+                                ListEvent.getInstance().requestData();
                             }
                             Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(this, MainActivity.class);

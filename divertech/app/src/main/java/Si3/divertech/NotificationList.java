@@ -1,7 +1,6 @@
 package Si3.divertech;
 
 import android.util.Log;
-import android.widget.BaseAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -11,40 +10,39 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
-public class NotificationList {
-
+public class NotificationList extends Observable {
+    private static NotificationList instance;
     private static final Map<String, Notification> notificationMap = new HashMap<>();
-    private static BaseAdapter adapter;
 
-    public static Notification getNotification(String notificationId) {
+    private NotificationList() {
+        requestData();
+    }
+
+    public static NotificationList getInstance() {
+        if (instance == null)
+            instance = new NotificationList();
+        return instance;
+    }
+
+    public Notification getNotification(String notificationId) {
         return notificationMap.get(notificationId);
     }
 
-    public static Map<String, Notification> getNotificationMap() {
-        return notificationMap;
+    public List<Notification> getNotifications() {
+        return new ArrayList<>(notificationMap.values());
     }
 
-    public static void addNotification(Notification notification) {
+    private void addNotification(Notification notification) {
         notificationMap.put(notification.getId(), notification);
     }
 
-    public static void clear() {
-        notificationMap.clear();
-    }
-
-
-    public static void addNotification(String id, String eventId, int type, String description) {
-        addNotification(new Notification(id, eventId, type, description));
-    }
-
-    public static void deleteNotification(Notification notification) {
-        notificationMap.remove(notification.getId());
-    }
-
-    public static void deleteNotification(String id) {
+    public void deleteNotification(String id) {
         notificationMap.remove(id);
 
         String userId = UserData.getUserId();
@@ -55,11 +53,7 @@ public class NotificationList {
                 .child("Users").child(userId).child("notifications").child(id).removeValue();
     }
 
-    public static void setAdapter(BaseAdapter adapter) {
-        NotificationList.adapter = adapter;
-    }
-
-    public static void requestData() {
+    public void requestData() {
         Log.d("NOTIF REQUEST", "");
         String userId = UserData.getUserId();
         if (userId == null)
@@ -90,10 +84,10 @@ public class NotificationList {
                             if (type != null) {
                                 Notification notification = new Notification(notificationId, eventId, type, description);
                                 Log.d("NOTIFICATION", notification.toString());
-                                NotificationList.addNotification(notification);
+                                addNotification(notification);
+                                setChanged();
+                                notifyObservers();
                             }
-                            if (adapter != null)
-                                adapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -102,8 +96,8 @@ public class NotificationList {
                         }
                     });
                 }
-                if (adapter != null)
-                    adapter.notifyDataSetChanged();
+                setChanged();
+                notifyObservers();
             }
 
             @Override

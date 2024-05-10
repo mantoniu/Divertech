@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -20,14 +19,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Map;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class FeedFragment extends Fragment implements ClickableFragment {
-    private final String TAG = "antoniu " + getClass().getSimpleName();
     private Context context;
-    private BaseAdapter adapter;
+    private ObserverAdapter adapter;
     private FeedType feedType;
 
     public FeedFragment() {
@@ -48,29 +46,23 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         String eventId = requireArguments().getString("eventId");
 
         if (feedType == FeedType.NOTIFICATION) {
-            if (eventId != null) {
-                adapter = new NotificationAdapter(this, getContext(), filter(eventId, NotificationList.getNotificationMap()));
-                NotificationList.setAdapter(adapter);
-            } else {
-                adapter = new NotificationAdapter(this, getContext(), NotificationList.getNotificationMap());
-                NotificationList.setAdapter(adapter);
-            }
+            adapter = new NotificationAdapter(this, getContext(), eventId != null ? filterNotificationByEvent(eventId) : null);
+            NotificationList.getInstance().addObserver(adapter);
+            ListEvent.getInstance().addObserver(adapter);
         } else {
-            adapter = new EventAdapter(this, getContext(), ListEvent.getEventMap());
-            ListEvent.setAdapter(adapter);
+            adapter = new EventAdapter(this, getContext());
+            ListEvent.getInstance().addObserver(adapter);
         }
-
         listView.setAdapter(adapter);
         return view;
     }
 
-    public Map<String, Notification> filter(String eventId, Map<String, Notification> map) {
-        Map<String, Notification> mapping = map.entrySet()
+    public List<Notification> filterNotificationByEvent(String eventId) {
+        NotificationList.getInstance().getNotifications().add(new Notification());
+        return NotificationList.getInstance().getNotifications()
                 .stream()
-                .filter(entry -> entry.getValue().getEventId().equals(eventId))
-                .collect(Collectors.toMap(java.util.Map.Entry::getKey, java.util.Map.Entry::getValue));
-        Log.d("Admin", mapping.toString() + "ok" + map + eventId);
-        return mapping;
+                .filter(event -> event.getEventId().equals(eventId))
+                .collect(Collectors.toList());
     }
 
     @Nullable
@@ -101,7 +93,7 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
+            intent.putExtra("eventId", ListEvent.getInstance().getEvent(notification.getEventId()));
             startActivity(intent);
         });
 
@@ -117,7 +109,7 @@ public class FeedFragment extends Fragment implements ClickableFragment {
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("event", ListEvent.getEventMap().get(itemId));
+            intent.putExtra("event", ListEvent.getInstance().getEvent(itemId));
             startActivity(intent);
         } else {
             if (UserData.getConnectedUser().getIsAdmin()) {
@@ -126,7 +118,7 @@ public class FeedFragment extends Fragment implements ClickableFragment {
                 startActivity(intent);
             } else {
                 Log.d("CLICKED_FRAGMENT", "");
-                createPopup(NotificationList.getNotification(itemId));
+                createPopup(NotificationList.getInstance().getNotification(itemId));
             }
         }
     }

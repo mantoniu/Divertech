@@ -4,44 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class EventAdapter extends BaseAdapter {
-    private final Map<String, Event> eventMap;
+public class EventAdapter extends ObserverAdapter {
     private final Context context;
     private final ClickableFragment fragment;
 
-    public EventAdapter(ClickableFragment fragment, Context context, Map<String, Event> eventMap) {
+    public EventAdapter(ClickableFragment fragment, Context context) {
         this.context = context;
-        this.eventMap = eventMap;
         this.fragment = fragment;
     }
 
     public List<Event> getItemsList() {
-        return new ArrayList<>(eventMap.values());
-    }
-
-    @Override
-    public int getCount() {
-        return eventMap.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return getItemsList().get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+        return ListEvent.getInstance().getEvents();
     }
 
     @Override

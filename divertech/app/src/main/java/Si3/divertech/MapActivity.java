@@ -27,12 +27,9 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity, OnMapReadyCallback{
-
-    Map<String,Event> listEvent = ListEvent.getEventMap();
     private String pos;
     DisplayMetrics metrics = new DisplayMetrics();
 
@@ -56,7 +53,10 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         }
 
         public void addInfoMarker(Marker marker) {
-            Event event = listEvent.get(marker.getTag());
+            if (marker.getTag() == null)
+                return;
+
+            Event event = ListEvent.getInstance().getEvent(marker.getTag().toString());
             if(event!=null) {
                 TextView title = customPopUp.findViewById(R.id.title);
                 title.setText(event.getTitle());
@@ -108,7 +108,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         Address address;
         googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
         List<Marker> markers = new ArrayList<>();
-        for(Event event : listEvent.values()) {
+        for (Event event : ListEvent.getInstance().getEvents()) {
             address = getAdress(event);
             LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
             Marker marker = googleMap.addMarker(new MarkerOptions()
@@ -121,15 +121,18 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         if(pos == null)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
         else {
-            address = getAdress(Objects.requireNonNull(listEvent.get(pos)));
+            address = getAdress(Objects.requireNonNull(ListEvent.getInstance().getEvent(pos)));
             LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
             markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
         }
 
         googleMap.setOnInfoWindowClickListener(marker -> {
+            if (marker.getTag() == null)
+                return;
+
             Intent intent = new Intent(getContext(),EventActivity.class);
-            intent.putExtra("event",listEvent.get(marker.getTag()));
+            intent.putExtra("event", ListEvent.getInstance().getEvent(marker.getTag().toString()));
             startActivity(intent);
         });
     }
