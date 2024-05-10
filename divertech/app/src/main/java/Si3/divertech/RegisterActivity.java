@@ -81,23 +81,23 @@ public class RegisterActivity extends AppCompatActivity {
     private void setListenerOnField(TextInputEditText field, TextInputLayout layout, boolean mailFormat, boolean passwordFormat, boolean phoneFormat) {
         field.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                if (field.getText() == null || field.getText().toString().isEmpty()) {
+                if (!FormatChecker.globalCheck(field)) {
                     layout.setError("Champ vide. Veuillez le remplir");
                     areFieldsValid = false;
                 } else {
-                    if (mailFormat && (!field.getText().toString().contains("@") || !field.getText().toString().contains("."))) {
+                    if (mailFormat && !FormatChecker.checkMail(field)) {
                         layout.setError("Adresse email invalide");
                         areFieldsValid = false;
-                    } else if (passwordFormat && field.getText().toString().length() < 6) {
+                    } else if (passwordFormat && !FormatChecker.checkPasswordLength(field)) {
                         layout.setError("Mot de passe trop court (6 caractères minimum)");
                         areFieldsValid = false;
                     }
                     //has digits
-                    else if (passwordFormat && !field.getText().toString().matches(".*\\d.*")) {
+                    else if (passwordFormat && !FormatChecker.checkPasswordDigits(field)) {
                         layout.setError("Le mot de passe doit contenir au moins un chiffre");
                         areFieldsValid = false;
                     }
-                    else if (phoneFormat && field.getText().toString().length() <8) {
+                    else if (phoneFormat && !FormatChecker.checkPhone(field)) {
                         layout.setError("Numéro de téléphone invalide");
                         areFieldsValid = false;
                     }
