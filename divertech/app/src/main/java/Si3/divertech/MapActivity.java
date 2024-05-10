@@ -82,13 +82,16 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         setContentView(R.layout.activity_map);
 
+        View headerView = findViewById(R.id.header_menu);
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText("Carte des évènements");
+
         pos = getIntent().getStringExtra("pos");
 
         Bundle b = new Bundle();
-        b.putInt("page",2);
+        b.putInt("page", 2);
         FootMenu f = new FootMenu();
         f.setArguments(b);
-        getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
 
 
         MapView mapFragment = findViewById(R.id.map);

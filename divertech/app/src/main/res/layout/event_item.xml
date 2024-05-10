@@ -47,10 +47,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:text="@string/description"
-                android:lineHeight="20sp"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
-
+                android:text="@string/description" />
         </LinearLayout>
 
     </LinearLayout>

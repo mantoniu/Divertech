@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         TextView register = findViewById(R.id.register);
         register.setOnClickListener(click -> {
             Intent i = new Intent(this, RegisterActivity.class);

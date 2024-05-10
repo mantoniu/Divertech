@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +32,7 @@ public class EventActivity extends AppCompatActivity {
     private static final int WRITE_CALENDAR_PERMISSION_CODE = 101;
     private static final int READ_CALENDAR_PERMISSION_CODE = 102;
 
+    boolean isTextViewClicked = false;
 
 
     @Override
@@ -64,21 +63,21 @@ public class EventActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_event);
             Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
-            View report = findViewById(R.id.bloc_reporting);
-            report.setOnClickListener(click -> {
-                modification.putExtra("type", REPORTING);
-                startActivity(modification);
-            });
-            View contact = findViewById(R.id.bloc_contact);
+            //View report = findViewById(R.id.bloc_reporting);
+            //report.setOnClickListener(click -> {
+            //    modification.putExtra("type", REPORTING);
+            //    startActivity(modification);
+            //});
+            View contact = findViewById(R.id.contact_organizer);
             contact.setOnClickListener(click -> {
                 modification.putExtra("type", CONTACT);
                 startActivity(modification);
             });
-            View objets = findViewById(R.id.bloc_lost_object);
-            objets.setOnClickListener(click -> {
-                modification.putExtra("type", OBJET);
-                startActivity(modification);
-            });
+            //View objets = findViewById(R.id.bloc_lost_object);
+            //objets.setOnClickListener(click -> {
+            //    modification.putExtra("type", OBJET);
+            //    startActivity(modification);
+            //});
 
 
             checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
@@ -90,7 +89,7 @@ public class EventActivity extends AppCompatActivity {
             }
 
 
-            ImageView map = findViewById(R.id.logo_map);
+            MaterialCardView map = findViewById(R.id.card_name_event);
             map.setOnClickListener(click -> {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 intent.putExtra("pos", event.getId());
@@ -105,9 +104,9 @@ public class EventActivity extends AppCompatActivity {
             }
 
 
-            findViewById(R.id.calendar_add).setOnClickListener((click) -> addEventToCalendar(event));
+            findViewById(R.id.card_date).setOnClickListener((click) -> addEventToCalendar(event));
 
-            MaterialCardView parkingLayout = findViewById(R.id.parking);
+            MaterialCardView parkingLayout = findViewById(R.id.card_parking);
             parkingLayout.setOnClickListener(v -> {
                 Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
                 startActivity(intent);
@@ -117,17 +116,31 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void updateInfo(Event event) {
-        TextView title = findViewById(R.id.nameEvent);
-        SpannableString content = new SpannableString(event.getTitle());
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        title.setText(content);
+        TextView title = findViewById(R.id.name_event);
+        title.setText(event.getTitle());
 
 
         TextView place = findViewById(R.id.localisation);
         place.setText(event.getPosition());
 
-        TextView description = findViewById(R.id.description_event);
+        TextView description = findViewById(R.id.description);
+        description.setMaxLines(3);
         description.setText(event.getDescription());
+
+        ImageView button = findViewById(R.id.more);
+        button.setOnClickListener(click -> {
+            if (isTextViewClicked) {
+                //This will shrink textview to 2 lines if it is expanded.
+                description.setMaxLines(3);
+                button.setImageResource(R.drawable.more);
+                isTextViewClicked = false;
+            } else {
+                //This will expand the textview if it is of 2 lines
+                description.setMaxLines(Integer.MAX_VALUE);
+                button.setImageResource(R.drawable.less);
+                isTextViewClicked = true;
+            }
+        });
 
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());

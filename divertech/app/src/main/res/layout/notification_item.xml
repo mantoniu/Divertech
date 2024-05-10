@@ -9,48 +9,55 @@
     android:layout_margin="25dp">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <!-- Media -->
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/event_picture"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/event_picture" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/text_block"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/text_block"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="horizontal"
             android:padding="16dp"
-            android:background="@color/white">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/delete_button">
+                app:layout_constraintRight_toLeftOf="@id/delete_button"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:text="@string/name"
                     android:textAppearance="?attr/textAppearanceTitleLarge"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/item_content"
                     app:layout_constraintLeft_toRightOf="@id/item_image"
-                    app:layout_constraintBottom_toTopOf="@id/item_content" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/item_content"
@@ -58,26 +65,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="@string/notification_type"
-                    app:layout_constraintTop_toBottomOf="@id/item_title"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@id/item_title"
                     app:layout_constraintRight_toLeftOf="@id/delete_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:lineHeight="20sp"
-                    android:textAppearance="?attr/textAppearanceBodySmall" />
+                    app:layout_constraintTop_toBottomOf="@id/item_title" />
             </LinearLayout>
-    <ImageView
-        android:id="@+id/delete_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/delete"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="@string/delete_button" />
+
+            <ImageView
+                android:id="@+id/delete_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/delete_button"
+                android:src="@drawable/delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
