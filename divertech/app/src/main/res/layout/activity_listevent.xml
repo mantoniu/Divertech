@@ -61,7 +61,7 @@
             app:maxImageSize="40dp"
             app:elevation="0dp"
             app:tint="@color/black"
-            android:backgroundTint="#BFFFFFFF"
+            android:backgroundTint="#FFFFFF"
             android:contentDescription="@string/add_event" />
     </RelativeLayout>
 
