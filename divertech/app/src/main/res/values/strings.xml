@@ -140,6 +140,13 @@
     <string name="feed_admin_logo">feed admin logo</string>
     <string name="date">10 aout 2024 23h30</string>
     <string name="car_picture">Car picture</string>
+    <string name="image_event_text_replace">Image de l\'évènement</string>
+    <string name="default_date">10 aout 2024 23h30</string>
+    <string name="add_to_calendar_text">L\'ajouter au calendrier ?</string>
+    <string name="need_park_text">Besoin d\'une place de parking ?\nN\'attendez plus, réservez-la ici.</string>
+    <string name="organizer_presentation_text">Organisateur :</string>
+    <string name="default_organizer_text">Jean Dupond</string>
+    <string name="description_event_text">Description de l\'évènement :</string>
 
 
 </resources>
