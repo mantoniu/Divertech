@@ -3,6 +3,7 @@ package Si3.divertech;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Button login = findViewById(R.id.login);
         login.setOnClickListener(click -> {
+            ProgressBar loading = findViewById(R.id.progress);
+            loading.setVisibility(loading.VISIBLE);
             TextInputEditText username = findViewById(R.id.username);
             TextInputEditText password = findViewById(R.id.password);
 
@@ -45,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 TextInputLayout usernameLayout = findViewById(R.id.username_container);
                 usernameLayout.setError("Nom d'utilisateur requis");
                 findViewById(R.id.username).requestFocus();
+                loading.setVisibility(loading.GONE);
                 return;
             }
 
@@ -52,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 TextInputLayout passwordLayout = findViewById(R.id.password_container);
                 passwordLayout.setError("Mot de passe requis");
                 findViewById(R.id.password).requestFocus();
+                loading.setVisibility(loading.GONE);
                 return;
             }
 
@@ -68,7 +73,11 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(i);
                             finish();
                         } else {
-                            Toast.makeText(this, "Impossible de se connecter :(", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Impossible de se connecter", Toast.LENGTH_SHORT).show();
+                            TextInputLayout passwordLayout = findViewById(R.id.password_container);
+                            passwordLayout.setError("Nom d'utilisateur ou mot de passe incorrect");
+                            loading.setVisibility(loading.GONE);
+
                         }
                     });
         });
