@@ -136,9 +136,6 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //event = ListEvent.getEventMap().get(event.getId());
-        //updateInfo();
-        Log.d("test", "teststssg");
     }
 
     private void addEventToCalendar(Event event) {
