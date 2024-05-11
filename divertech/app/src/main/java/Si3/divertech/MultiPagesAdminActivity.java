@@ -36,7 +36,7 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
 
         NotificationCreator.getInstance().addObserver(this);
 
-        setWriterInformations();
+        setWriterInformation();
 
         switch (type) {
             case EventActivity.CONTACT:
@@ -51,7 +51,7 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         }
     }
 
-    private void setWriterInformations() {
+    private void setWriterInformation() {
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
         TextView name = findViewById(R.id.name);
         name.setText(String.format("%s\n%s", writer.getName(), writer.getLastName()));
@@ -71,6 +71,6 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
 
     @Override
     public void update(Observable o, Object arg) {
-        setWriterInformations();
+        setWriterInformation();
     }
 }
