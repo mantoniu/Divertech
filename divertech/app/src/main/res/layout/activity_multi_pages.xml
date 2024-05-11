@@ -60,15 +60,15 @@
         app:layout_constraintLeft_toRightOf="@id/return_arrow"
         app:layout_constraintBottom_toBottomOf="@id/return_arrow"
         app:layout_constraintRight_toRightOf="parent"
-        android:hint="@string/hint_type_message_selection">
+        android:hint="@string/hint_type_message_selection"
+        android:labelFor="@id/selector">
 
         <AutoCompleteTextView
             android:id="@+id/selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:inputType="none"
-            android:labelFor="@id/type_message_selection" />
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -3,7 +3,6 @@ package Si3.divertech;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -57,8 +56,6 @@ public class MultiPagesActivity extends AppCompatActivity {
                 }
         );
         findViewById(R.id.edit_text_area).setLayoutParams(new FrameLayout.LayoutParams(findViewById(R.id.edit_text_area).getLayoutParams().width, Resources.getSystem().getDisplayMetrics().heightPixels - 420 * (getApplicationContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT)));
-        Log.d("testoooo", findViewById(R.id.edit_text_area).getLayoutParams().height + "");
-        findViewById(R.id.edit_text_area).requestLayout();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.description).setLayoutParams(params);

@@ -14,8 +14,6 @@ import com.google.android.material.card.MaterialCardView;
 
 public class ParkingActivity extends AppCompatActivity {
 
-    String[] availableHours = {"10:00","11:00","20:00","21:00","22:00","23:00"};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +26,7 @@ public class ParkingActivity extends AppCompatActivity {
         parkingButton.setOnClickListener(v -> finish());
 
         View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText("Place de parking");
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.parking_space);
 
         MaterialCardView datePicker = findViewById(R.id.card_date);
         datePicker.setOnClickListener(click -> {

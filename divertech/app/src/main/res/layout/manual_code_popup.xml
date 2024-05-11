@@ -34,7 +34,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:labelFor="@id/code_input" />
 
         <EditText
             android:id="@+id/code_input"

@@ -170,6 +170,11 @@
     <string name="hint_type_message_selection">Sélectionner le type de message</string>
     <string name="hint_message_contact">Votre message</string>
     <string name="send">Envoyer</string>
+    <string name="adresse_hint">Adresse</string>
+    <string name="phone_number_hint">Numéro de téléphone</string>
+    <string name="licence_plate_hint">Numéro de plaque d\'imatriculation</string>
+    <string name="send_request">Envoyer la demande</string>
+    <string name="parking_space">Place de parking</string>
 
 
 </resources>
