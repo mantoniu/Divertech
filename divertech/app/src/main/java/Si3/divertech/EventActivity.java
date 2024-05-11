@@ -37,12 +37,12 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Event event = getIntent().getParcelableExtra("event");
+        String eventId = getIntent().getStringExtra("id");
 
         if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
             Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
-            modification.putExtra("event", event);
+            modification.putExtra("eventId", eventId);
             View change = findViewById(R.id.bloc_edit);
             change.setOnClickListener(click -> startActivity(modification));
             Intent report = new Intent(getApplicationContext(), AdminReportActivity.class);
@@ -51,11 +51,9 @@ public class EventActivity extends AppCompatActivity {
 
             View feed = findViewById(R.id.bloc_feed_admin);
             feed.setOnClickListener(click -> {
-                if (event == null)
-                    return;
-                Log.d("Admin", event.getId() + " ");
+                Log.d("Admin", eventId + " ");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("eventId", event.getId());
+                intent.putExtra("eventId", eventId);
                 startActivity(intent);
             });
 

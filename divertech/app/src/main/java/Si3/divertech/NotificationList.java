@@ -79,9 +79,10 @@ public class NotificationList extends Observable {
                             String eventId = snapshot.child("eventId").getValue(String.class);
                             String description = snapshot.child("description").getValue(String.class);
                             Integer type = snapshot.child("type").getValue(Integer.class);
+                            String userCreatorId = snapshot.child("userCreatorId").getValue(String.class);
 
                             if (type != null) {
-                                Notification notification = new Notification(notificationId, eventId, type, description);
+                                Notification notification = new Notification(notificationId, eventId, type, description, userCreatorId);
                                 Log.d("NOTIFICATION", notification.toString());
                                 addNotification(notification);
                                 setChanged();
