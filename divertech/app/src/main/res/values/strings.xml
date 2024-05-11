@@ -145,7 +145,11 @@
     <string name="mon_feed">Mon feed</string>
     <string name="localisation">Localisation</string>
     <string name="servor_error">Impossible de communiquer avec le serveur</string>
-    <string name="eventid">eventId</string>
+    <string name="event_id">eventId</string>
+    <string name="message_object">Objet message</string>
+    <string name="losen_object">Objet Perdu</string>
+    <string name="incident_title">Titre incident</string>
+    <string name="notification_id">notificationid</string>
 
 
 </resources>

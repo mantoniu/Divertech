@@ -28,10 +28,12 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     private BaseAdapter adapter;
     private FeedType feedType;
     private Intent intent;
+    private final NotificationCreatorObserver notificationCreatorObserver = new NotificationCreatorObserver();
 
     private class NotificationCreatorObserver implements Observer {
         @Override
         public void update(Observable o, Object arg) {
+            Log.d("UPDATEADMIN", "");
             if (intent != null)
                 startActivity(intent);
         }
@@ -94,7 +96,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra(getString(R.string.eventid), notification.getEventId());
+            intent.putExtra(getString(R.string.event_id), notification.getEventId());
             startActivity(intent);
         });
 
@@ -110,13 +112,13 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             intent = new Intent(context, EventActivity.class);
-            intent.putExtra(getString(R.string.eventid), itemId);
+            intent.putExtra(getString(R.string.event_id), itemId);
             startActivity(intent);
         } else if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
             intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
-            intent.putExtra(getString(R.string.eventid), itemId);
-            NotificationCreator.getInstance().addObserver(new NotificationCreatorObserver());
+            intent.putExtra(getString(R.string.notification_id), itemId);
+            NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");

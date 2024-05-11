@@ -24,13 +24,13 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         TextView description = findViewById(R.id.description);
         int type = getIntent().getIntExtra("type", 0);
 
-        String notifId = getIntent().getStringExtra("id");
-        Notification notif = NotificationList.getInstance().getNotification(notifId);
+        String notificationId = getIntent().getStringExtra(getString(R.string.notification_id));
+        NotificationList.getInstance().getNotification(notificationId);
 
-        description.setText(notif.getDescription());
+        description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
 
         deleteButton.setOnClickListener(click -> {
-            NotificationList.getInstance().deleteNotification(notif.getId());
+            NotificationList.getInstance().deleteNotification(notificationId);
             finish();
         });
 
@@ -40,13 +40,13 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
 
         switch (type) {
             case EventActivity.CONTACT:
-                title.setText("Objet message");
+                title.setText(R.string.message_object);
                 break;
             case EventActivity.OBJET:
-                title.setText("Objet Perdu");
+                title.setText(R.string.losen_object);
                 break;
             default:
-                title.setText("Titre incident");
+                title.setText(R.string.incident_title);
                 break;
         }
     }
@@ -54,7 +54,7 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
     private void setWriterInformations() {
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
         TextView name = findViewById(R.id.name);
-        name.setText(writer.getName() + "\n" + writer.getLastName());
+        name.setText(String.format("%s\n%s", writer.getName(), writer.getLastName()));
         View call = findViewById(R.id.bloc_contact_phone);
         call.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));
