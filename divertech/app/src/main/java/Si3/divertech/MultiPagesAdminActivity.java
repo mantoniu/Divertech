@@ -19,20 +19,18 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         setContentView(R.layout.activity_multi_pages_admin);
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
-        View close = findViewById(R.id.bloc_close);
-        close.setOnClickListener(click -> finish());
+        View deleteButton = findViewById(R.id.bloc_close);
         TextView title = findViewById(R.id.title);
         TextView description = findViewById(R.id.description);
         int type = getIntent().getIntExtra("type", 0);
 
         String notifId = getIntent().getStringExtra("id");
-        Notification notif = NotificationList.getNotification(notifId);
+        Notification notif = NotificationList.getInstance().getNotification(notifId);
 
         description.setText(notif.getDescription());
 
-        View deleteButton = findViewById(R.id.bloc_close);
         deleteButton.setOnClickListener(click -> {
-            NotificationList.deleteNotification(notif.getId());
+            NotificationList.getInstance().deleteNotification(notif.getId());
             finish();
         });
 

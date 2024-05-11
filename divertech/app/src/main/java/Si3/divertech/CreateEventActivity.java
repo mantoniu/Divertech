@@ -29,20 +29,19 @@ public class CreateEventActivity extends AppCompatActivity {
 
         TextView date = findViewById(R.id.date);
         String eventId = getIntent().getStringExtra("eventId");
-        Event event = ListEvent.getEventMap().get(eventId);
-        if (event != null) {
+        if (ListEvent.getInstance().getEvent(eventId) != null) {
             EditText shortDescription = findViewById(R.id.short_description);
-            shortDescription.setText(event.getShortDescription());
+            shortDescription.setText(ListEvent.getInstance().getEvent(eventId).getShortDescription());
             EditText title = findViewById(R.id.nameEvent);
-            title.setText(event.getTitle());
+            title.setText(ListEvent.getInstance().getEvent(eventId).getTitle());
             EditText localisation = findViewById(R.id.localisation);
-            localisation.setText(event.getPosition());
+            localisation.setText(ListEvent.getInstance().getEvent(eventId).getPosition());
 
-            date.setText(event.getDate());
+            date.setText(ListEvent.getInstance().getEvent(eventId).getDate());
             EditText description = findViewById(R.id.description_event);
-            description.setText(event.getDescription());
+            description.setText(ListEvent.getInstance().getEvent(eventId).getDescription());
             View validate = findViewById(R.id.check_bloc);
-            validate.setOnClickListener(click -> modification(event));
+            validate.setOnClickListener(click -> modification(ListEvent.getInstance().getEvent(eventId)));
         } else {
             View validate = findViewById(R.id.check_bloc);
             validate.setOnClickListener(click -> addNew());

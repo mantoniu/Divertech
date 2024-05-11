@@ -94,7 +94,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", ListEvent.getInstance().getEvent(notification.getEventId()));
+            intent.putExtra(getString(R.string.eventid), notification.getEventId());
             startActivity(intent);
         });
 
@@ -110,12 +110,12 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             intent = new Intent(context, EventActivity.class);
-            intent.putExtra("id", itemId);
+            intent.putExtra(getString(R.string.eventid), itemId);
             startActivity(intent);
         } else if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
             intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
-            intent.putExtra("id", itemId);
+            intent.putExtra(getString(R.string.eventid), itemId);
             NotificationCreator.getInstance().addObserver(new NotificationCreatorObserver());
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {

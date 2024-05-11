@@ -145,6 +145,7 @@
     <string name="mon_feed">Mon feed</string>
     <string name="localisation">Localisation</string>
     <string name="servor_error">Impossible de communiquer avec le serveur</string>
+    <string name="eventid">eventId</string>
 
 
 </resources>

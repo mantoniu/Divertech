@@ -1,7 +1,6 @@
 package Si3.divertech;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,6 @@ public class NotificationAdapter extends BaseAdapter {
 
         // Filling the layout with notifications values
         Notification notification = getItemsList().get(position);
-        Log.d("TITLE", NotificationTypes.values()[notification.getType()].getTitle());
 
         deleteButton.setOnClickListener(click -> {
             NotificationList.getInstance().deleteNotification(notification.getId());
@@ -78,7 +76,7 @@ public class NotificationAdapter extends BaseAdapter {
         if(ListEvent.getInstance().containsEvent(notification.getEventId())){
             Picasso.get().load(ListEvent.getInstance().getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
             notificationTitle.setText(ListEvent.getInstance().getEvent(notification.getEventId()).getTitle());
-            notificationContent.setText(NotificationTypes.values()[notification.getType()].getTitle());
+            notificationContent.setText(notification.getType());
         }
 
         layoutItem.setOnClickListener((click) -> fragment.onClick(notification.getId()));

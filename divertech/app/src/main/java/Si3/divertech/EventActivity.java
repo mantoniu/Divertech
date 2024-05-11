@@ -35,7 +35,7 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String eventId = getIntent().getStringExtra("id");
+        String eventId = getIntent().getStringExtra(getString(R.string.eventid));
 
         if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
