@@ -19,7 +19,7 @@ public class NotificationCreator extends Observable {
     private NotificationCreator() {
     }
 
-    public static void getUser(String userId) {
+    public void getUser(String userId) {
         if (userId == null)
             return;
 

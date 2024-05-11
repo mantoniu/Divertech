@@ -22,17 +22,20 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.stream.Collectors;
-
 
 public class FeedFragment extends Fragment implements ClickableFragment, Observer {
     private Context context;
     private BaseAdapter adapter;
     private FeedType feedType;
     private Intent intent;
+
+    private class NotificationCreatorObserver implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+            if (intent != null)
+                startActivity(intent);
+        }
+    }
 
     public FeedFragment() {
     }
@@ -113,17 +116,12 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
             intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
             intent.putExtra("id", itemId);
-            NotificationCreator.getInstance().addObserver(this);
+            NotificationCreator.getInstance().addObserver(new NotificationCreatorObserver());
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");
             createPopup(NotificationList.getInstance().getNotification(itemId));
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        startActivity(intent);
     }
 
     @Override
