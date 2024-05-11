@@ -1,12 +1,19 @@
 package Si3.divertech;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationRequest;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +21,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -22,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -30,13 +41,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MapActivity extends AppCompatActivity implements ClickableActivity, OnMapReadyCallback{
+public class MapActivity extends AppCompatActivity implements ClickableActivity {
 
-    Map<String,Event> listEvent = ListEvent.getEventMap();
+    Map<String, Event> listEvent = ListEvent.getEventMap();
     private String pos;
     DisplayMetrics metrics = new DisplayMetrics();
 
-
+    MapView mapFragment = null;
 
     class CustomMarkerPopUp implements GoogleMap.InfoWindowAdapter {
 
@@ -57,7 +68,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
 
         public void addInfoMarker(Marker marker) {
             Event event = listEvent.get(marker.getTag());
-            if(event!=null) {
+            if (event != null) {
                 TextView title = customPopUp.findViewById(R.id.title);
                 title.setText(event.getTitle());
                 ImageView picture = customPopUp.findViewById(R.id.image);
@@ -85,81 +96,120 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         pos = getIntent().getStringExtra("pos");
 
         Bundle b = new Bundle();
-        b.putInt("page",2);
+        b.putInt("page", 2);
         FootMenu f = new FootMenu();
         f.setArguments(b);
-        getSupportFragmentManager().beginTransaction().add(R.id.footMenu,f).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
 
 
-        MapView mapFragment = findViewById(R.id.map);
+        mapFragment = findViewById(R.id.map);
         mapFragment.onCreate(new Bundle());
-        mapFragment.getMapAsync(this);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        this.gps(fusedLocationClient);
     }
 
 
     @Override
-    public Context getContext(){
+    public Context getContext() {
         return getApplicationContext();
     }
 
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        Address address;
-        googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
-        List<Marker> markers = new ArrayList<>();
-        for(Event event : listEvent.values()) {
-            address = getAdress(event);
-            LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-            Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(location));
-            if(marker != null) {
-                marker.setTag(event.getId());
-                markers.add(marker);
-            }
-        }
-        if(pos == null)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
-        else {
-            address = getAdress(Objects.requireNonNull(listEvent.get(pos)));
-            LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-            markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
-        }
-
-        googleMap.setOnInfoWindowClickListener(marker -> {
-            Intent intent = new Intent(getContext(),EventActivity.class);
-            intent.putExtra("event",listEvent.get(marker.getTag()));
-            startActivity(intent);
-        });
-    }
-
-
-
-    private Address getAdress(Event event){
+    private Address getAdress(Event event) {
         Geocoder geocoder = new Geocoder(getContext());
         Address address;
         // If we want t respect code specification for API >= 33 we must change way to produce map and include choice before crating map because GeocodeListener is async
-       //if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-       //    Geocoder.GeocodeListener geocodeListener = new Geocoder.GeocodeListener() {
-       //        @Override
-       //        public void onGeocode(@NonNull List<Address> addresses) {
-       //            address = addresses.get(0);
-       //        }
-       //        @Override
-       //        public void onError(String errorMessage){
-       //            throw new RuntimeException(errorMessage);
-       //        }
-       //    };
-       //    geocoder.getFromLocationName(event.getPlace(), 1,42,-6,52,9,geocodeListener);
-       //} else {
-       try {
-           address = Objects.requireNonNull(geocoder.getFromLocationName(event.getPosition(), 1)).get(0);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
+        //if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        //    Geocoder.GeocodeListener geocodeListener = new Geocoder.GeocodeListener() {
+        //        @Override
+        //        public void onGeocode(@NonNull List<Address> addresses) {
+        //            address = addresses.get(0);
+        //        }
+        //        @Override
+        //        public void onError(String errorMessage){
+        //            throw new RuntimeException(errorMessage);
+        //        }
+        //    };
+        //    geocoder.getFromLocationName(event.getPlace(), 1,42,-6,52,9,geocodeListener);
+        //} else {
+        try {
+            address = Objects.requireNonNull(geocoder.getFromLocationName(event.getPosition(), 1)).get(0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         //}
         return address;
+    }
+
+    //  ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- //
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private void gps(FusedLocationProviderClient fusedLocationProviderClient){
+        LatLng latlng = null;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            Log.d("GPS", "demande de permission GPS");
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        Log.d("GPS","test : ");
+                        if (location != null) {
+                            Log.d("GPS","latitude : "+location.getLatitude());
+                            Log.d("GPS","longitude : "+location.getLongitude());
+                            LatLng positionActuelle = new LatLng(location.getLatitude(),location.getLongitude());
+                            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                                @Override
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+                                    Address address;
+                                    googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
+                                    List<Marker> markers = new ArrayList<>();
+                                    for (Event event : listEvent.values()) {
+                                        address = getAdress(event);
+                                        LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+                                        Marker marker = googleMap.addMarker(new MarkerOptions()
+                                                .position(location));
+                                        if (marker != null) {
+                                            marker.setTag(event.getId());
+                                            markers.add(marker);
+                                        }
+                                    }
+                                    Log.d("GPS","test : "+positionActuelle.toString());
+                                    if(positionActuelle!= null){
+                                        Log.d("GPS","ok ok ok");
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 15f));
+                                    }
+                                    else if (pos == null)
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167, 2.43896484375), 5.3f));
+
+                                    else {
+                                        address = getAdress(Objects.requireNonNull(listEvent.get(pos)));
+                                        LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
+                                        markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
+                                    }
+
+                                    googleMap.setOnInfoWindowClickListener(marker -> {
+                                        Intent intent = new Intent(getContext(), EventActivity.class);
+                                        intent.putExtra("event", listEvent.get(marker.getTag()));
+                                        startActivity(intent);
+                                    });
+                                }
+                            });
+
+                        }
+                    }
+                });
     }
 }
 
