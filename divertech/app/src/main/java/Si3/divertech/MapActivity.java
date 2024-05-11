@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
@@ -144,7 +145,78 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     //  ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- //
     private FusedLocationProviderClient fusedLocationClient;
 
-    private void gps(FusedLocationProviderClient fusedLocationProviderClient){
+    public void test(Location location2) {
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                LatLng positionActuelle = null;
+                if (location2 != null) {
+                    positionActuelle = new LatLng(location2.getLatitude(), location2.getLongitude());
+                } else {
+                    positionActuelle = new LatLng(46.52863469527167, 2.43896484375);
+                }
+
+                Address address;
+                googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
+                List<Marker> markers = new ArrayList<>();
+                for (Event event : listEvent.values()) {
+                    address = getAdress(event);
+                    LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+                    Marker marker = googleMap.addMarker(new MarkerOptions()
+                            .position(location));
+                    if (marker != null) {
+                        marker.setTag(event.getId());
+                        markers.add(marker);
+                    }
+                }
+                Log.d("GPS", "test : " + positionActuelle);
+                markers.add(googleMap.addMarker(new MarkerOptions()
+                        .position(positionActuelle)));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 4f));
+
+                if (pos == null)
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 15f));
+
+                else {
+                    address = getAdress(Objects.requireNonNull(listEvent.get(pos)));
+
+                    LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f));
+                    markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
+                }
+
+                googleMap.setOnInfoWindowClickListener(marker -> {
+                    Intent intent = new Intent(getContext(), EventActivity.class);
+                    intent.putExtra("event", listEvent.get(marker.getTag()));
+                    startActivity(intent);
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           test(null);
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        test(location);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        test(null);
+                    }
+                });
+    };
+
+    private void gps(FusedLocationProviderClient fusedLocationProviderClient) {
         LatLng latlng = null;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -154,62 +226,24 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             Log.d("GPS", "demande de permission GPS");
-            return;
         }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        Log.d("GPS","test : ");
-                        if (location != null) {
-                            Log.d("GPS","latitude : "+location.getLatitude());
-                            Log.d("GPS","longitude : "+location.getLongitude());
-                            LatLng positionActuelle = new LatLng(location.getLatitude(),location.getLongitude());
-                            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                                @Override
-                                public void onMapReady(@NonNull GoogleMap googleMap) {
-                                    Address address;
-                                    googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
-                                    List<Marker> markers = new ArrayList<>();
-                                    for (Event event : listEvent.values()) {
-                                        address = getAdress(event);
-                                        LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-                                        Marker marker = googleMap.addMarker(new MarkerOptions()
-                                                .position(location));
-                                        if (marker != null) {
-                                            marker.setTag(event.getId());
-                                            markers.add(marker);
-                                        }
-                                    }
-                                    Log.d("GPS","test : "+positionActuelle.toString());
-                                    if(positionActuelle!= null){
-                                        Log.d("GPS","ok ok ok");
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 15f));
-                                    }
-                                    else if (pos == null)
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167, 2.43896484375), 5.3f));
-
-                                    else {
-                                        address = getAdress(Objects.requireNonNull(listEvent.get(pos)));
-                                        LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-                                        markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
-                                    }
-
-                                    googleMap.setOnInfoWindowClickListener(marker -> {
-                                        Intent intent = new Intent(getContext(), EventActivity.class);
-                                        intent.putExtra("event", listEvent.get(marker.getTag()));
-                                        startActivity(intent);
-                                    });
-                                }
-                            });
-
+        else {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            test(location);
                         }
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            test(null);
+                        }
+                    });
+        }
     }
 }
 
