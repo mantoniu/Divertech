@@ -28,7 +28,8 @@ public class CreateEventActivity extends AppCompatActivity {
         cancel.setOnClickListener(click -> finish());
 
         TextView date = findViewById(R.id.date);
-        Event event = getIntent().getParcelableExtra("event");
+        String eventId = getIntent().getStringExtra("eventId");
+        Event event = ListEvent.getEventMap().get(eventId);
         if (event != null) {
             EditText shortDescription = findViewById(R.id.short_description);
             shortDescription.setText(event.getShortDescription());

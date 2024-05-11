@@ -17,6 +17,7 @@ import java.util.Objects;
 
 public class UserData {
     private static User connectedUser;
+
     private static FirebaseUser firebaseUser;
     private static String userId;
 
@@ -57,6 +58,7 @@ public class UserData {
             }
         });
     }
+
 
     public static User getConnectedUser() {
         return connectedUser;
