@@ -42,13 +42,13 @@ public class EventActivity extends AppCompatActivity {
             setContentView(R.layout.activity_admin_event);
             Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
             modification.putExtra("event", event);
-            View change = findViewById(R.id.bloc_edit);
+            View change = findViewById(R.id.edit);
             change.setOnClickListener(click -> startActivity(modification));
-            Intent report = new Intent(getApplicationContext(), AdminReportActivity.class);
-            View reportButton = findViewById(R.id.admin_report_bloc);
+            Intent report = new Intent(getApplicationContext(), MultiPagesActivity.class);
+            View reportButton = findViewById(R.id.button_report);
             reportButton.setOnClickListener(click -> startActivity(report));
 
-            View feed = findViewById(R.id.bloc_feed_admin);
+            View feed = findViewById(R.id.card_feed_type);
             feed.setOnClickListener(click -> {
                 Log.d("Admin", event.getId() + " ");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -110,7 +110,6 @@ public class EventActivity extends AppCompatActivity {
         TextView description = findViewById(R.id.description);
         description.setMaxLines(3);
         description.setText(event.getDescription());
-
         ImageView button = findViewById(R.id.more);
         button.setOnClickListener(click -> {
             if (isTextViewClicked) {

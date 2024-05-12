@@ -18,27 +18,30 @@
 
         <ImageButton
             android:id="@+id/return_arrow"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="@string/return_arrow_description"
             android:background="@drawable/roundbackground"
             android:src="@drawable/return_arrow"
             app:layout_constraintTop_toBottomOf="@id/header_menu"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp" />
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/adress_container"
-            android:layout_width="300dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_marginTop="40dp"
             android:hint="@string/adresse_hint"
             app:startIconDrawable="@drawable/home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/return_arrow">
+            app:layout_constraintTop_toBottomOf="@id/return_arrow"
+            app:startIconContentDescription="@string/icon_house">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/adress"
@@ -50,19 +53,20 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/phone_number_container"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/phone_number_hint"
             app:startIconDrawable="@drawable/phone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/adress_container">
+            app:layout_constraintTop_toBottomOf="@id/adress_container"
+            app:layout_constraintRight_toRightOf="@id/adress_container"
+            app:layout_constraintLeft_toLeftOf="@id/adress_container">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="phone"
                     android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -70,14 +74,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/licence_plate_container"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="@string/licence_plate_hint"
             app:startIconDrawable="@drawable/car"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone_number_container">
+            app:layout_constraintTop_toBottomOf="@id/phone_number_container"
+            app:layout_constraintRight_toRightOf="@id/adress_container"
+            app:layout_constraintLeft_toLeftOf="@id/adress_container">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/licence_plate"
@@ -87,18 +91,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_date"
-            android:layout_width="300dp"
-            app:strokeWidth="0dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/licence_plate_container"
-            app:cardElevation="10dp">
+            app:cardElevation="10dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@color/black"
+            app:layout_constraintLeft_toLeftOf="@+id/licence_plate_container"
+            app:layout_constraintRight_toRightOf="@+id/licence_plate_container"
+            app:layout_constraintTop_toBottomOf="@+id/licence_plate_container">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/calendar_constraint_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white">
@@ -107,24 +114,39 @@
                             android:id="@+id/calendar"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:src="@drawable/calendar"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:layout_marginStart="10dp"
-                            android:contentDescription="@string/add_to_calendar" />
+                            android:contentDescription="@string/icon_calendar_text" />
 
                         <TextView
                             android:id="@+id/date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/selectionner_une_date"
+                            android:text="@string/choose_date_text"
                             android:textSize="18sp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
+                            android:gravity="center"
                             app:layout_constraintLeft_toRightOf="@id/calendar"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/arrow_forward"
+                            app:layout_constraintTop_toTopOf="@id/calendar"
+                            app:layout_constraintBottom_toBottomOf="@id/calendar"
+                            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                        <TextView
+                            android:id="@+id/add_calendar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="#646478"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:layout_marginBottom="20dp"
+                            app:layout_constraintLeft_toLeftOf="@id/date"
+                            app:layout_constraintRight_toLeftOf="@id/arrow_forward"
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:textAppearance="?attr/textAppearanceTitleMedium" />
 
@@ -138,31 +160,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:layout_marginStart="10dp"
                             android:contentDescription="@string/map_button" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <Button
-            android:id="@+id/datePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/selectionner_une_date"
-            android:layout_marginTop="40dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintTop_toBottomOf="@id/licence_plate_container"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <Button
-            android:id="@+id/send_Button"
+            android:id="@+id/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/send_request"
             android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/datePicker" />
+            app:layout_constraintTop_toBottomOf="@id/card_date" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

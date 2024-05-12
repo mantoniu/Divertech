@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MultiPagesActivity extends AppCompatActivity {
@@ -28,13 +29,17 @@ public class MultiPagesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_multi_pages);
+        if (UserData.getConnectedUser().getIsAdmin()) {
+            setContentView(R.layout.activity_admin_report);
+        } else {
+            setContentView(R.layout.activity_multi_pages);
+        }
 
 
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
 
-        Button button = findViewById(R.id.send_Button);
+        Button button = findViewById(R.id.send_button);
         button.setOnClickListener(click -> forward());
 
         View headerView = findViewById(R.id.header_menu);
@@ -78,8 +83,8 @@ public class MultiPagesActivity extends AppCompatActivity {
             res = true;
         }
         TextInputLayout MessageLayout = findViewById(R.id.description);
-        if (((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString().isEmpty()) {
-            MessageLayout.setError(getResources().getText(R.string.error_type_message));
+        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString().isEmpty()) {
+            MessageLayout.setError(getResources().getText(R.string.error_no_message));
             findViewById(R.id.edit_text_area).requestFocus();
             findViewById(R.id.edit_text_area).requestLayout();
             res = true;

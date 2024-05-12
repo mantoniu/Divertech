@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/nav_background"
-
+    android:baselineAligned="false"
     android:elevation="200dp"
     android:layout_alignParentBottom="true">
 
@@ -35,8 +35,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/eventText" />
-            />
+            app:layout_constraintBottom_toTopOf="@id/eventText"
+            android:contentDescription="@string/icon_calendar_text" />
 
         <TextView
             android:id="@+id/eventText"
@@ -78,6 +78,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/homeText"
+            android:contentDescription="@string/icon_house"
             />
 
         <TextView
@@ -119,6 +120,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/locationText"
+            android:contentDescription="@string/icon_map"
             />
 
         <TextView

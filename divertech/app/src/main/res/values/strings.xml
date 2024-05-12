@@ -131,7 +131,8 @@
     <string name="title">Title</string>
     <string name="flashlight_button">FlashLight button</string>
     <string name="add_event">Add event</string>
-    <string name="name_last_name">Nom : \nPrénom :</string>
+    <string name="name_last_name">Nom\nPrénom</string>
+    <string name="error_no_message">Veuillez entrer un message</string>
     <string name="lost_object_logo">lost object logo</string>
     <string name="phone_contact">Phone contact</string>
     <string name="contact_via_mail">Contact via mail</string>
@@ -175,6 +176,31 @@
     <string name="licence_plate_hint">Numéro de plaque d\'imatriculation</string>
     <string name="send_request">Envoyer la demande</string>
     <string name="parking_space">Place de parking</string>
+    <string name="choose_date_required">Veuillez chosir une date</string>
+    <string name="postal_code_required">Veuillez entrer un code postal valide</string>
+    <string name="phone_number_required">Veuillez entrer un numéro de téléphone</string>
+    <string name="city_required">Veuillez entrer une ville</string>
+    <string name="title_required">Veuillez entrer un nom</string>
+    <string name="short_description_required">Veuillez entrer une courte description</string>
+    <string name="licence_plate_required">Veuillez entrer plaque d\'immatriculation</string>
+    <string name="address_required">Veuillez entrer une adresse</string>
+    <string name="adresse_hint_new_event">Adresse de l\'évènement</string>
+    <string name="choose_date_text">Sélectionner une date</string>
+    <string name="icon_calendar_text">Icone calendrier</string>
+    <string name="city_hint">Ville de l\'évènement</string>
+    <string name="icon_more">Icone more</string>
+    <string name="title_event_hint">Nom de l\'évènement</string>
+    <string name="description_hint">Ajouter une description</string>
+    <string name="postal_code_hint">Code postal</string>
+    <string name="short_description_hint">Courte description</string>
+    <string name="report_information_text">Signaler une information</string>
+    <string name="map_popup_description">Popup map</string>
+    <string name="icon_house">Icone maison</string>
+    <string name="icon_map">Icone Map</string>
+    <string name="icon_close_popup">Icone fermer la popup</string>
+    <string name="hint_message_contact_admin">Message</string>
+    <string name="type_message_admin_vue_contact">Raison du message</string>
+    <string name="see_notifications">Voir les notifications</string>
 
 
 </resources>

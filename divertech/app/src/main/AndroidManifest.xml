@@ -71,10 +71,6 @@
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name=".AdminReportActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity
             android:name=".LanguageModificationActivity"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
