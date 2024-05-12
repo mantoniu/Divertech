@@ -20,15 +20,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Observable;
+import java.util.Observer;
 
-
-public class FeedFragment extends Fragment implements ClickableFragment {
-    private final String TAG = "antoniu " + getClass().getSimpleName();
+public class FeedFragment extends Fragment implements ClickableFragment, Observer {
     private Context context;
     private BaseAdapter adapter;
     private FeedType feedType;
+    private Intent intent;
+    private final NotificationCreatorObserver notificationCreatorObserver = new NotificationCreatorObserver();
+
+    private class NotificationCreatorObserver implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+            Log.d("UPDATEADMIN", "");
+            if (intent != null)
+                startActivity(intent);
+            NotificationCreator.getInstance().deleteObserver(notificationCreatorObserver);
+        }
+    }
 
     public FeedFragment() {
     }
@@ -45,32 +55,18 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         ListView listView = view.findViewById(R.id.feed);
 
         feedType = FeedType.values()[requireArguments().getInt(getString(R.string.FEED_TYPE))];
-        String eventId = requireArguments().getString("eventId");
+        String eventId = requireArguments().getString(getString(R.string.event_id));
 
         if (feedType == FeedType.NOTIFICATION) {
-            if (eventId != null) {
-                adapter = new NotificationAdapter(this, getContext(), filter(eventId, NotificationList.getNotificationMap()));
-                NotificationList.setAdapter(adapter);
-            } else {
-                adapter = new NotificationAdapter(this, getContext(), NotificationList.getNotificationMap());
-                NotificationList.setAdapter(adapter);
-            }
+            adapter = new NotificationAdapter(this, getContext(), eventId);
+            NotificationList.getInstance().addObserver(this);
+            ListEvent.getInstance().addObserver(this);
         } else {
-            adapter = new EventAdapter(this, getContext(), ListEvent.getEventMap());
-            ListEvent.setAdapter(adapter);
+            adapter = new EventAdapter(this, getContext());
+            ListEvent.getInstance().addObserver(this);
         }
-
         listView.setAdapter(adapter);
         return view;
-    }
-
-    public Map<String, Notification> filter(String eventId, Map<String, Notification> map) {
-        Map<String, Notification> mapping = map.entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().getEventId().equals(eventId))
-                .collect(Collectors.toMap(java.util.Map.Entry::getKey, java.util.Map.Entry::getValue));
-        Log.d("Admin", mapping.toString() + "ok" + map + eventId);
-        return mapping;
     }
 
     @Nullable
@@ -91,8 +87,8 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.notification_popup, requireActivity().findViewById(R.id.notification_popup));
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
 
         PopupWindow popup = new PopupWindow(popupView, width, height, true);
 
@@ -101,13 +97,14 @@ public class FeedFragment extends Fragment implements ClickableFragment {
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
+            intent.putExtra(getString(R.string.event_id), notification.getEventId());
             startActivity(intent);
         });
+        popupView.findViewById(R.id.layout).setOnClickListener((click) -> popup.dismiss());
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getTitle());
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType() + "");
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
@@ -116,18 +113,24 @@ public class FeedFragment extends Fragment implements ClickableFragment {
     @Override
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
-            Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("event", ListEvent.getEventMap().get(itemId));
+            intent = new Intent(context, EventActivity.class);
+            intent.putExtra(getString(R.string.event_id), itemId);
             startActivity(intent);
+        } else if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
+            intent = new Intent(getContext(), MultiPagesAdminActivity.class);
+            intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
+            intent.putExtra(getString(R.string.notification_id), itemId);
+            if (feedType == FeedType.NOTIFICATION)
+                NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
+            NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
-            if (UserData.getConnectedUser().getIsAdmin()) {
-                Intent intent = new Intent(getContext(), MultiPagesAdminActivity.class);
-                intent.putExtra("type", NotificationTypes.CONTACT);
-                startActivity(intent);
-            } else {
-                Log.d("CLICKED_FRAGMENT", "");
-                createPopup(NotificationList.getNotification(itemId));
-            }
+            Log.d("CLICKED_FRAGMENT", "");
+            createPopup(NotificationList.getInstance().getNotification(itemId));
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        adapter.notifyDataSetChanged();
     }
 }
