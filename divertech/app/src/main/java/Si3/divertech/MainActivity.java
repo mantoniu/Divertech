@@ -16,32 +16,31 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        String eventId = intent.getStringExtra("eventId");
+        String eventId = intent.getStringExtra(getString(R.string.event_id));
         View headerView = findViewById(R.id.header_menu);
         ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.notifications);
 
-        Bundle bundle = new Bundle();
-
-
         if (eventId != null) {
-            bundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
-            bundle.putString("eventId", eventId);
+            Bundle notificationBundle = new Bundle();
+            notificationBundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
+            notificationBundle.putString(getString(R.string.event_id), eventId);
+            FeedFragment feedFragment = new FeedFragment();
+            feedFragment.setArguments(notificationBundle);
+            getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
         } else {
-            bundle.putInt("page", 1);
+            Bundle b = new Bundle();
+            b.putInt("page", 1);
             FootMenu f = new FootMenu();
-            f.setArguments(bundle);
+            f.setArguments(b);
             getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
 
             // Notification feed fragment
-            bundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
+            Bundle notificationBundle = new Bundle();
+            notificationBundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
+            FeedFragment feedFragment = new FeedFragment();
+            feedFragment.setArguments(notificationBundle);
+            getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
         }
-        launchFeedFragment(bundle, R.id.notification_feed);
-    }
-
-    public void launchFeedFragment(Bundle bundle, @IdRes int res) {
-        FeedFragment feedFragment = new FeedFragment();
-        feedFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().add(res, feedFragment).commit();
     }
 
     @Override

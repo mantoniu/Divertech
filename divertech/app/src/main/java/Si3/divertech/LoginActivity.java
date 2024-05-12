@@ -2,6 +2,7 @@ package Si3.divertech;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,39 +22,43 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import Si3.divertech.databinding.ActivityLoginBinding;
+
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
 
-        TextView register = findViewById(R.id.register);
+        TextView register = binding.register;
         register.setOnClickListener(click -> {
             Intent i = new Intent(this, RegisterActivity.class);
             startActivity(i);
         });
 
-        Button login = findViewById(R.id.login);
+        Button login = binding.login;
         login.setOnClickListener(click -> {
             ProgressBar loading = findViewById(R.id.progress);
             loading.setVisibility(View.VISIBLE);
-            TextInputEditText username = findViewById(R.id.username);
-            TextInputEditText password = findViewById(R.id.password);
-            assert (username.getText() != null);
-            if(username.getText().toString().isEmpty()){
+            TextInputEditText username = binding.username;
+            TextInputEditText password = binding.password;
+
+            if (username.getText() != null && username.getText().toString().isEmpty()) {
                 TextInputLayout usernameLayout = findViewById(R.id.username_container);
                 usernameLayout.setError("Nom d'utilisateur requis");
                 findViewById(R.id.username).requestFocus();
                 loading.setVisibility(View.GONE);
                 return;
             }
-            assert (password.getText() != null);
-            if(password.getText().toString().isEmpty()){
+
+            if (password.getText() != null && password.getText().toString().isEmpty()) {
                 TextInputLayout passwordLayout = findViewById(R.id.password_container);
                 passwordLayout.setError("Mot de passe requis");
                 findViewById(R.id.password).requestFocus();
@@ -65,10 +70,9 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                UserData.requestUserData(user);
-                                ListEvent.requestData();
-                            }
+                            if (user != null)
+                                UserData.getInstance().requestUserData(user);
+
                             Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(this, MainActivity.class);
                             startActivity(i);
@@ -109,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                e.printStackTrace();
+                Log.d("LOGIN ERROR", "", e);
             }
         }
     }

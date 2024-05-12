@@ -1,7 +1,6 @@
 package Si3.divertech;
 
 import android.util.Log;
-import android.widget.BaseAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -11,33 +10,44 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
-import Si3.divertech.qr_reader.DataBaseListener;
-
-public class ListEvent {
+public class ListEvent extends Observable {
+    private static ListEvent instance;
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private static final Map<String, Event> eventMap = new HashMap<>();
-    private static BaseAdapter adapter;
 
-    public static void addEvent(Event event) {
+    private ListEvent() {
+        requestData();
+    }
+
+    public static ListEvent getInstance() {
+        if (instance == null)
+            instance = new ListEvent();
+        return instance;
+    }
+
+    private void addEvent(Event event) {
         eventMap.put(event.getId(), event);
     }
 
-    public static Map<String, Event> getEventMap(){
-        return eventMap;
+    public List<Event> getEvents() {
+        return new ArrayList<>(eventMap.values());
     }
 
-    public static Event getEvent(String eventId) {
+    public Event getEvent(String eventId) {
         return eventMap.get(eventId);
     }
 
-    public static boolean containsEvent(String eventId) {
+    public boolean containsEvent(String eventId) {
         return eventMap.containsKey(eventId);
     }
 
-    public static void eventExists(String eventId, DataBaseListener listener) {
+    public void eventExists(String eventId, DataBaseListener listener) {
         DatabaseReference eventsRef = rootRef.child("Events").child(eventId);
 
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -49,34 +59,29 @@ public class ListEvent {
                         return;
 
                     event.setId(eventId);
-                    ListEvent.addEvent(event);
-                    listener.onDataBaseResponse(eventId, true);
-                } else {
-                    listener.onDataBaseResponse(eventId, false);
-                }
+                    addEvent(event);
+                    listener.onDataBaseResponse(eventId, DataBaseResponses.SUCCESS);
+                } else
+                    listener.onDataBaseResponse(eventId, DataBaseResponses.EVENT_DOES_NOT_EXIST);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("TAG", error.getMessage());
+                Log.d("EVENT EXISTS REQUEST ERROR : ", error.getMessage());
+                listener.onDataBaseResponse(eventId, DataBaseResponses.ERROR);
             }
         });
     }
 
-    public static void requestEvent(String eventId) {
-        Log.d("AJOUT REG", "");
+    public void requestEvent(String eventId) {
         DatabaseReference registrationsRef = rootRef.child("Registrations");
         DatabaseReference newRegistrationRef = registrationsRef.push();
         newRegistrationRef.child("eventId").setValue(eventId);
-        newRegistrationRef.child("userId").setValue(UserData.getUserId());
+        newRegistrationRef.child("userId").setValue(UserData.getInstance().getUserId());
     }
 
-    public static void setAdapter(BaseAdapter adapter) {
-        ListEvent.adapter = adapter;
-    }
-
-    public static void requestData() {
-        String userId = UserData.getUserId();
+    public void requestData() {
+        String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
 
@@ -105,25 +110,24 @@ public class ListEvent {
                             event.setId(eventId);
                             Log.d("EVENT", event.toString());
 
-                            ListEvent.addEvent(event);
-                            if (adapter != null)
-                                adapter.notifyDataSetChanged();
+                            addEvent(event);
+                            setChanged();
+                            notifyObservers();
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.d("TAG", databaseError.getMessage());
+                            Log.d("EVENT REQUEST ERROR : ", databaseError.getMessage());
                         }
                     });
                 }
-                NotificationList.requestData();
-                if (adapter != null)
-                    adapter.notifyDataSetChanged();
+                setChanged();
+                notifyObservers();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("TAG", databaseError.getMessage());
+                Log.d("REGISTRATIONS REQUEST ERROR : ", databaseError.getMessage());
             }
         });
     }

@@ -10,7 +10,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class ProfileActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
+
+public class ProfileActivity extends AppCompatActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
 
-        User user = UserData.getConnectedUser();
-
-        ((TextView) findViewById(R.id.user_names)).setText(String.format("%s %s", user.getName(), user.getLastName()));
-        ((TextView) findViewById(R.id.address)).setText(user.getAddress());
-        ((TextView) findViewById(R.id.phone_number)).setText(user.getPhoneNumber());
-        ((TextView) findViewById(R.id.email)).setText(user.getEmail());
-        ((TextView) findViewById(R.id.language)).setText(user.getLanguage());
+        setValues();
+        UserData.getInstance().addObserver(this);
 
         findViewById(R.id.modify_button).setOnClickListener(click -> {
             Intent updateIntent = new Intent(getApplicationContext(), RegisterActivity.class);
@@ -39,5 +37,18 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        setValues();
+    }
+
+    private void setValues() {
+        ((TextView) findViewById(R.id.user_names)).setText(String.format("%s %s", UserData.getInstance().getConnectedUser().getName(), UserData.getInstance().getConnectedUser().getLastName()));
+        ((TextView) findViewById(R.id.address)).setText(UserData.getInstance().getConnectedUser().getAddress());
+        ((TextView) findViewById(R.id.phone_number)).setText(UserData.getInstance().getConnectedUser().getPhoneNumber());
+        ((TextView) findViewById(R.id.email)).setText(UserData.getInstance().getConnectedUser().getEmail());
+        ((TextView) findViewById(R.id.language)).setText(UserData.getInstance().getConnectedUser().getLanguage());
     }
 }

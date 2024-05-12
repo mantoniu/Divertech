@@ -10,28 +10,24 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class EventAdapter extends BaseAdapter {
-    private final Map<String, Event> eventMap;
     private final Context context;
     private final ClickableFragment fragment;
 
-    public EventAdapter(ClickableFragment fragment, Context context, Map<String, Event> eventMap) {
+    public EventAdapter(ClickableFragment fragment, Context context) {
         this.context = context;
-        this.eventMap = eventMap;
         this.fragment = fragment;
     }
 
     public List<Event> getItemsList() {
-        return new ArrayList<>(eventMap.values());
+        return ListEvent.getInstance().getEvents();
     }
 
     @Override
     public int getCount() {
-        return eventMap.size();
+        return getItemsList().size();
     }
 
     @Override

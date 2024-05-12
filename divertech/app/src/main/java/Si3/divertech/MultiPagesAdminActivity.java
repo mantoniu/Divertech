@@ -22,34 +22,33 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         setContentView(R.layout.activity_multi_pages_admin);
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
-        View close = findViewById(R.id.bloc_close);
-        close.setOnClickListener(click -> finish());
-
-        TextInputEditText description = findViewById(R.id.edit_text_area);
-        AutoCompleteTextView typeSelector = findViewById(R.id.selector);
-        int index = getIntent().getIntExtra("type", 0);
-        NotificationTypes type = NotificationTypes.values()[index];
-        typeSelector.setText(type.getContent());
-
-        String notifId = getIntent().getStringExtra("eventId");
-        Notification notif = NotificationList.getNotification(notifId);
-
-        description.setText(notif.getDescription());
-
         View deleteButton = findViewById(R.id.bloc_close);
         deleteButton.setOnClickListener(click -> {
-            NotificationList.deleteNotification(notif.getId());
+            NotificationList.getInstance().deleteNotification(notificationId);
             finish();
         });
 
+        TextInputEditText description = findViewById(R.id.edit_text_area);
+        AutoCompleteTextView typeSelector = findViewById(R.id.selector);
+        int type = getIntent().getIntExtra("type", 0);
+        NotificationTypes types = NotificationTypes.values()[index];
+        typeSelector.setText(types.getContent());
+
+        String notificationId = getIntent().getStringExtra(getString(R.string.notification_id));
+        NotificationList.getInstance().getNotification(notificationId);
+
+        description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
+
+
+
         NotificationCreator.getInstance().addObserver(this);
-        setWriterInformations();
+        setWriterInformation();
     }
 
-    private void setWriterInformations() {
+    private void setWriterInformation() {
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
         TextView name = findViewById(R.id.name);
-        name.setText(writer.getName() + "\n" + writer.getLastName());
+        name.setText(String.format("%s\n%s", writer.getName(), writer.getLastName()));
         View call = findViewById(R.id.bloc_contact_phone);
         call.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));
@@ -66,6 +65,6 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
 
     @Override
     public void update(Observable o, Object arg) {
-        setWriterInformations();
+        setWriterInformation();
     }
 }

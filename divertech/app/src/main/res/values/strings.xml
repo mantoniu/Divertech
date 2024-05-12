@@ -166,6 +166,12 @@
     <string name="mes_v_nements">Mes événements</string>
     <string name="mon_feed">Mon feed</string>
     <string name="localisation">Localisation</string>
+    <string name="servor_error">Impossible de communiquer avec le serveur</string>
+    <string name="event_id">eventId</string>
+    <string name="message_object">Objet message</string>
+    <string name="losen_object">Objet Perdu</string>
+    <string name="incident_title">Titre incident</string>
+    <string name="notification_id">notificationid</string>
     <string name="contact">Contact</string>
     <string name="ma_carte">Ma Carte</string>
     <string name="hint_type_message_selection">Sélectionner le type de message</string>

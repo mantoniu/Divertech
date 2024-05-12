@@ -1,10 +1,13 @@
 package Si3.divertech;
 
-
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,21 +52,20 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
         addTextWatcher();
-        String eventId = getIntent().getStringExtra("eventId");
-        Event event = ListEvent.getEventMap().get(eventId);
-        if (event != null) {
+        String eventId = getIntent().getStringExtra(getString(R.string.event_id));
+        if (ListEvent.getInstance().getEvent(eventId) != null) {
             EditText shortDescription = findViewById(R.id.short_description);
-            shortDescription.setText(event.getShortDescription());
+            shortDescription.setText(ListEvent.getInstance().getEvent(eventId).getShortDescription());
             EditText title = findViewById(R.id.title);
-            title.setText(event.getTitle());
+            title.setText(ListEvent.getInstance().getEvent(eventId).getTitle());
             //EditText localisation = findViewById(R.id.localisation);
-            //localisation.setText(event.getPosition());
+            //localisation.setText(ListEvent.getInstance().getEvent(eventId).getPosition());
             TextView date2 = findViewById(R.id.add_calendar);
-            date2.setText(event.getDate());
+            date2.setText(ListEvent.getInstance().getEvent(eventId).getDate());
             EditText description = findViewById(R.id.description);
-            description.setText(event.getDescription());
+            description.setText(ListEvent.getInstance().getEvent(eventId).getDescription());
             View validate = findViewById(R.id.button_validate);
-            validate.setOnClickListener(click -> modification(event));
+            validate.setOnClickListener(click -> modification(ListEvent.getInstance().getEvent(eventId)));
         } else {
             View validate = findViewById(R.id.button_validate);
             validate.setOnClickListener(click -> addNew());

@@ -35,12 +35,12 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String eventId = getIntent().getStringExtra("eventId");
-        Event event = ListEvent.getEventMap().get(eventId);
-        if (UserData.getConnectedUser().getIsAdmin()) {
+        String eventId = getIntent().getStringExtra(getString(R.string.event_id));
+
+        if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
             Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
-            modification.putExtra("eventId", event.getId());
+            modification.putExtra(getString(R.string.event_id), eventId);
             View change = findViewById(R.id.edit);
             change.setOnClickListener(click -> startActivity(modification));
             Intent report = new Intent(getApplicationContext(), MultiPagesActivity.class);
@@ -49,13 +49,13 @@ public class EventActivity extends AppCompatActivity {
 
             View feed = findViewById(R.id.card_feed_type);
             feed.setOnClickListener(click -> {
-                Log.d("Admin", event.getId() + " ");
+                Log.d("Admin", eventId + " ");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("eventId", event.getId());
+                intent.putExtra(getString(R.string.event_id), eventId);
                 startActivity(intent);
             });
 
-            updateInfo(event);
+            updateInfo(eventId);
         } else {
             setContentView(R.layout.activity_event);
             Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
@@ -66,7 +66,7 @@ public class EventActivity extends AppCompatActivity {
             checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
             checkPermission(Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
 
-            if (event == null) {
+            if (ListEvent.getInstance().getEvent(eventId) == null) {
                 finish();
                 return;
             }
@@ -75,7 +75,7 @@ public class EventActivity extends AppCompatActivity {
             MaterialCardView map = findViewById(R.id.card_name_event);
             map.setOnClickListener(click -> {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                intent.putExtra("pos", event.getId());
+                intent.putExtra("pos", eventId);
                 startActivity(intent);
                 finish();
             });
@@ -87,28 +87,30 @@ public class EventActivity extends AppCompatActivity {
             }
 
 
-            findViewById(R.id.card_date).setOnClickListener((click) -> addEventToCalendar(event));
+            findViewById(R.id.card_date).setOnClickListener((click) -> addEventToCalendar(ListEvent.getInstance().getEvent(eventId)));
 
             MaterialCardView parkingLayout = findViewById(R.id.card_parking);
             parkingLayout.setOnClickListener(v -> {
                 Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
                 startActivity(intent);
             });
-            updateInfo(event);
+            updateInfo(eventId);
         }
     }
 
-    private void updateInfo(Event event) {
-        TextView title = findViewById(R.id.name_event);
-        title.setText(event.getTitle());
+    private void updateInfo(String eventId) {
+        if (ListEvent.getInstance().getEvent(eventId) == null)
+            return;
 
+        TextView title = findViewById(R.id.name_event);
+        title.setText(ListEvent.getInstance().getEvent(eventId).getTitle());
 
         TextView place = findViewById(R.id.localisation);
-        place.setText(event.getPosition());
+        place.setText(ListEvent.getInstance().getEvent(eventId).getPosition());
 
         TextView description = findViewById(R.id.description);
         description.setMaxLines(3);
-        description.setText(event.getDescription());
+        description.setText(ListEvent.getInstance().getEvent(eventId).getDescription());
         ImageView button = findViewById(R.id.more);
         button.setOnClickListener(click -> {
             if (isTextViewClicked) {
@@ -127,16 +129,14 @@ public class EventActivity extends AppCompatActivity {
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
 
-        Picasso.get().load(event.getPictureUrl()).into((ImageView) findViewById(R.id.image_event));
+        Picasso.get().load(ListEvent.getInstance().getEvent(eventId).getPictureUrl()).into((ImageView) findViewById(R.id.image_event));
 
-        ((TextView) findViewById(R.id.date)).setText(event.getFormattedDate());
+        ((TextView) findViewById(R.id.date)).setText(ListEvent.getInstance().getEvent(eventId).getFormattedDate());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //event = ListEvent.getEventMap().get(event.getId());
-        //updateInfo();
     }
 
     private void addEventToCalendar(Event event) {

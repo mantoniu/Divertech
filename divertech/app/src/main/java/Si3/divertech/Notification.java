@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 public class Notification {
     private String id;
     private String eventId;
-    private int type;
+    private NotificationTypes type;
     private String description;
 
     private String userCreatorId;
@@ -16,7 +16,7 @@ public class Notification {
     public Notification(String id, String eventId, int type, String description, String userCreatorId) {
         this.id = id;
         this.eventId = eventId;
-        this.type = type;
+        this.type = NotificationTypes.values()[type];
         this.description = description;
         this.userCreatorId = userCreatorId;
     }
@@ -33,8 +33,8 @@ public class Notification {
         return id;
     }
 
-    public int getType() {
-        return type;
+    public String getType() {
+        return type.getTitle();
     }
 
     public String getNotificationCreatorUser() {
