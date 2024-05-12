@@ -40,7 +40,7 @@ public class EventActivity extends AppCompatActivity {
         if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_event);
             Intent modification = new Intent(getApplicationContext(), CreateEventActivity.class);
-            modification.putExtra("eventId", eventId);
+            modification.putExtra(getString(R.string.event_id), eventId);
             View change = findViewById(R.id.bloc_edit);
             change.setOnClickListener(click -> startActivity(modification));
             Intent report = new Intent(getApplicationContext(), AdminReportActivity.class);
@@ -51,7 +51,7 @@ public class EventActivity extends AppCompatActivity {
             feed.setOnClickListener(click -> {
                 Log.d("Admin", eventId + " ");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("eventId", eventId);
+                intent.putExtra(getString(R.string.event_id), eventId);
                 startActivity(intent);
             });
 

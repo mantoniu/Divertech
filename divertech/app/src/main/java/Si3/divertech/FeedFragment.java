@@ -54,7 +54,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
         ListView listView = view.findViewById(R.id.feed);
 
         feedType = FeedType.values()[requireArguments().getInt(getString(R.string.FEED_TYPE))];
-        String eventId = requireArguments().getString("eventId");
+        String eventId = requireArguments().getString(getString(R.string.event_id));
 
         if (feedType == FeedType.NOTIFICATION) {
             adapter = new NotificationAdapter(this, getContext(), eventId);
