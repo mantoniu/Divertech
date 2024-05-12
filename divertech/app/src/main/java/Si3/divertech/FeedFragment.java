@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Collectors;
@@ -106,14 +107,14 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
             intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
+            intent.putExtra("eventId", notification.getEventId());
             startActivity(intent);
         });
         popupView.findViewById(R.id.layout).setOnClickListener((click) -> popup.dismiss());
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType());
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType() + "");
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
@@ -124,14 +125,14 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             intent = new Intent(context, EventActivity.class);
-            intent.putExtra("id", itemId);
+            intent.putExtra("eventId", itemId);
             startActivity(intent);
         } else if (UserData.getConnectedUser().getIsAdmin()) {
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
-            intent.putExtra("type", NotificationList.getNotificationMap().get(itemId).getType());
-            intent.putExtra("id", itemId);
+            intent.putExtra("type", Objects.requireNonNull(NotificationList.getNotificationMap().get(itemId)).getType());
+            intent.putExtra("eventId", itemId);
             NotificationCreator.getInstance().addObserver(this);
-            NotificationCreator.getInstance().getUser(NotificationList.getNotificationMap().get(itemId).getNotificationCreatorUser());
+            NotificationCreator.getUser(Objects.requireNonNull(NotificationList.getNotificationMap().get(itemId)).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");
             createPopup(NotificationList.getNotification(itemId));

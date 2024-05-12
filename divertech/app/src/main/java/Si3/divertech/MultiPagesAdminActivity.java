@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -23,13 +25,13 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         View close = findViewById(R.id.bloc_close);
         close.setOnClickListener(click -> finish());
 
-        TextView description = findViewById(R.id.description);
-        EditText typeSelector = findViewById(R.id.selector);
+        TextInputEditText description = findViewById(R.id.edit_text_area);
+        AutoCompleteTextView typeSelector = findViewById(R.id.selector);
         int index = getIntent().getIntExtra("type", 0);
         NotificationTypes type = NotificationTypes.values()[index];
         typeSelector.setText(type.getContent());
 
-        String notifId = getIntent().getStringExtra("id");
+        String notifId = getIntent().getStringExtra("eventId");
         Notification notif = NotificationList.getNotification(notifId);
 
         description.setText(notif.getDescription());
@@ -41,6 +43,7 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         });
 
         NotificationCreator.getInstance().addObserver(this);
+        setWriterInformations();
     }
 
     private void setWriterInformations() {
