@@ -49,8 +49,8 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
         addTextWatcher();
-
-        Event event = getIntent().getParcelableExtra("event");
+        String eventId = getIntent().getStringExtra("eventId");
+        Event event = ListEvent.getEventMap().get(eventId);
         if (event != null) {
             EditText shortDescription = findViewById(R.id.short_description);
             shortDescription.setText(event.getShortDescription());

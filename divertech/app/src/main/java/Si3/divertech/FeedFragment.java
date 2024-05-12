@@ -21,14 +21,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 
 
-public class FeedFragment extends Fragment implements ClickableFragment {
+public class FeedFragment extends Fragment implements ClickableFragment, Observer {
     private final String TAG = "antoniu " + getClass().getSimpleName();
     private Context context;
     private BaseAdapter adapter;
     private FeedType feedType;
+
+    private Intent intent;
 
     public FeedFragment() {
     }
@@ -52,6 +56,7 @@ public class FeedFragment extends Fragment implements ClickableFragment {
                 adapter = new NotificationAdapter(this, getContext(), filter(eventId, NotificationList.getNotificationMap()));
                 NotificationList.setAdapter(adapter);
             } else {
+                Log.d("Notif", "ok");
                 adapter = new NotificationAdapter(this, getContext(), NotificationList.getNotificationMap());
                 NotificationList.setAdapter(adapter);
             }
@@ -100,15 +105,15 @@ public class FeedFragment extends Fragment implements ClickableFragment {
 
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
-            Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", notification.getEventId());
+            intent = new Intent(context, EventActivity.class);
+            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
             startActivity(intent);
         });
         popupView.findViewById(R.id.layout).setOnClickListener((click) -> popup.dismiss());
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getTitle());
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType());
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
@@ -118,18 +123,23 @@ public class FeedFragment extends Fragment implements ClickableFragment {
     @Override
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
-            Intent intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", itemId);
+            intent = new Intent(context, EventActivity.class);
+            intent.putExtra("id", itemId);
             startActivity(intent);
+        } else if (UserData.getConnectedUser().getIsAdmin()) {
+            intent = new Intent(getContext(), MultiPagesAdminActivity.class);
+            intent.putExtra("type", NotificationList.getNotificationMap().get(itemId).getType());
+            intent.putExtra("id", itemId);
+            NotificationCreator.getInstance().addObserver(this);
+            NotificationCreator.getInstance().getUser(NotificationList.getNotificationMap().get(itemId).getNotificationCreatorUser());
         } else {
-            if (UserData.getConnectedUser().getIsAdmin()) {
-                Intent intent = new Intent(getContext(), MultiPagesAdminActivity.class);
-                intent.putExtra("type", NotificationTypes.CONTACT);
-                startActivity(intent);
-            } else {
-                Log.d("CLICKED_FRAGMENT", "");
-                createPopup(NotificationList.getNotification(itemId));
-            }
+            Log.d("CLICKED_FRAGMENT", "");
+            createPopup(NotificationList.getNotification(itemId));
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        startActivity(intent);
     }
 }
