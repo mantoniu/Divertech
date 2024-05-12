@@ -1,7 +1,6 @@
 package Si3.divertech;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +10,36 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class NotificationAdapter extends BaseAdapter {
-    private final Map<String, Notification> notificationMap;
+    private final String eventId;
     private final Context context;
     private final ClickableFragment fragment;
 
-    public NotificationAdapter(ClickableFragment fragment, Context context, Map<String, Notification> notificationMap) {
+    public NotificationAdapter(ClickableFragment fragment, Context context, String eventId) {
         this.context = context;
-        this.notificationMap = notificationMap;
         this.fragment = fragment;
+        this.eventId = eventId;
     }
 
     public List<Notification> getItemsList() {
-        return new ArrayList<>(notificationMap.values());
+        if (eventId != null)
+            return filterByEventId();
+        return NotificationList.getInstance().getNotifications();
+    }
+
+    public List<Notification> filterByEventId() {
+        return NotificationList.getInstance().getNotifications()
+                .stream()
+                .filter(event -> event.getEventId().equals(eventId))
+                .collect(Collectors.toList());
     }
 
     @Override
     public int getCount() {
-        return notificationMap.size();
+        return getItemsList().size();
     }
 
     @Override
@@ -58,18 +65,19 @@ public class NotificationAdapter extends BaseAdapter {
 
         // Filling the layout with notifications values
         Notification notification = getItemsList().get(position);
-        Log.d("TITLE", NotificationTypes.values()[notification.getType()].getTitle());
 
         deleteButton.setOnClickListener(click -> {
-            NotificationList.deleteNotification(notification.getId());
+            NotificationList.getInstance().deleteNotification(notification.getId());
             notifyDataSetChanged();
         });
 
         layoutItem.setTag(notification.getId());
 
-        Picasso.get().load(ListEvent.getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
-        notificationTitle.setText(ListEvent.getEvent(notification.getEventId()).getTitle());
-        notificationContent.setText(NotificationTypes.values()[notification.getType()].getTitle());
+        if(ListEvent.getInstance().containsEvent(notification.getEventId())){
+            Picasso.get().load(ListEvent.getInstance().getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
+            notificationTitle.setText(ListEvent.getInstance().getEvent(notification.getEventId()).getTitle());
+            notificationContent.setText(notification.getType());
+        }
 
         layoutItem.setOnClickListener((click) -> fragment.onClick(notification.getId()));
 

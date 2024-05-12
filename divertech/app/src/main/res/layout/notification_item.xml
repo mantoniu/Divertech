@@ -5,10 +5,11 @@
     android:background="@drawable/rounded_corners"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.elyeproj.loaderviewlibrary.LoaderImageView
         android:id="@+id/item_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        app:corners="16"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,19 +18,21 @@
         android:layout_marginBottom="10dp"
         android:contentDescription="@string/event_picture" />
 
-    <TextView
+    <com.elyeproj.loaderviewlibrary.LoaderTextView
         android:id="@+id/item_title"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/event_name"
         android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
+        android:layout_width="0dp"
         android:textSize="20sp"
+        app:corners="16"
+        app:layout_constraintRight_toRightOf="@id/item_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/item_image"
         app:layout_constraintBottom_toTopOf="@id/item_content" />
 
-    <TextView
+
+    <com.elyeproj.loaderviewlibrary.LoaderTextView
         android:id="@+id/item_content"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -38,7 +41,7 @@
         android:textSize="20sp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/notification_type"
+        app:corners="16"
         app:layout_constraintTop_toBottomOf="@id/item_title"
         app:layout_constraintLeft_toLeftOf="@id/item_title"
         app:layout_constraintRight_toLeftOf="@id/delete_button"

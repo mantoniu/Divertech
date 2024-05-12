@@ -19,7 +19,7 @@ public class NotificationCreator extends Observable {
     private NotificationCreator() {
     }
 
-    public static void getUser(String userId) {
+    public void getUser(String userId) {
         if (userId == null)
             return;
 
@@ -30,13 +30,13 @@ public class NotificationCreator extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String userEmail = dataSnapshot.child("email").getValue(String.class);
-                String name = dataSnapshot.child("name").getValue(String.class);
+                String firstName = dataSnapshot.child("firstName").getValue(String.class);
                 String lastName = dataSnapshot.child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("address").getValue(String.class);
                 String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
                 String language = dataSnapshot.child("language").getValue(String.class);
                 Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
-                notificationCreatorUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, admin != null ? admin : false);
+                notificationCreatorUser = new User(userId, userEmail, firstName, lastName, address, phoneNumber, language, admin != null ? admin : false);
                 getInstance().setChanged();
                 Log.d("TAG", instance.hasChanged() + " ");
                 getInstance().notifyObservers();

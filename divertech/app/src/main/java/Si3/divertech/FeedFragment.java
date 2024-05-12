@@ -20,19 +20,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
-
 
 public class FeedFragment extends Fragment implements ClickableFragment, Observer {
-    private final String TAG = "antoniu " + getClass().getSimpleName();
     private Context context;
     private BaseAdapter adapter;
     private FeedType feedType;
-
     private Intent intent;
+    private final NotificationCreatorObserver notificationCreatorObserver = new NotificationCreatorObserver();
+
+    private class NotificationCreatorObserver implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+            Log.d("UPDATEADMIN", "");
+            if (intent != null)
+                startActivity(intent);
+        }
+    }
 
     public FeedFragment() {
     }
@@ -49,33 +54,18 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
         ListView listView = view.findViewById(R.id.feed);
 
         feedType = FeedType.values()[requireArguments().getInt(getString(R.string.FEED_TYPE))];
-        String eventId = requireArguments().getString("eventId");
+        String eventId = requireArguments().getString(getString(R.string.event_id));
 
         if (feedType == FeedType.NOTIFICATION) {
-            if (eventId != null) {
-                adapter = new NotificationAdapter(this, getContext(), filter(eventId, NotificationList.getNotificationMap()));
-                NotificationList.setAdapter(adapter);
-            } else {
-                Log.d("Notif", "ok");
-                adapter = new NotificationAdapter(this, getContext(), NotificationList.getNotificationMap());
-                NotificationList.setAdapter(adapter);
-            }
+            adapter = new NotificationAdapter(this, getContext(), eventId);
+            NotificationList.getInstance().addObserver(this);
+            ListEvent.getInstance().addObserver(this);
         } else {
-            adapter = new EventAdapter(this, getContext(), ListEvent.getEventMap());
-            ListEvent.setAdapter(adapter);
+            adapter = new EventAdapter(this, getContext());
+            ListEvent.getInstance().addObserver(this);
         }
-
         listView.setAdapter(adapter);
         return view;
-    }
-
-    public Map<String, Notification> filter(String eventId, Map<String, Notification> map) {
-        Map<String, Notification> mapping = map.entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().getEventId().equals(eventId))
-                .collect(Collectors.toMap(java.util.Map.Entry::getKey, java.util.Map.Entry::getValue));
-        Log.d("Admin", mapping.toString() + "ok" + map + eventId);
-        return mapping;
     }
 
     @Nullable
@@ -105,8 +95,8 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
 
         popupView.findViewById(R.id.go_to_event).setOnClickListener((click) -> {
             popup.dismiss();
-            intent = new Intent(context, EventActivity.class);
-            intent.putExtra("eventId", ListEvent.getEventMap().get(notification.getEventId()));
+            Intent intent = new Intent(context, EventActivity.class);
+            intent.putExtra(getString(R.string.event_id), notification.getEventId());
             startActivity(intent);
         });
 
@@ -122,22 +112,22 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             intent = new Intent(context, EventActivity.class);
-            intent.putExtra("id", itemId);
+            intent.putExtra(getString(R.string.event_id), itemId);
             startActivity(intent);
-        } else if (UserData.getConnectedUser().getIsAdmin()) {
+        } else if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
-            intent.putExtra("type", NotificationList.getNotificationMap().get(itemId).getType());
-            intent.putExtra("id", itemId);
-            NotificationCreator.getInstance().addObserver(this);
-            NotificationCreator.getInstance().getUser(NotificationList.getNotificationMap().get(itemId).getNotificationCreatorUser());
+            intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
+            intent.putExtra(getString(R.string.notification_id), itemId);
+            NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
+            NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");
-            createPopup(NotificationList.getNotification(itemId));
+            createPopup(NotificationList.getInstance().getNotification(itemId));
         }
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        startActivity(intent);
+        adapter.notifyDataSetChanged();
     }
 }
