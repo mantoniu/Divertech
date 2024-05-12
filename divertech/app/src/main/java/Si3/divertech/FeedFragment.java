@@ -20,8 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Map;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -38,6 +36,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             Log.d("UPDATEADMIN", "");
             if (intent != null)
                 startActivity(intent);
+            NotificationCreator.getInstance().deleteObserver(notificationCreatorObserver);
         }
     }
 
@@ -121,7 +120,8 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
             intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
             intent.putExtra(getString(R.string.notification_id), itemId);
-            NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
+            if (feedType == FeedType.NOTIFICATION)
+                NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");
