@@ -52,6 +52,7 @@ public class EventActivity extends AppCompatActivity {
                 Log.d("Admin", eventId + " ");
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra(getString(R.string.event_id), eventId);
+                intent.putExtra(getString(R.string.back_possible), true);
                 startActivity(intent);
             });
 
