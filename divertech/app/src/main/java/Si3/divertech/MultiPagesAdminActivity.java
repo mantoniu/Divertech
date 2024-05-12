@@ -19,6 +19,9 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String notificationId = getIntent().getStringExtra(getString(R.string.notification_id));
+        NotificationList.getInstance().getNotification(notificationId);
+
         setContentView(R.layout.activity_multi_pages_admin);
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
@@ -31,12 +34,8 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         TextInputEditText description = findViewById(R.id.edit_text_area);
         AutoCompleteTextView typeSelector = findViewById(R.id.selector);
         int type = getIntent().getIntExtra("type", 0);
-        NotificationTypes types = NotificationTypes.values()[index];
+        NotificationTypes types = NotificationTypes.values()[type];
         typeSelector.setText(types.getContent());
-
-        String notificationId = getIntent().getStringExtra(getString(R.string.notification_id));
-        NotificationList.getInstance().getNotification(notificationId);
-
         description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
 
 

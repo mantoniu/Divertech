@@ -29,7 +29,7 @@ public class MultiPagesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (UserData.getConnectedUser().getIsAdmin()) {
+        if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
             setContentView(R.layout.activity_admin_report);
         } else {
             setContentView(R.layout.activity_multi_pages);
