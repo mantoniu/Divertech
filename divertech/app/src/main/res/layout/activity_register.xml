@@ -11,20 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/goback"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/goback"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/return_arrow_description"
+            android:background="@drawable/roundbackground"
+            android:src="@drawable/return_arrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp" />
 
         <TextView
             android:id="@+id/personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:text="@string/informations_personnelles"
             android:textColor="@color/black"
             android:textSize="24sp"

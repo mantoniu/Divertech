@@ -36,6 +36,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             Log.d("UPDATEADMIN", "");
             if (intent != null)
                 startActivity(intent);
+            NotificationCreator.getInstance().deleteObserver(notificationCreatorObserver);
         }
     }
 
@@ -86,8 +87,8 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
         LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.notification_popup, requireActivity().findViewById(R.id.notification_popup));
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
 
         PopupWindow popup = new PopupWindow(popupView, width, height, true);
 
@@ -99,10 +100,11 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             intent.putExtra(getString(R.string.event_id), notification.getEventId());
             startActivity(intent);
         });
+        popupView.findViewById(R.id.layout).setOnClickListener((click) -> popup.dismiss());
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType());
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType() + "");
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
@@ -118,7 +120,8 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
             intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
             intent.putExtra(getString(R.string.notification_id), itemId);
-            NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
+            if (feedType == FeedType.NOTIFICATION)
+                NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");

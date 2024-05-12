@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Divertech</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ReturnArrowDescription">Retour en arrière</string>
+    <string name="return_arrow_description">Retour en arrière</string>
     <string name="Changement_Langue">Changement de langue</string>
-    <string name="nameEventExemple">Evenement 1</string>
+    <string name="nameEventExemple">Evenement</string>
     <string name="buttonReturn">←</string>
     <string name="localisationEventExemple">50, Rue de Jilian Lubrat 20110 Propriano</string>
     <string name="bookParkingPlace">Réserver une place de parking</string>
@@ -25,7 +25,7 @@
     <string name="admin_connection">Se connecter en tant qu\'Admin</string>
     <string name="mes_evenements">Mes évènements</string>
     <string name="r_servation_d_une_place_de_parking">Réservation d\'une place de parking</string>
-    <string name="plaque_d_immatriculation">plaque d\'immatriculation</string>
+    <string name="plaque_d_immatriculation">Plaque d\'immatriculation</string>
     <string name="envoyer_la_demande">Envoyer la demande</string>
     <string name="choisir_un_horaire">Choisir un horaire</string>
     <string name="selectionner_une_date">Selectionner une date</string>
@@ -46,7 +46,7 @@
     <string name="hint_contact">Entrer votre demande ici</string>
     <string name="lost_object">Objet Perdu</string>
     <string name="report_incident">Signalement</string>
-
+    <string name="error_type_message">Veuillez choisir un type</string>
     <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
     <string name="kotlin_entry_title" translatable="false">Run the ML Kit quickstart written in Kotlin</string>
     <string name="ok" translatable="false">OK</string>
@@ -126,6 +126,28 @@
     <string name="describe_event_hint">Décriver votre évènement ici :</string>
     <string name="report_title">Titre du signalement</string>
     <string name="dateExample">10 aout 2024 23h30</string>
+    <string name="events">Mes évènements</string>
+    <string name="notifications">Notifications</string>
+    <string name="title">Title</string>
+    <string name="flashlight_button">FlashLight button</string>
+    <string name="add_event">Add event</string>
+    <string name="name_last_name">Nom\nPrénom</string>
+    <string name="error_no_message">Veuillez entrer un message</string>
+    <string name="lost_object_logo">lost object logo</string>
+    <string name="phone_contact">Phone contact</string>
+    <string name="contact_via_mail">Contact via mail</string>
+    <string name="image_of_the_event">Image of the event</string>
+    <string name="report_logo">Report logo</string>
+    <string name="feed_admin_logo">feed admin logo</string>
+    <string name="date">10 aout 2024 23h30</string>
+    <string name="car_picture">Car picture</string>
+    <string name="image_event_text_replace">Image de l\'évènement</string>
+    <string name="default_date">10 aout 2024 23h30</string>
+    <string name="add_to_calendar_text">L\'ajouter au calendrier ?</string>
+    <string name="need_park_text">Besoin d\'une place de parking ?\nN\'attendez plus, réservez-la ici.</string>
+    <string name="organizer_presentation_text">Organisateur :</string>
+    <string name="default_organizer_text">Jean Dupond</string>
+    <string name="description_event_text">Description de l\'évènement :</string>
     <string name="informations_personnelles">Informations personnelles</string>
     <string name="informations_de_localisation">Informations de localisation</string>
     <string name="information_de_connexion">Information de connexion</string>
@@ -150,6 +172,42 @@
     <string name="losen_object">Objet Perdu</string>
     <string name="incident_title">Titre incident</string>
     <string name="notification_id">notificationid</string>
+    <string name="contact">Contact</string>
+    <string name="ma_carte">Ma Carte</string>
+    <string name="hint_type_message_selection">Sélectionner le type de message</string>
+    <string name="hint_message_contact">Votre message</string>
+    <string name="send">Envoyer</string>
+    <string name="adresse_hint">Adresse</string>
+    <string name="phone_number_hint">Numéro de téléphone</string>
+    <string name="licence_plate_hint">Numéro de plaque d\'imatriculation</string>
+    <string name="send_request">Envoyer la demande</string>
+    <string name="parking_space">Place de parking</string>
+    <string name="choose_date_required">Veuillez chosir une date</string>
+    <string name="postal_code_required">Veuillez entrer un code postal valide</string>
+    <string name="phone_number_required">Veuillez entrer un numéro de téléphone</string>
+    <string name="city_required">Veuillez entrer une ville</string>
+    <string name="title_required">Veuillez entrer un nom</string>
+    <string name="short_description_required">Veuillez entrer une courte description</string>
+    <string name="licence_plate_required">Veuillez entrer plaque d\'immatriculation</string>
+    <string name="address_required">Veuillez entrer une adresse</string>
+    <string name="adresse_hint_new_event">Adresse de l\'évènement</string>
+    <string name="choose_date_text">Sélectionner une date</string>
+    <string name="icon_calendar_text">Icone calendrier</string>
+    <string name="city_hint">Ville de l\'évènement</string>
+    <string name="icon_more">Icone more</string>
+    <string name="title_event_hint">Nom de l\'évènement</string>
+    <string name="description_hint">Ajouter une description</string>
+    <string name="postal_code_hint">Code postal</string>
+    <string name="short_description_hint">Courte description</string>
+    <string name="report_information_text">Signaler une information</string>
+    <string name="map_popup_description">Popup map</string>
+    <string name="icon_house">Icone maison</string>
+    <string name="icon_map">Icone Map</string>
+    <string name="icon_close_popup">Icone fermer la popup</string>
+    <string name="hint_message_contact_admin">Message</string>
+    <string name="type_message_admin_vue_contact">Raison du message</string>
+    <string name="see_notifications">Voir les notifications</string>
+    <string name="back_possible">back</string>
 
 
 </resources>

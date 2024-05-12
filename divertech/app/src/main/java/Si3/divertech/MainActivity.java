@@ -3,6 +3,9 @@ package Si3.divertech;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +17,15 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         String eventId = intent.getStringExtra(getString(R.string.event_id));
+        View headerView = findViewById(R.id.header_menu);
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.notifications);
+
+        ImageButton button = findViewById(R.id.return_arrow);
+
+        if (intent.getBooleanExtra(getString(R.string.back_possible), false)) {
+            button.setVisibility(View.VISIBLE);
+            button.setOnClickListener(click -> finish());
+        }
 
         if (eventId != null) {
             Bundle notificationBundle = new Bundle();

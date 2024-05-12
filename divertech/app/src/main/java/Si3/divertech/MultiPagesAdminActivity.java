@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -16,39 +19,29 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String notificationId = getIntent().getStringExtra(getString(R.string.notification_id));
+        NotificationList.getInstance().getNotification(notificationId);
+
         setContentView(R.layout.activity_multi_pages_admin);
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
         View deleteButton = findViewById(R.id.bloc_close);
-        TextView title = findViewById(R.id.title);
-        TextView description = findViewById(R.id.description);
-        int type = getIntent().getIntExtra("type", 0);
-
-        String notificationId = getIntent().getStringExtra(getString(R.string.notification_id));
-        NotificationList.getInstance().getNotification(notificationId);
-
-        description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
-
         deleteButton.setOnClickListener(click -> {
             NotificationList.getInstance().deleteNotification(notificationId);
             finish();
         });
 
+        TextInputEditText description = findViewById(R.id.edit_text_area);
+        AutoCompleteTextView typeSelector = findViewById(R.id.selector);
+        int type = getIntent().getIntExtra("type", 0);
+        NotificationTypes types = NotificationTypes.values()[type];
+        typeSelector.setText(types.getContent());
+        description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
+
+
+
         NotificationCreator.getInstance().addObserver(this);
-
         setWriterInformation();
-
-        switch (type) {
-            case EventActivity.CONTACT:
-                title.setText(R.string.message_object);
-                break;
-            case EventActivity.OBJET:
-                title.setText(R.string.losen_object);
-                break;
-            default:
-                title.setText(R.string.incident_title);
-                break;
-        }
     }
 
     private void setWriterInformation() {
