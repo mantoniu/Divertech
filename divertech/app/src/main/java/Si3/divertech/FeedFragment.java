@@ -95,6 +95,10 @@ public class FeedFragment extends Fragment implements ClickableFragment {
 
 
         if (feedType == FeedType.NOTIFICATION) {
+            if (eventId != null) {
+                binding.emptyText.setText(R.string.no_notification);
+                binding.feed.setEmptyView(binding.emptyText);
+            }
             adapter = new NotificationAdapter(this, getContext(), eventId);
             NotificationList.getInstance().addObserver(new NotificationListObserver());
             ListEvent.getInstance().addObserver(new ListEventObserver());
