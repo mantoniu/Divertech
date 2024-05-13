@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -23,17 +22,47 @@ import androidx.fragment.app.Fragment;
 import java.util.Observable;
 import java.util.Observer;
 
-public class FeedFragment extends Fragment implements ClickableFragment, Observer {
+import Si3.divertech.databinding.FragmentFeedBinding;
+
+public class FeedFragment extends Fragment implements ClickableFragment {
     private Context context;
     private BaseAdapter adapter;
     private FeedType feedType;
     private Intent intent;
-    private final NotificationCreatorObserver notificationCreatorObserver = new NotificationCreatorObserver();
+    private NotificationCreatorObserver notificationCreatorObserver;
+    private FragmentFeedBinding binding;
+
+    private class NotifyAdapterObserver implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+            if (adapter != null)
+                adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class NotificationListObserver extends NotifyAdapterObserver {
+        @Override
+        public void update(Observable o, Object arg) {
+            super.update(o, arg);
+            binding.emptyText.setText(R.string.no_notification);
+            binding.feed.setEmptyView(binding.emptyText);
+        }
+    }
+
+    private class ListEventObserver extends NotifyAdapterObserver {
+        @Override
+        public void update(Observable o, Object arg) {
+            super.update(o, arg);
+            if (feedType == FeedType.EVENTS) {
+                binding.emptyText.setText(R.string.no_event_registered);
+                binding.feed.setEmptyView(binding.emptyText);
+            }
+        }
+    }
 
     private class NotificationCreatorObserver implements Observer {
         @Override
         public void update(Observable o, Object arg) {
-            Log.d("UPDATEADMIN", "");
             if (intent != null)
                 startActivity(intent);
             NotificationCreator.getInstance().deleteObserver(notificationCreatorObserver);
@@ -50,22 +79,31 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
-        ListView listView = view.findViewById(R.id.feed);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+            binding.emptyText.setText(savedInstanceState.getString("test"));
+    }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        binding = FragmentFeedBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
         feedType = FeedType.values()[requireArguments().getInt(getString(R.string.FEED_TYPE))];
         String eventId = requireArguments().getString(getString(R.string.event_id));
 
+
         if (feedType == FeedType.NOTIFICATION) {
             adapter = new NotificationAdapter(this, getContext(), eventId);
-            NotificationList.getInstance().addObserver(this);
-            ListEvent.getInstance().addObserver(this);
+            NotificationList.getInstance().addObserver(new NotificationListObserver());
+            ListEvent.getInstance().addObserver(new ListEventObserver());
         } else {
             adapter = new EventAdapter(this, getContext());
-            ListEvent.getInstance().addObserver(this);
+            ListEvent.getInstance().addObserver(new ListEventObserver());
+            ListEvent.getInstance().requestData();
         }
-        listView.setAdapter(adapter);
+        binding.feed.setAdapter(adapter);
         return view;
     }
 
@@ -78,8 +116,6 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     @Override
     public void onResume() {
         super.onResume();
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
     }
 
 
@@ -104,7 +140,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(notification.getType() + "");
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(String.format("%s", notification.getType()));
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
@@ -120,17 +156,15 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
             intent = new Intent(getContext(), MultiPagesAdminActivity.class);
             intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
             intent.putExtra(getString(R.string.notification_id), itemId);
-            if (feedType == FeedType.NOTIFICATION)
+            if (feedType == FeedType.NOTIFICATION) {
+                if (notificationCreatorObserver == null)
+                    notificationCreatorObserver = new NotificationCreatorObserver();
                 NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
+            }
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
             Log.d("CLICKED_FRAGMENT", "");
             createPopup(NotificationList.getInstance().getNotification(itemId));
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        adapter.notifyDataSetChanged();
     }
 }

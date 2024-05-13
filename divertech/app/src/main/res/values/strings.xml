@@ -208,6 +208,8 @@
     <string name="type_message_admin_vue_contact">Raison du message</string>
     <string name="see_notifications">Voir les notifications</string>
     <string name="back_possible">back</string>
+    <string name="no_event_registered">Aucun évènement enregistré</string>
+    <string name="no_notification">Aucune notification</string>
 
 
 </resources>
