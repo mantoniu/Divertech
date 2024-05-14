@@ -208,6 +208,7 @@
     <string name="type_message_admin_vue_contact">Raison du message</string>
     <string name="see_notifications">Voir les notifications</string>
     <string name="back_possible">back</string>
+    <string name="selfPosition">Vous êtes ici</string>
 
 
 </resources>

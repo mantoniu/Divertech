@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
-import android.location.LocationRequest;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -42,8 +40,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity {
-
-    Map<String, Event> listEvent = ListEvent.getEventMap();
 
     private String pos;
     DisplayMetrics metrics = new DisplayMetrics();
@@ -68,8 +64,15 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
         }
 
         public void addInfoMarker(Marker marker) {
-            if (marker.getTag() == null)
+            if (marker.getTag() == null){
+                TextView title = customPopUp.findViewById(R.id.title);
+                title.setText(R.string.selfPosition);
+                ImageView picture = customPopUp.findViewById(R.id.image);
+                TextView description = customPopUp.findViewById(R.id.description);
+                description.setText("...");
                 return;
+            }
+
 
             if (ListEvent.getInstance().getEvent(marker.getTag().toString()) != null) {
                 TextView title = customPopUp.findViewById(R.id.title);
@@ -87,8 +90,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 //description.setLayoutParams(new ConstraintLayout.LayoutParams(metrics.widthPixels-150, ActionBar.LayoutParams.WRAP_CONTENT));
             }
             else {
-                TextView title = customPopUp.findViewById(R.id.title);
-                title.setText("Vous êtes ici");
+
             }
         }
     }
@@ -166,7 +168,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 Address address;
                 googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
                 List<Marker> markers = new ArrayList<>();
-                for (Event event : listEvent.values()) {
+                for (Event event : ListEvent.getInstance().getEvents()) {
                     address = getAdress(event);
                     LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
                     Marker marker = googleMap.addMarker(new MarkerOptions()
@@ -188,7 +190,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 15f));
 
                 else {
-                    address = getAdress(Objects.requireNonNull(listEvent.get(pos)));
+                    address = getAdress(Objects.requireNonNull(ListEvent.getInstance().getEvent(pos)));
 
                     LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f));
@@ -197,7 +199,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
 
                 googleMap.setOnInfoWindowClickListener(marker -> {
                     Intent intent = new Intent(getContext(), EventActivity.class);
-                    intent.putExtra("event", listEvent.get(marker.getTag()));
+                    intent.putExtra("event", ListEvent.getInstance().getEvent(marker.getTag().toString()));
                     startActivity(intent);
                 });
             }
