@@ -14,17 +14,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
+import java.util.Observable;
 
-public class UserData {
+public class UserData extends Observable {
+    private static UserData instance;
     private static User connectedUser;
     private static FirebaseUser firebaseUser;
     private static String userId;
 
-    public static String getUserId() {
+    private UserData() {
+    }
+
+    public static UserData getInstance() {
+        if (instance == null)
+            instance = new UserData();
+        return instance;
+    }
+
+    public String getUserId() {
         return userId;
     }
 
-    public static void requestUserData(FirebaseUser user) {
+    public void requestUserData(FirebaseUser user) {
         if (user == null)
             return;
 
@@ -50,21 +61,23 @@ public class UserData {
                 Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
 
                 connectedUser = new User(userId, firstName, lastName,userEmail,phoneNumber,language,address,postalCode,city, admin != null ? admin : false);
-
                 Log.d("CONNECTED USER", connectedUser.toString());
+
+                setChanged();
+                notifyObservers();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("TAG", databaseError.getMessage());
+                Log.d("USER REQUEST ERROR", databaseError.getMessage());
             }
         });
     }
 
-    public static User getConnectedUser() {
+    public User getConnectedUser() {
         return connectedUser;
     }
 
-    public static void writeNewUser(String userId, String firstName, String lastName, String mail, String phoneNumber, String language, String address,String postalCode, String city) {
+    public void writeNewUser(String userId, String firstName, String lastName, String mail, String phoneNumber, String language, String address, String postalCode, String city) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
         usersRef.child("firstName").setValue(firstName);
@@ -82,7 +95,7 @@ public class UserData {
         usersRef.child("admin").setValue(false);
     }
 
-    public static void updateUser(String userId, String firstName, String lastName, String email, String phoneNumber, String language, String address,String postalCode, String city, String password) {
+    public void updateUser(String userId, String firstName, String lastName, String email, String phoneNumber, String language, String address, String postalCode, String city, String password) {
         if (firebaseUser == null)
             return;
 
@@ -97,20 +110,16 @@ public class UserData {
                         firebaseUser.updateEmail(email)
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {
-                                        UserData.requestUserData(firebaseUser);
+                                        requestUserData(firebaseUser);
                                     } else {
                                         Exception exception = task2.getException();
-                                        if (exception != null) {
-                                            Log.e("UPDATE EMAIL ERROR", "Erreur lors de la mise à jour de l'email", exception);
-                                        }
+                                        if (exception != null)
+                                            Log.e("UPDATE EMAIL ERROR", "", exception);
                                     }
                                 });
                     } else {
-                        Exception exception = task.getException();
-                        Log.d("RE-AUTHENTICATION ERROR", "", exception);
+                        Log.d("RE-AUTHENTICATION ERROR", "", task.getException());
                     }
                 });
-
-
     }
 }

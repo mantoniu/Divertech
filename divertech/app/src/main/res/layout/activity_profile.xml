@@ -29,18 +29,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/return_arrow"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/goback"
-                android:scaleType="fitXY"
-                android:background="@null"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:tint="@color/white_smoke"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:translationZ="10dp">
+
+                <ImageButton
+                    android:id="@+id/return_arrow"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/return_arrow_description"
+                    android:background="@drawable/roundbackground"
+                    android:backgroundTint="@color/white"
+                    android:tint="@color/black"
+                    android:src="@drawable/return_arrow" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/profile_image"
@@ -343,7 +350,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Autorisation de notification"
+            android:text="@string/autorisation_de_notification"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -356,7 +363,7 @@
             android:id="@+id/beforehourenotif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notification avant l'heure de vos événements"
+            android:text="@string/notification_avant_l_heure_de_vos_v_nements"
             android:switchPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/notif_choice"/>
@@ -365,7 +372,7 @@
             android:id="@+id/answernotif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notification de réponse à vos demandes "
+            android:text="@string/notification_de_r_ponse_vos_demandes"
             android:switchPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/beforehourenotif"/>
@@ -374,7 +381,7 @@
             android:id="@+id/feednotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notification de publication sur le fil d'actualité"
+            android:text="@string/notification_de_publication_sur_le_fil_d_actualit"
             android:switchPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/answernotif"/>

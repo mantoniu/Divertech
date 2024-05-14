@@ -31,6 +31,7 @@ public interface ClickableActivity {
         if (i != null) {
             startActivity(i);
             overridePendingTransition(0, 0);
+            finish();
         }
     }
 }

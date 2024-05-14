@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- menu_example.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_language"
+        android:title="@string/language"
+        android:icon="@drawable/language"
+        app:showAsAction="ifRoom"
+        >
+        <menu>
+            <item
+                android:id="@+id/menu_language_english"
+                android:title="English"
+                android:icon="@drawable/en_flag"
+                app:showAsAction="withText"/>
+            <item
+                android:id="@+id/menu_language_french"
+                android:title="Français"
+                android:icon="@drawable/fr_flag"
+                app:showAsAction="withText"/>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_profile"
+        android:title="@string/profile_picture"
+        android:icon="@drawable/profile"
+        app:showAsAction="ifRoom"
+        >
+        <menu>
+            <item
+                android:id="@+id/menu_profile_edit"
+                android:title="Mon profil"
+                android:icon="@drawable/profile" />
+            <item
+                android:id="@+id/menu_logout"
+                android:title="Se deconnecter"
+                android:icon="@drawable/logout" />
+        </menu>
+    </item>
+</menu>

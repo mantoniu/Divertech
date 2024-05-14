@@ -20,7 +20,10 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
+
+public class ProfileActivity extends AppCompatActivity implements Observer {
 
     private List<TextInputLayout> fields;
 
@@ -41,31 +44,10 @@ public class ProfileActivity extends AppCompatActivity {
                 findViewById(R.id.password_container)
         );
 
-        User user = UserData.getConnectedUser();
-        setFields(user);
-        setOnClickEdit(user);
+        setValues();
+        UserData.getInstance().addObserver(this);
         findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
-    }
-
-    private void setFields(User user){
-        TextView name = findViewById(R.id.username);
-        name.setText(user.getFirstName()+" "+user.getLastName());
-        TextView lastName = findViewById(R.id.lastName);
-        lastName.setText(user.getLastName());
-        TextView firstName = findViewById(R.id.firstName);
-        firstName.setText(user.getFirstName());
-        TextView email = findViewById(R.id.mail);
-        email.setText(user.getEmail());
-        TextView phone = findViewById(R.id.phone);
-        phone.setText(user.getPhoneNumber());
-        TextView address = findViewById(R.id.address);
-        address.setText(user.getAddress());
-        TextView city = findViewById(R.id.city);
-        city.setText(user.getCity());
-        TextView postalCode = findViewById(R.id.postalcode);
-        postalCode.setText(user.getPostalCode());
-        TextView password = findViewById(R.id.password);
-        password.setText("**********");
+        setOnClickEdit();
     }
 
     private void SetUpFields(TextInputLayout field, EditText edit, EditText confirm){
@@ -147,15 +129,12 @@ public class ProfileActivity extends AppCompatActivity {
         }
         if(field==findViewById(R.id.lastName_container)){
             user.setLastName(edit.getText().toString());
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.firstName_container)){
             user.setFirstName(edit.getText().toString());
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.mail_container)){
             changeMail(edit, confirm, error, alertDialog, user);
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.phone_container)){
             if(!FormatChecker.checkPhone(edit)){
@@ -164,28 +143,24 @@ public class ProfileActivity extends AppCompatActivity {
                 return;
             }
             user.setPhoneNumber(edit.getText().toString());
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.address_container)){
             user.setAddress(edit.getText().toString());
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.city_container)){
             user.setCity(edit.getText().toString());
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.postalcode_container)){
             user.setPostalCode(edit.getText().toString());
-            field.getEditText().setText(edit.getText().toString());
         }
         else if(field==findViewById(R.id.password_container)){
             changePassword(edit, confirm, error, alertDialog, user);
-
         }
 
     }
 
-    private void setOnClickEdit(User user){
+    private void setOnClickEdit(){
+        User user = UserData.getInstance().getConnectedUser();
         for(TextInputLayout field : fields){
             field.setEndIconOnClickListener(click -> {
                 //init dialog
@@ -223,5 +198,30 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void update(Observable o, Object arg) {
+        setValues();
+    }
 
+    private void setValues() {
+        User user = UserData.getInstance().getConnectedUser();
+        TextView name = findViewById(R.id.username);
+        name.setText(user.getFirstName()+" "+user.getLastName());
+        TextView lastName = findViewById(R.id.lastName);
+        lastName.setText(user.getLastName());
+        TextView firstName = findViewById(R.id.firstName);
+        firstName.setText(user.getFirstName());
+        TextView email = findViewById(R.id.mail);
+        email.setText(user.getEmail());
+        TextView phone = findViewById(R.id.phone);
+        phone.setText(user.getPhoneNumber());
+        TextView address = findViewById(R.id.address);
+        address.setText(user.getAddress());
+        TextView city = findViewById(R.id.city);
+        city.setText(user.getCity());
+        TextView postalCode = findViewById(R.id.postalcode);
+        postalCode.setText(user.getPostalCode());
+        TextView password = findViewById(R.id.password);
+        password.setText("**********");
+    }
 }

@@ -198,4 +198,8 @@ public class User {
         }
         return future;
     }
+
+    public void disconnect() {
+        FirebaseAuth.getInstance().signOut();
+    }
 }
