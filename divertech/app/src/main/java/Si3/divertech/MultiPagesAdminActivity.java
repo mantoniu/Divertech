@@ -47,7 +47,7 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
     private void setWriterInformation() {
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
         TextView name = findViewById(R.id.name);
-        name.setText(String.format("%s\n%s", writer.getName(), writer.getLastName()));
+        name.setText(String.format("%s\n%s", writer.getFirstName(), writer.getLastName()));
         View call = findViewById(R.id.bloc_contact_phone);
         call.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));

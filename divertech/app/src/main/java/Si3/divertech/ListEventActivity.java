@@ -20,8 +20,6 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
         FootMenu f = new FootMenu();
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.events);
 
         // Event feed fragment
         Bundle feedFragmentBundle = new Bundle();

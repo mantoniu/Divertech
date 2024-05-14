@@ -36,6 +36,8 @@
         <activity
             android:name=".ParkingActivity"
             android:exported="false"
+            android:label="@string/parking_space"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".RegisterActivity"
@@ -44,16 +46,22 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:label="@string/notifications"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".qr_reader.CameraPreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".EventActivity"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/event"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MapActivity"
+            android:label="@string/ma_carte"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
@@ -65,9 +73,13 @@
         <activity
             android:name=".MultiPagesActivity"
             android:exported="true"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/contact"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".CreateEventActivity"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/create_event"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
@@ -77,9 +89,13 @@
         <activity
             android:name=".MultiPagesAdminActivity"
             android:exported="true"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/contact"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".ListEventActivity"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/events"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity

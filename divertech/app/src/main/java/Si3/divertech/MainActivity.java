@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         String eventId = intent.getStringExtra(getString(R.string.event_id));
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.notifications);
 
         ImageButton button = findViewById(R.id.return_arrow);
 

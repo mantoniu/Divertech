@@ -81,9 +81,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         setContentView(R.layout.activity_map);
 
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.ma_carte);
-
         pos = getIntent().getStringExtra("pos");
 
         Bundle b = new Bundle();
