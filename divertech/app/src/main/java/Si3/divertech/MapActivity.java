@@ -82,8 +82,11 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 } else {
                     description.setMaxWidth((int) (metrics.widthPixels / 1.6));
                 }
-
                 //description.setLayoutParams(new ConstraintLayout.LayoutParams(metrics.widthPixels-150, ActionBar.LayoutParams.WRAP_CONTENT));
+            }
+            else {
+                TextView title = customPopUp.findViewById(R.id.title);
+                title.setText("Vous êtes ici");
             }
         }
     }
@@ -101,7 +104,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
         FootMenu f = new FootMenu();
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
-
 
         mapFragment = findViewById(R.id.map);
         mapFragment.onCreate(new Bundle());
@@ -145,7 +147,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     //  ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- ---- GPS --- //
     private FusedLocationProviderClient fusedLocationClient;
 
-    public void test(Location location2) {
+    public void markersAndActualPosition(Location location2) {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -169,9 +171,12 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                         markers.add(marker);
                     }
                 }
-                Log.d("GPS", "test : " + positionActuelle);
-                markers.add(googleMap.addMarker(new MarkerOptions()
-                        .position(positionActuelle)));
+
+                Log.d("GPS", "position : " + positionActuelle);
+                if(!(positionActuelle.latitude == 46.52863469527167 && positionActuelle.longitude == 2.43896484375)){
+                    Marker markerVotrePosition = googleMap.addMarker(new MarkerOptions().position(positionActuelle));
+                    markers.add(markerVotrePosition);
+                }
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 4f));
 
                 if (pos == null)
@@ -198,20 +203,20 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-           test(null);
+            markersAndActualPosition(null);
             return;
         }
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        test(location);
+                        markersAndActualPosition(location);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        test(null);
+                        markersAndActualPosition(null);
                     }
                 });
     };
@@ -219,13 +224,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     private void gps(FusedLocationProviderClient fusedLocationProviderClient) {
         LatLng latlng = null;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             Log.d("GPS", "demande de permission GPS");
         }
@@ -234,13 +232,13 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            test(location);
+                            markersAndActualPosition(location);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            test(null);
+                            markersAndActualPosition(null);
                         }
                     });
         }
