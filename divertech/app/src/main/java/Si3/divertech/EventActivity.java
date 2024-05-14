@@ -30,7 +30,6 @@ public class EventActivity extends AppCompatActivity {
     private static final int READ_CALENDAR_PERMISSION_CODE = 102;
     boolean isTextViewClicked = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +64,10 @@ public class EventActivity extends AppCompatActivity {
 
             checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
             checkPermission(Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
-
-            if (ListEvent.getInstance().getEvent(eventId) == null) {
+            if (!ListEvent.getInstance().containsEvent(eventId)) {
                 finish();
                 return;
             }
-
 
             MaterialCardView map = findViewById(R.id.card_name_event);
             map.setOnClickListener(click -> {

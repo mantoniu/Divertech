@@ -32,6 +32,8 @@ public class ListEvent extends Observable {
     }
 
     private void addEvent(Event event) {
+        if (eventMap.containsKey(event.getId()))
+            eventMap.replace(event.getId(), event);
         eventMap.put(event.getId(), event);
     }
 
@@ -54,12 +56,8 @@ public class ListEvent extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Event event = snapshot.getValue(Event.class);
-                    if (event == null)
-                        return;
-
-                    event.setId(eventId);
-                    addEvent(event);
+                    registerUserToEvent(eventId);
+                    addEventByDataSnapshot(eventId, snapshot);
                     listener.onDataBaseResponse(eventId, DataBaseResponses.SUCCESS);
                 } else
                     listener.onDataBaseResponse(eventId, DataBaseResponses.EVENT_DOES_NOT_EXIST);
@@ -73,7 +71,7 @@ public class ListEvent extends Observable {
         });
     }
 
-    public void requestEvent(String eventId) {
+    public void registerUserToEvent(String eventId) {
         DatabaseReference registrationsRef = rootRef.child("Registrations");
         DatabaseReference newRegistrationRef = registrationsRef.push();
         newRegistrationRef.child("eventId").setValue(eventId);
@@ -91,7 +89,6 @@ public class ListEvent extends Observable {
         userRegistrationsRef.orderByChild("userId").equalTo(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                eventMap.clear();
                 if (!dataSnapshot.exists()) {
                     setChanged();
                     notifyObservers();
@@ -100,21 +97,13 @@ public class ListEvent extends Observable {
                     String eventId = registrationSnapshot.child("eventId").getValue(String.class);
                     if (eventId == null)
                         return;
-
                     DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference()
                             .child("Events").child(eventId);
 
                     eventRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Event event = dataSnapshot.getValue(Event.class);
-                            if (event == null)
-                                return;
-
-                            event.setId(eventId);
-                            Log.d("EVENT", event.toString());
-
-                            addEvent(event);
+                            addEventByDataSnapshot(eventId, dataSnapshot);
                             setChanged();
                             notifyObservers();
                         }
@@ -132,5 +121,18 @@ public class ListEvent extends Observable {
                 Log.d("REGISTRATIONS REQUEST ERROR : ", databaseError.getMessage());
             }
         });
+    }
+
+    private void addEventByDataSnapshot(String eventId, DataSnapshot dataSnapshot) {
+        if (!dataSnapshot.exists())
+            return;
+
+        Event event = dataSnapshot.getValue(Event.class);
+        if (event == null)
+            return;
+
+        event.setId(eventId);
+        addEvent(event);
+        Log.d("EVENT_MAP", eventMap.keySet().toString());
     }
 }

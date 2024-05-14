@@ -25,7 +25,7 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
 
         // Event feed fragment
         Bundle feedFragmentBundle = new Bundle();
-        FeedFragment feedFragment = new FeedFragment();
+        Feed feedFragment = FeedFactory.createFeed(FeedType.EVENTS);
         feedFragmentBundle.putInt(getString(R.string.FEED_TYPE), FeedType.EVENTS.ordinal());
         feedFragment.setArguments(feedFragmentBundle);
         getSupportFragmentManager().beginTransaction().add(R.id.events_feed, feedFragment).commit();

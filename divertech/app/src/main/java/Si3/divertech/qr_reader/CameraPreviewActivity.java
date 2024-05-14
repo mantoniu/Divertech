@@ -330,19 +330,17 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     @Override
     public void onDataReceived(String eventId) {
         Log.d("RECEIVED_DATA", eventId);
-        if (!ListEvent.getInstance().containsEvent(eventId)) {
+        if (!ListEvent.getInstance().containsEvent(eventId))
             ListEvent.getInstance().eventExists(eventId, this);
-        }
-        goToEventActivity(eventId);
+        else
+            goToEventActivity(eventId);
     }
 
     @Override
     public void onDataBaseResponse(Object o, DataBaseResponses response) {
         switch (response) {
             case SUCCESS:
-                String eventId = (String) o;
-                ListEvent.getInstance().requestEvent(eventId);
-                goToEventActivity(eventId);
+                goToEventActivity((String) o);
                 break;
             case EVENT_DOES_NOT_EXIST:
                 barcodeScanEnabled = false;
@@ -356,8 +354,11 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     }
 
     private void goToEventActivity(String eventId) {
+        if (eventId == null)
+            return;
+
         Intent receivedData = new Intent(this, EventActivity.class);
-        receivedData.putExtra("event", ListEvent.getInstance().getEvent(eventId));
+        receivedData.putExtra(getString(R.string.event_id), eventId);
         startActivity(receivedData);
         finish();
     }
