@@ -216,5 +216,6 @@
     <string name="notification_avant_l_heure_de_vos_v_nements">Notification avant l\'heure de vos événements</string>
     <string name="autorisation_de_notification">Autorisation de notification</string>
     <string name="english">English</string>
-
+    <string name="no_event_registered">Aucun évènement enregistré</string>
+    <string name="no_notification">Aucune notification</string>
 </resources>

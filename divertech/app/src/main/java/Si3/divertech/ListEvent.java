@@ -92,6 +92,10 @@ public class ListEvent extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 eventMap.clear();
+                if (!dataSnapshot.exists()) {
+                    setChanged();
+                    notifyObservers();
+                }
                 for (DataSnapshot registrationSnapshot : dataSnapshot.getChildren()) {
                     String eventId = registrationSnapshot.child("eventId").getValue(String.class);
                     if (eventId == null)
@@ -121,8 +125,6 @@ public class ListEvent extends Observable {
                         }
                     });
                 }
-                setChanged();
-                notifyObservers();
             }
 
             @Override

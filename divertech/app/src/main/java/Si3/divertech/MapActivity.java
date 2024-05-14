@@ -163,6 +163,12 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         //}
         return address;
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0, 0);
+    }
 }
 
 
