@@ -36,8 +36,6 @@
         <activity
             android:name=".ParkingActivity"
             android:exported="false"
-            android:label="@string/parking_space"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".RegisterActivity"
@@ -54,8 +52,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".EventActivity"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
-            android:label="@string/event"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
@@ -78,12 +74,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".CreateEventActivity"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
-            android:label="@string/create_event"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity
-            android:name=".LanguageModificationActivity"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
