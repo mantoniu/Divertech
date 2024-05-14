@@ -39,12 +39,12 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity {
 
     Map<String, Event> listEvent = ListEvent.getEventMap();
+
     private String pos;
     DisplayMetrics metrics = new DisplayMetrics();
 
@@ -68,14 +68,16 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
         }
 
         public void addInfoMarker(Marker marker) {
-            Event event = listEvent.get(marker.getTag());
-            if (event != null) {
+            if (marker.getTag() == null)
+                return;
+
+            if (ListEvent.getInstance().getEvent(marker.getTag().toString()) != null) {
                 TextView title = customPopUp.findViewById(R.id.title);
-                title.setText(event.getTitle());
+                title.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getTitle());
                 ImageView picture = customPopUp.findViewById(R.id.image);
-                Picasso.get().load(event.getPictureUrl()).into(picture);
+                Picasso.get().load(ListEvent.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
                 TextView description = customPopUp.findViewById(R.id.description);
-                description.setText(event.getShortDescription());
+                description.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     description.setMaxWidth((int) (metrics.heightPixels / 1.6));
@@ -96,6 +98,9 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
         super.onCreate(savedInstanceState);
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         setContentView(R.layout.activity_map);
+
+        View headerView = findViewById(R.id.header_menu);
+        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.ma_carte);
 
         pos = getIntent().getStringExtra("pos");
 

@@ -4,211 +4,360 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".EventActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/dialog"
+    <!-- Image et flèche retour arrière-->
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:translationZ="20dp">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/headerMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:name="Si3.divertech.HeaderMenu"
-        tools:layout="@layout/fragment_header_menu" />
+        <ImageButton
+            android:id="@+id/button_cancel"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/return_arrow_description"
+            android:background="@drawable/roundbackground"
+            android:src="@drawable/cancel_white" />
+    </RelativeLayout>
 
-    <!-- En tête -->
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/nameEvent"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Nom"
-        android:textSize="40sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:background="@drawable/back"
-        app:layout_constraintTop_toBottomOf="@+id/headerMenu"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <ImageView
-        android:id="@+id/return_arrow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/return_arrow"
-        app:layout_constraintTop_toTopOf="@id/nameEvent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/nameEvent"
-        android:contentDescription="return arrow" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/short_description"
-        app:layout_constraintTop_toBottomOf="@id/nameEvent"
-        app:layout_constraintBottom_toTopOf="@id/place_and_image"
-        android:layout_margin="15dp"
-        android:hint="@string/short_description"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-
-    <!-- Première partie -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/place_and_image"
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/short_description"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:translationZ="20dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/localisation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/localisationEventExemple"
-            android:maxWidth="150dp"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+        <ImageButton
+            android:id="@+id/button_validate"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/validate"
+            android:background="@drawable/roundbackground"
+            android:src="@drawable/check_white" />
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_image_event"
+        android:layout_width="0dp"
+        app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge"
+        android:layout_height="250dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:strokeWidth="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        app:cardElevation="10dp">
 
         <ImageView
             android:id="@+id/image_event"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="-10dp"
-            android:src="@drawable/image_default"
-            app:layout_constraintTop_toTopOf="@id/localisation"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/localisation"
-            android:contentDescription="image of the event" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/dateExample"
-            android:maxWidth="300dp"
-            android:textAlignment="center"
-            android:textSize="15sp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/localisation"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-        />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <!-- texte central -->
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bloc_cancel"
-        app:layout_constraintTop_toBottomOf="@id/place_and_image"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:fillViewport="true"
-        android:layout_margin="25dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/description_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/describe_event_hint"
-            android:textSize="15sp"
-            android:gravity="start"
-            app:layout_constraintBottom_toTopOf="@id/bloc_cancel"
-            app:layout_constraintTop_toBottomOf="@id/localisation"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-    </androidx.core.widget.NestedScrollView>
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_default"
+            android:contentDescription="@string/image_event_text_replace" />
+    </com.google.android.material.card.MaterialCardView>
 
-    <!-- boutons bas -->
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bloc_cancel"
+    <!-- Corps de la page -->
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/check_bloc"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_image_event"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp">
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/logo_cancel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/cancel"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/cancel_text"
-            app:layout_constraintRight_toRightOf="parent"
-            android:contentDescription="report logo" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/cancel_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_cancel"
-            android:textSize="15sp"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/title_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_event_hint"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/short_description_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/short_description_hint"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_text_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/short_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/address_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/adresse_hint_new_event"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/short_description_text_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/city_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/city_hint"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_text_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/postal_code_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/postal_code_hint"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/city_text_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_date"
+                android:layout_width="0dp"
+                app:strokeWidth="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardElevation="10dp"
+                app:strokeColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="@+id/short_description_text_input"
+                app:layout_constraintRight_toRightOf="@+id/short_description_text_input"
+                app:layout_constraintTop_toBottomOf="@+id/postal_code_text_input">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/check_bloc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/bloc_cancel"
-        android:layout_marginBottom="30dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/calendar_constraint_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/check_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/check"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/text_check"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:contentDescription="feed admin logo" />
+                    <ImageView
+                        android:id="@+id/calendar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/calendar"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="10dp"
+                        android:contentDescription="@string/icon_calendar_text" />
 
-        <TextView
-            android:id="@+id/text_check"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_check"
-            android:textSize="15sp"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_date_text"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        app:layout_constraintLeft_toRightOf="@id/calendar"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/calendar"
+                        app:layout_constraintBottom_toBottomOf="@id/calendar"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
 
+                    <TextView
+                        android:id="@+id/add_calendar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#646478"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginBottom="20dp"
+                        app:layout_constraintLeft_toLeftOf="@id/date"
+                        app:layout_constraintTop_toBottomOf="@id/date"
+                        app:layout_constraintRight_toRightOf="@id/date"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Date -->
+
+
+            <!-- parking -->
+
+
+            <!-- Description -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_description"
+                android:layout_width="0dp"
+                app:strokeWidth="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintTop_toBottomOf="@id/card_date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="@id/card_date"
+                app:layout_constraintLeft_toLeftOf="@id/card_date">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/part_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:elevation="10dp">
+
+                    <TextView
+                        android:id="@+id/description_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description_event_text"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/more"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/add"
+                        android:layout_margin="15dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:contentDescription="@string/icon_more" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:id="@+id/description_text_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description_title"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/description"
+                            android:layout_width="match_parent"
+                            android:gravity="start"
+                            android:hint="@string/description_hint"
+                            android:layout_height="200dp"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!--<androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/card_description">
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/white"
+                    android:contentDescription="@string/add_event"
+                    app:icon="@drawable/cancel"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/button_validate"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:maxImageSize="40dp" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/button_validate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:maxImageSize="40dp"
+                    app:elevation="5dp"
+                    app:icon="@drawable/check"
+                    android:layout_marginStart="30dp"
+                    android:backgroundTint="@color/white"
+                    android:contentDescription="@string/add_event"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/button_cancel"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
