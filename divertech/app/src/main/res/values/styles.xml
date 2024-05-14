@@ -5,7 +5,15 @@
         <item name="android:windowEnterAnimation">@anim/popup_show</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/white</item>
+
+    <style name="myActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="backgroundColor">@color/white</item>
+        <item name="background">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@android:style/TextAppearance">
+        <item name="android:textSize">25sp</item>
     </style>
 </resources>
