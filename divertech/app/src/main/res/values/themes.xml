@@ -28,6 +28,7 @@
         <item name="colorOnError">@color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
 
 
