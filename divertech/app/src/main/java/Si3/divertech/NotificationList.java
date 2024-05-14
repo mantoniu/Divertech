@@ -65,6 +65,10 @@ public class NotificationList extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 notificationMap.clear();
+                if (!snapshot.exists()) {
+                    setChanged();
+                    notifyObservers();
+                }
                 for (DataSnapshot registrationSnapshot : snapshot.getChildren()) {
                     String notificationId = registrationSnapshot.getValue(String.class);
                     if (notificationId == null)
@@ -85,9 +89,9 @@ public class NotificationList extends Observable {
                                 Notification notification = new Notification(notificationId, eventId, type, description, userCreatorId);
                                 Log.d("NOTIFICATION", notification.toString());
                                 addNotification(notification);
-                                setChanged();
-                                notifyObservers();
                             }
+                            setChanged();
+                            notifyObservers();
                         }
 
                         @Override
@@ -96,8 +100,6 @@ public class NotificationList extends Observable {
                         }
                     });
                 }
-                setChanged();
-                notifyObservers();
             }
 
             @Override

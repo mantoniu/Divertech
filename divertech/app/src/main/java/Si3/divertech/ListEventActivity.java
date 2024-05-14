@@ -3,7 +3,6 @@ package Si3.divertech;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -51,4 +50,11 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
     public Context getContext(){
         return getApplicationContext();
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0, 0);
+    }
+
 }

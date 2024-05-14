@@ -28,7 +28,6 @@ public class EventActivity extends AppCompatActivity {
 
     private static final int WRITE_CALENDAR_PERMISSION_CODE = 101;
     private static final int READ_CALENDAR_PERMISSION_CODE = 102;
-
     boolean isTextViewClicked = false;
 
 
