@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -12,14 +11,11 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -32,12 +28,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+
+import Si3.divertech.map.PopupMarker;
+import Si3.divertech.map.PopupMarkerFactory;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity {
 
@@ -45,6 +43,8 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     DisplayMetrics metrics = new DisplayMetrics();
 
     MapView mapFragment = null;
+
+    Map<Marker, Integer> markers = new HashMap<>();
 
     /*class CustomMarkerPopUp implements GoogleMap.InfoWindowAdapter {
 
@@ -166,10 +166,20 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 } else {
                     positionActuelle = new LatLng(46.52863469527167, 2.43896484375);
                 }
-
                 Address address;
-                googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
-                List<Marker> markers = new ArrayList<>();
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(@NonNull Marker marker) {
+                        PopupMarker popup = null;
+                        try {
+                            popup = PopupMarkerFactory.build(markers.get(marker), getLayoutInflater());
+                        } catch (Throwable e) {
+                            throw new RuntimeException(e);
+                        }
+                        googleMap.setInfoWindowAdapter(popup);
+                        return false;
+                    }
+                });
                 for (Event event : ListEvent.getInstance().getEvents()) {
                     address = getAdress(event);
                     LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
@@ -177,14 +187,14 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                             .position(location));
                     if (marker != null) {
                         marker.setTag(event.getId());
-                        markers.add(marker);
+                        markers.put(marker, PopupMarkerFactory.EVENT);
                     }
                 }
 
                 Log.d("GPS", "position : " + positionActuelle);
                 if(!(positionActuelle.latitude == 46.52863469527167 && positionActuelle.longitude == 2.43896484375)){
                     Marker markerVotrePosition = googleMap.addMarker(new MarkerOptions().position(positionActuelle));
-                    markers.add(markerVotrePosition);
+                    markers.put(markerVotrePosition, PopupMarkerFactory.SELF);
                 }
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(positionActuelle, 4f));
 
@@ -196,7 +206,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
 
                     LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f));
-                    markers.stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
+                    markers.keySet().stream().filter(marker -> marker.getTag().equals(pos)).findFirst().ifPresent(Marker::showInfoWindow);
                 }
 
                 googleMap.setOnInfoWindowClickListener(marker -> {
