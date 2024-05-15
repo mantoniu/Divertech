@@ -46,9 +46,11 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
 
     MapView mapFragment = null;
 
-    class CustomMarkerPopUp implements GoogleMap.InfoWindowAdapter {
+    /*class CustomMarkerPopUp implements GoogleMap.InfoWindowAdapter {
 
         View customPopUp = getLayoutInflater().inflate(R.layout.marker_popup_layout, null);
+        //
+        // View customPopUp = getLayoutInflater().inflate(, null);
 
         @Nullable
         @Override
@@ -93,7 +95,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
 
             }
         }
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
