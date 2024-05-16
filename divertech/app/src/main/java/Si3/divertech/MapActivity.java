@@ -9,8 +9,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,9 +46,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.ma_carte);
 
         eventId = getIntent().getStringExtra(getString(R.string.event_id));
 
@@ -119,9 +114,11 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 }
             }
             googleMap.setOnInfoWindowClickListener(marker -> {
-                Intent intent = new Intent(getContext(), EventActivity.class);
-                intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
-                startActivity(intent);
+                if (marker.getTag() != null) {
+                    Intent intent = new Intent(getContext(), EventActivity.class);
+                    intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
+                    startActivity(intent);
+                }
             });
         });
 
