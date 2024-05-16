@@ -23,6 +23,7 @@ public class UserData extends Observable {
     private static String userId;
 
     private UserData() {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     public static UserData getInstance() {

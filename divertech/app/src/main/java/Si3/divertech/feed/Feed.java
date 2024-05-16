@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
+import java.util.Observable;
 import java.util.Observer;
 
 import Si3.divertech.ClickableFragment;
@@ -56,10 +57,17 @@ public abstract class Feed extends Fragment implements ClickableFragment, Observ
 
     public abstract BaseAdapter getAdapter();
 
-    public void update(@StringRes int stringRes) {
+    @Override
+    public void update(Observable o, Object arg) {
         if (adapter != null)
             adapter.notifyDataSetChanged();
-        binding.emptyText.setText(stringRes);
+        setEmptyText();
+    }
+
+    protected void setEmptyText() {
+        binding.emptyText.setText(getEmptyTextRes());
         binding.feed.setEmptyView(binding.emptyText);
     }
+
+    public abstract @StringRes int getEmptyTextRes();
 }

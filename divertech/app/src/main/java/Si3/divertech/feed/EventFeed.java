@@ -9,8 +9,6 @@ import android.widget.BaseAdapter;
 
 import androidx.annotation.NonNull;
 
-import java.util.Observable;
-
 import Si3.divertech.R;
 import Si3.divertech.events.EventActivitiesFactory;
 import Si3.divertech.events.EventAdapter;
@@ -21,7 +19,8 @@ public class EventFeed extends Feed {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        EventList.getInstance().requestData();
+        if (EventList.getInstance().isInitialized())
+            setEmptyText();
         return view;
     }
 
@@ -38,7 +37,7 @@ public class EventFeed extends Feed {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        super.update(R.string.no_event_registered);
+    public int getEmptyTextRes() {
+        return R.string.no_event_registered;
     }
 }

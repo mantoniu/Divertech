@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.util.Observable;
-
 import Si3.divertech.R;
 import Si3.divertech.events.EventActivity;
 import Si3.divertech.notifications.Notification;
@@ -71,7 +69,7 @@ public class NotificationFeed extends Feed {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        super.update(R.string.no_notification);
+    public int getEmptyTextRes() {
+        return R.string.no_notification;
     }
 }
