@@ -42,9 +42,6 @@ public class MultiPagesActivity extends AppCompatActivity {
         Button button = findViewById(R.id.send_button);
         button.setOnClickListener(click -> forward());
 
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.contact);
-
         NotificationTypeAdapter adapter = new NotificationTypeAdapter(getApplicationContext(), R.layout.list_item, new ArrayList<>(Arrays.stream(NotificationTypes.values()).collect(Collectors.toList())));
         AutoCompleteTextView spinner = findViewById(R.id.selector);
         spinner.setAdapter(adapter);

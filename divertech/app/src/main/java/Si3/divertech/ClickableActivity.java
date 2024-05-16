@@ -26,11 +26,14 @@ public interface ClickableActivity {
                 if(currentPage != 3) i = new Intent(getContext(),ListEventActivity.class);
                 break;
             }
-            default: i = new Intent(getContext(),MainActivity.class);
+            default:
+                i = new Intent(getContext(), MainActivity.class);
         }
         if (i != null) {
+            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
             overridePendingTransition(0, 0);
+            finish();
         }
     }
 }

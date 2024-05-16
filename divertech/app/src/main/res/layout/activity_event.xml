@@ -9,29 +9,6 @@
 
     <!-- Image et flèche retour arrière-->
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_image_event"
-        android:layout_width="0dp"
-        app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge"
-        android:layout_height="250dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:strokeWidth="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        app:cardElevation="10dp">
-
-        <ImageView
-            android:id="@+id/image_event"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/image_default"
-            android:contentDescription="@string/image_event_text_replace" />
-    </com.google.android.material.card.MaterialCardView>
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +32,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/card_image_event"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -63,6 +40,29 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_image_event"
+                android:layout_width="0dp"
+                app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge"
+                android:layout_height="250dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:strokeWidth="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/image_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_default"
+                    android:contentDescription="@string/image_event_text_replace" />
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Nom de l'évènement et emplacement-->
 
@@ -74,7 +74,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_image_event"
                 app:cardElevation="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp">
@@ -86,13 +86,13 @@
 
                     <ImageView
                         android:id="@+id/logo_map"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/location"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/gps"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="12dp"
                         android:contentDescription="@string/map_button" />
 
                     <TextView
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/nameEventExemple"
                         android:textSize="18sp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
                         app:layout_constraintLeft_toRightOf="@id/logo_map"
                         app:layout_constraintTop_toTopOf="parent"
@@ -160,7 +160,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:contentDescription="@string/add_to_calendar" />
 
                     <TextView
@@ -169,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/default_date"
                         android:textSize="18sp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
                         app:layout_constraintLeft_toRightOf="@id/calendar"
                         app:layout_constraintRight_toRightOf="parent"
@@ -214,11 +214,11 @@
                         android:id="@+id/car_picture"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/car"
+                        android:src="@drawable/parking"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:contentDescription="@string/car_picture" />
 
                     <TextView
@@ -227,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/need_park_text"
                         android:textSize="15sp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         app:layout_constraintLeft_toRightOf="@id/car_picture"
@@ -323,7 +323,7 @@
                         android:id="@+id/contact_organizer"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/contact_admin"
+                        android:src="@drawable/message"
                         android:layout_marginBottom="10dp"
                         app:layout_constraintTop_toTopOf="@id/picture_organizer"
                         app:layout_constraintRight_toRightOf="parent"
@@ -361,7 +361,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/more"
-                    android:layout_marginTop="17dp"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginEnd="10dp"

@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         String eventId = intent.getStringExtra(getString(R.string.event_id));
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.notifications);
 
         ImageButton button = findViewById(R.id.return_arrow);
 
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
             button.setVisibility(View.VISIBLE);
             button.setOnClickListener(click -> finish());
         }
-
         if (eventId != null) {
             Bundle notificationBundle = new Bundle();
             notificationBundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
@@ -48,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
             feedFragment.setArguments(notificationBundle);
             getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0, 0);
     }
 
     @Override

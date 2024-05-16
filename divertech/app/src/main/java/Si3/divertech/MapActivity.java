@@ -149,6 +149,12 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                     .addOnFailureListener(e -> markersAndActualPosition(null));
         }
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0, 0);
+    }
 }
 
 
