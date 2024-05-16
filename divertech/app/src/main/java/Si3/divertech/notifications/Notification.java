@@ -2,8 +2,6 @@ package Si3.divertech.notifications;
 
 import androidx.annotation.NonNull;
 
-import Si3.divertech.NotificationTypes;
-
 public class Notification {
     private String id;
     private String eventId;

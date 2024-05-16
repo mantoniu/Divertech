@@ -33,25 +33,20 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
         }
 
         Feed feedFragment = FeedFactory.createFeed(FeedType.NOTIFICATION, UserData.getInstance().getConnectedUser().getUserType());
+        Bundle feedFragmentBundle = new Bundle();
 
-        if (eventId != null) {
-            Bundle notificationBundle = new Bundle();
-            notificationBundle.putString(getString(R.string.event_id), eventId);
-            feedFragment.setArguments(notificationBundle);
-            getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
-        } else {
-            Bundle b = new Bundle();
-            b.putInt("page", 1);
+        feedFragmentBundle.putString(getString(R.string.event_id), eventId);
+        feedFragment.setArguments(feedFragmentBundle);
+
+        if (eventId == null) {
+            Bundle footMenuBundle = new Bundle();
+            footMenuBundle.putInt("page", 1);
             FootMenu f = new FootMenu();
-            f.setArguments(b);
+            f.setArguments(footMenuBundle);
             getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
-
-            // Notification feed fragment
-            Bundle notificationBundle = new Bundle();
-            notificationBundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
-            feedFragment.setArguments(notificationBundle);
-            getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
         }
+
+        getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
     }
 
     @Override

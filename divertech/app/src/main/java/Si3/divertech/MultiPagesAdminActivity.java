@@ -16,6 +16,7 @@ import java.util.Observer;
 
 import Si3.divertech.notifications.NotificationCreator;
 import Si3.divertech.notifications.NotificationList;
+import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.users.User;
 
 public class MultiPagesAdminActivity extends AppCompatActivity implements Observer {

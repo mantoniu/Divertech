@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import Si3.divertech.notifications.NotificationTypeAdapter;
+import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.users.UserData;
 
 public class MultiPagesActivity extends AppCompatActivity {
