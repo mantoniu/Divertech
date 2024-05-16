@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import Si3.divertech.databinding.ActivityRegisterBinding;
+import Si3.divertech.users.UserData;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;

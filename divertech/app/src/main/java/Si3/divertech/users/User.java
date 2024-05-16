@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.users;
 
 import androidx.annotation.NonNull;
 
@@ -11,7 +11,7 @@ public class User {
     private String phoneNumber;
     private String language;
 
-    private boolean isAdmin;
+    private UserType userType;
 
     public User() {
     }
@@ -24,7 +24,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.language = language;
-        this.isAdmin = isAdmin;
+        this.userType = isAdmin ? UserType.ADMIN : UserType.NORMAL;
     }
 
     public String getId() {
@@ -55,8 +55,12 @@ public class User {
         return language;
     }
 
-    public boolean getIsAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return userType == UserType.ADMIN;
+    }
+
+    public UserType getUserType() {
+        return userType;
     }
 
     @NonNull
@@ -70,7 +74,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
-                ", admin='" + isAdmin + '\'' +
+                ", userType='" + userType + '\'' +
                 '}';
     }
 

@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.feed;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Observer;
 
+import Si3.divertech.ClickableFragment;
 import Si3.divertech.databinding.FragmentFeedBinding;
+import Si3.divertech.events.EventList;
 
 public abstract class Feed extends Fragment implements ClickableFragment, Observer {
     private Context context;
@@ -25,7 +27,9 @@ public abstract class Feed extends Fragment implements ClickableFragment, Observ
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentFeedBinding.inflate(inflater, container, false);
-        ListEvent.getInstance().addObserver(this);
+        adapter = getAdapter();
+        binding.feed.setAdapter(adapter);
+        EventList.getInstance().addObserver(this);
         return binding.getRoot();
     }
 
@@ -50,10 +54,7 @@ public abstract class Feed extends Fragment implements ClickableFragment, Observ
         return binding;
     }
 
-    public void setAdapter(BaseAdapter adapter) {
-        this.adapter = adapter;
-        binding.feed.setAdapter(adapter);
-    }
+    public abstract BaseAdapter getAdapter();
 
     public void update(@StringRes int stringRes) {
         if (adapter != null)

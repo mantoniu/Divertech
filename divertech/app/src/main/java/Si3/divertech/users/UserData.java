@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.users;
 
 import android.util.Log;
 

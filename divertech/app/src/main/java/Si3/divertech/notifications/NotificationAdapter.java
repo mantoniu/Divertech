@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.notifications;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import Si3.divertech.ClickableFragment;
+import Si3.divertech.R;
+import Si3.divertech.events.EventList;
 
 public class NotificationAdapter extends BaseAdapter {
     private final String eventId;
@@ -73,9 +77,9 @@ public class NotificationAdapter extends BaseAdapter {
 
         layoutItem.setTag(notification.getId());
 
-        if(ListEvent.getInstance().containsEvent(notification.getEventId())){
-            Picasso.get().load(ListEvent.getInstance().getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
-            notificationTitle.setText(ListEvent.getInstance().getEvent(notification.getEventId()).getTitle());
+        if (EventList.getInstance().containsEvent(notification.getEventId())) {
+            Picasso.get().load(EventList.getInstance().getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
+            notificationTitle.setText(EventList.getInstance().getEvent(notification.getEventId()).getTitle());
             notificationContent.setText(notification.getType());
         }
 

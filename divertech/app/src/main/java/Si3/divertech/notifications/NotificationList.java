@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.notifications;
 
 import android.util.Log;
 
@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+
+import Si3.divertech.users.UserData;
 
 public class NotificationList extends Observable {
     private static NotificationList instance;

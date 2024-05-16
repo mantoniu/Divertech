@@ -8,7 +8,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Si3.divertech.feed.Feed;
+import Si3.divertech.feed.FeedFactory;
+import Si3.divertech.feed.FeedType;
 import Si3.divertech.qr_reader.CameraPreviewActivity;
+import Si3.divertech.users.UserData;
 
 public class ListEventActivity extends AppCompatActivity implements ClickableActivity{
     @Override
@@ -25,14 +29,14 @@ public class ListEventActivity extends AppCompatActivity implements ClickableAct
 
         // Event feed fragment
         Bundle feedFragmentBundle = new Bundle();
-        Feed feedFragment = FeedFactory.createFeed(FeedType.EVENTS);
+        Feed feedFragment = FeedFactory.createFeed(FeedType.EVENTS, UserData.getInstance().getConnectedUser().getUserType());
         feedFragmentBundle.putInt(getString(R.string.FEED_TYPE), FeedType.EVENTS.ordinal());
         feedFragment.setArguments(feedFragmentBundle);
         getSupportFragmentManager().beginTransaction().add(R.id.events_feed, feedFragment).commit();
 
         findViewById(R.id.button_add).setOnClickListener(click -> {
             Intent intent;
-            if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
+            if (UserData.getInstance().getConnectedUser().isAdmin()) {
                 intent = new Intent(getApplicationContext(), CreateEventActivity.class);
             } else {
                 intent = new Intent(getApplicationContext(), CameraPreviewActivity.class);

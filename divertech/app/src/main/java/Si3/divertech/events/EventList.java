@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.events;
 
 import android.util.Log;
 
@@ -16,18 +16,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-public class ListEvent extends Observable {
-    private static ListEvent instance;
+import Si3.divertech.DataBaseListener;
+import Si3.divertech.DataBaseResponses;
+import Si3.divertech.users.UserData;
+
+public class EventList extends Observable {
+    private static EventList instance;
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private static final Map<String, Event> eventMap = new HashMap<>();
 
-    private ListEvent() {
+    private EventList() {
         requestData();
     }
 
-    public static ListEvent getInstance() {
+    public static EventList getInstance() {
         if (instance == null)
-            instance = new ListEvent();
+            instance = new EventList();
         return instance;
     }
 

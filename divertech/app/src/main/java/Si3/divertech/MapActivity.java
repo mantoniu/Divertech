@@ -29,6 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import Si3.divertech.events.Event;
+import Si3.divertech.events.EventActivitiesFactory;
+import Si3.divertech.events.EventList;
+import Si3.divertech.users.UserData;
+
 public class MapActivity extends AppCompatActivity implements ClickableActivity, OnMapReadyCallback{
     private String pos;
     DisplayMetrics metrics = new DisplayMetrics();
@@ -56,13 +61,13 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
             if (marker.getTag() == null)
                 return;
 
-            if (ListEvent.getInstance().getEvent(marker.getTag().toString()) != null) {
+            if (EventList.getInstance().getEvent(marker.getTag().toString()) != null) {
                 TextView title = customPopUp.findViewById(R.id.title);
-                title.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getTitle());
+                title.setText(EventList.getInstance().getEvent(marker.getTag().toString()).getTitle());
                 ImageView picture = customPopUp.findViewById(R.id.image);
-                Picasso.get().load(ListEvent.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
+                Picasso.get().load(EventList.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
                 TextView description = customPopUp.findViewById(R.id.description);
-                description.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
+                description.setText(EventList.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     description.setMaxWidth((int) (metrics.heightPixels / 1.6));
@@ -110,7 +115,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         Address address;
         googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
         List<Marker> markers = new ArrayList<>();
-        for (Event event : ListEvent.getInstance().getEvents()) {
+        for (Event event : EventList.getInstance().getEvents()) {
             address = getAdress(event);
             LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
             Marker marker = googleMap.addMarker(new MarkerOptions()
@@ -123,7 +128,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         if(pos == null)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
         else {
-            address = getAdress(Objects.requireNonNull(ListEvent.getInstance().getEvent(pos)));
+            address = getAdress(Objects.requireNonNull(EventList.getInstance().getEvent(pos)));
             LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
             markers.stream().filter(marker -> Objects.equals(marker.getTag(), pos)).findFirst().ifPresent(Marker::showInfoWindow);
@@ -133,8 +138,8 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
             if (marker.getTag() == null)
                 return;
 
-            Intent intent = new Intent(getContext(),EventActivity.class);
-            intent.putExtra("event", ListEvent.getInstance().getEvent(marker.getTag().toString()));
+            Intent intent = new Intent(getContext(), EventActivitiesFactory.getEventActivityClass(UserData.getInstance().getConnectedUser().getUserType()));
+            intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
             startActivity(intent);
         });
     }

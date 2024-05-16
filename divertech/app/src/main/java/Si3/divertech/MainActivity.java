@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Si3.divertech.feed.Feed;
+import Si3.divertech.feed.FeedFactory;
+import Si3.divertech.feed.FeedType;
+import Si3.divertech.users.UserData;
+
 public class MainActivity extends AppCompatActivity implements ClickableActivity{
 
     @Override
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
             button.setOnClickListener(click -> finish());
         }
 
-        Feed feedFragment = new NotificationFeed();
+        Feed feedFragment = FeedFactory.createFeed(FeedType.NOTIFICATION, UserData.getInstance().getConnectedUser().getUserType());
 
         if (eventId != null) {
             Bundle notificationBundle = new Bundle();

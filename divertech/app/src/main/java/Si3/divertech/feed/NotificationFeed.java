@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.feed;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -16,52 +17,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.Observable;
-import java.util.Observer;
+
+import Si3.divertech.R;
+import Si3.divertech.events.EventActivity;
+import Si3.divertech.notifications.Notification;
+import Si3.divertech.notifications.NotificationAdapter;
+import Si3.divertech.notifications.NotificationList;
 
 public class NotificationFeed extends Feed {
-    private NotificationCreatorObserver notificationCreatorObserver;
-    private Intent intent;
-
-    private class NotificationCreatorObserver implements Observer {
-        @Override
-        public void update(Observable o, Object arg) {
-            if (intent != null)
-                startActivity(intent);
-            NotificationCreator.getInstance().deleteObserver(notificationCreatorObserver);
-        }
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        String eventId = requireArguments().getString(getString(R.string.event_id));
-
-        if (eventId != null) {
-            getBinding().emptyText.setText(R.string.no_notification);
-            getBinding().feed.setEmptyView(getBinding().emptyText);
-        }
-
-        setAdapter(new NotificationAdapter(this, getContext(), eventId));
         NotificationList.getInstance().addObserver(this);
         return view;
     }
 
     @Override
-    public void onClick(String itemId) {
-        if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
-            intent = new Intent(getContext(), MultiPagesAdminActivity.class);
-            intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
-            intent.putExtra(getString(R.string.notification_id), itemId);
-            if (notificationCreatorObserver == null)
-                notificationCreatorObserver = new NotificationCreatorObserver();
+    public BaseAdapter getAdapter() {
+        return new NotificationAdapter(this, getContext(), null);
+    }
 
-            NotificationCreator.getInstance().addObserver(notificationCreatorObserver);
-            NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
-        } else {
-            Log.d("CLICKED_FRAGMENT", "");
-            createPopup(NotificationList.getInstance().getNotification(itemId));
-        }
+    @Override
+    public void onClick(String itemId) {
+        Log.d("CLICKED_FRAGMENT", "");
+        createPopup(NotificationList.getInstance().getNotification(itemId));
     }
 
     private void createPopup(Notification notification) {

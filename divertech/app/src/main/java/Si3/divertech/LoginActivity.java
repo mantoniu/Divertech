@@ -22,9 +22,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import Si3.divertech.databinding.ActivityLoginBinding;
+import java.util.Observable;
+import java.util.Observer;
 
-public class LoginActivity extends AppCompatActivity {
+import Si3.divertech.databinding.ActivityLoginBinding;
+import Si3.divertech.users.UserData;
+
+public class LoginActivity extends AppCompatActivity implements Observer {
     private static final int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -70,13 +74,10 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null)
+                            if (user != null) {
                                 UserData.getInstance().requestUserData(user);
-
-                            Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(this, MainActivity.class);
-                            startActivity(i);
-                            finish();
+                                UserData.getInstance().addObserver(this);
+                            }
                         } else {
                             Toast.makeText(this, "Impossible de se connecter", Toast.LENGTH_SHORT).show();
                             TextInputLayout passwordLayout = findViewById(R.id.password_container);
@@ -131,5 +132,15 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (UserData.getInstance().getConnectedUser() == null)
+            return;
+
+        Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
 }

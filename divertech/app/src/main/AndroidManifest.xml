@@ -49,14 +49,17 @@
             android:name=".qr_reader.CameraPreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name=".EventActivity"
+            android:name=".events.EventActivity"
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".events.AdminEventActivity"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MapActivity"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY"

@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.notifications;
 
 import android.util.Log;
 
@@ -11,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Observable;
+
+import Si3.divertech.users.User;
 
 public class NotificationCreator extends Observable {
     private final static NotificationCreator instance = new NotificationCreator();

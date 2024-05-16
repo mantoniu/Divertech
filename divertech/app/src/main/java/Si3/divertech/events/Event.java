@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.events;
 
 import android.os.Parcel;
 import android.os.Parcelable;

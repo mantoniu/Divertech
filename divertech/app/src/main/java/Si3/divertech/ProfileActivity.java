@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Observable;
 import java.util.Observer;
 
+import Si3.divertech.users.UserData;
+
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
     @Override
