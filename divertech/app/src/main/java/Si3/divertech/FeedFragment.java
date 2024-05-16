@@ -114,6 +114,7 @@ public class FeedFragment extends Fragment implements ClickableFragment, Observe
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             intent = new Intent(context, EventActivity.class);
+            Log.d("test", getString(R.string.event_id) + itemId);
             intent.putExtra(getString(R.string.event_id), itemId);
             startActivity(intent);
         } else if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
