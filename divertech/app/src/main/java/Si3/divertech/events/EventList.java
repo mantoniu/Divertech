@@ -106,6 +106,7 @@ public class EventList extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
+                    initialized = true;
                     setChanged();
                     notifyObservers();
                 }
