@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,8 +29,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import Si3.divertech.events.Event;
+import Si3.divertech.events.EventActivitiesFactory;
+import Si3.divertech.events.EventList;
 import Si3.divertech.map.PopupMarker;
 import Si3.divertech.map.PopupMarkerFactory;
+import Si3.divertech.users.UserData;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity {
 
@@ -71,7 +76,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     private LatLng getAddress(String eventId) {
         Geocoder geocoder = new Geocoder(getContext());
         try {
-            Address address = Objects.requireNonNull(geocoder.getFromLocationName(ListEvent.getInstance().getEvent(eventId).getPosition(), 1)).get(0);
+            Address address = Objects.requireNonNull(geocoder.getFromLocationName(EventList.getInstance().getEvent(eventId).getPosition(), 1)).get(0);
             return new LatLng(address.getLatitude(), address.getLongitude());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -101,7 +106,8 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 return false;
             });
 
-            for (Event event : ListEvent.getInstance().getEvents()) {
+            for (Event event : EventList.getInstance().getEvents()) {
+                Log.d("antoniu => EVENTID", event.getId());
                 LatLng location1 = getAddress(event.getId());
                 Marker marker = googleMap.addMarker(new MarkerOptions().position(location1));
                 if (marker != null) {
