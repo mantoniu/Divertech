@@ -51,7 +51,7 @@ public class EventActivity extends EventActivities {
             finish();
         });
 
-        findViewById(R.id.card_date).setOnClickListener((click) -> addEventToCalendar(EventList.getInstance().getEvent(getEventId())));
+        findViewById(R.id.card_date).setOnClickListener((click) -> addEventToCalendar(getEventId()));
 
         MaterialCardView parkingLayout = findViewById(R.id.card_parking);
         parkingLayout.setOnClickListener(v -> {
@@ -60,8 +60,8 @@ public class EventActivity extends EventActivities {
         });
     }
 
-    private void addEventToCalendar(Event event) {
-        if (eventExistsInCalendar(event.getTitle(), event.getZonedDate())) {
+    private void addEventToCalendar(String eventId) {
+        if (eventExistsInCalendar(EventList.getInstance().getEvent(eventId).getTitle(), EventList.getInstance().getEvent(eventId).getZonedDate())) {
             Toast.makeText(getApplicationContext(), "L'évènement est déjà dans l'agenda", Toast.LENGTH_LONG)
                     .show();
             return;
@@ -69,9 +69,9 @@ public class EventActivity extends EventActivities {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != -1) {
             ContentValues values = new ContentValues();
-            values.put(CalendarContract.Events.DTSTART, event.getZonedDate().toInstant().toEpochMilli());
-            values.put(CalendarContract.Events.TITLE, event.getTitle());
-            values.put(CalendarContract.Events.DESCRIPTION, event.getShortDescription());
+            values.put(CalendarContract.Events.DTSTART, EventList.getInstance().getEvent(eventId).getZonedDate().toInstant().toEpochMilli());
+            values.put(CalendarContract.Events.TITLE, EventList.getInstance().getEvent(eventId).getTitle());
+            values.put(CalendarContract.Events.DESCRIPTION, EventList.getInstance().getEvent(eventId).getShortDescription());
             values.put(CalendarContract.Events.CALENDAR_ID, getDefaultCalendarId());
             values.put(CalendarContract.Events.EVENT_TIMEZONE, ZoneId.systemDefault().getId());
             values.put(CalendarContract.Events.DURATION, "PT2H");
