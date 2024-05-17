@@ -1,92 +1,52 @@
 package Si3.divertech;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-import Si3.divertech.events.Event;
-import Si3.divertech.events.EventActivitiesFactory;
-import Si3.divertech.events.EventList;
-import Si3.divertech.users.UserData;
+import Si3.divertech.map.PopupMarker;
+import Si3.divertech.map.PopupMarkerFactory;
 
-public class MapActivity extends AppCompatActivity implements ClickableActivity, OnMapReadyCallback{
-    private String pos;
-    DisplayMetrics metrics = new DisplayMetrics();
+public class MapActivity extends AppCompatActivity implements ClickableActivity {
 
+    private String eventId;
 
+    MapView mapFragment = null;
 
-    class CustomMarkerPopUp implements GoogleMap.InfoWindowAdapter {
+    Map<Marker, Integer> markers = new HashMap<>();
 
-        View customPopUp = getLayoutInflater().inflate(R.layout.marker_popup_layout, null);
-
-        @Nullable
-        @Override
-        public View getInfoContents(@NonNull Marker marker) {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public View getInfoWindow(@NonNull Marker marker) {
-            addInfoMarker(marker);
-            return customPopUp.getRootView();
-        }
-
-        public void addInfoMarker(Marker marker) {
-            if (marker.getTag() == null)
-                return;
-
-            if (EventList.getInstance().getEvent(marker.getTag().toString()) != null) {
-                TextView title = customPopUp.findViewById(R.id.title);
-                title.setText(EventList.getInstance().getEvent(marker.getTag().toString()).getTitle());
-                ImageView picture = customPopUp.findViewById(R.id.image);
-                Picasso.get().load(EventList.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
-                TextView description = customPopUp.findViewById(R.id.description);
-                description.setText(EventList.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
-                int orientation = getResources().getConfiguration().orientation;
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    description.setMaxWidth((int) (metrics.heightPixels / 1.6));
-                } else {
-                    description.setMaxWidth((int) (metrics.widthPixels / 1.6));
-                }
-
-                //description.setLayoutParams(new ConstraintLayout.LayoutParams(metrics.widthPixels-150, ActionBar.LayoutParams.WRAP_CONTENT));
-            }
-        }
-    }
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         setContentView(R.layout.activity_map);
 
-        pos = getIntent().getStringExtra("pos");
+        eventId = getIntent().getStringExtra(getString(R.string.event_id));
 
         Bundle b = new Bundle();
         b.putInt("page", 2);
@@ -94,79 +54,96 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity,
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
 
-
-        MapView mapFragment = findViewById(R.id.map);
+        mapFragment = findViewById(R.id.map);
         mapFragment.onCreate(new Bundle());
-        mapFragment.getMapAsync(this);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        this.gps();
     }
 
 
     @Override
-    public Context getContext(){
+    public Context getContext() {
         return getApplicationContext();
     }
 
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        Address address;
-        googleMap.setInfoWindowAdapter(new CustomMarkerPopUp());
-        List<Marker> markers = new ArrayList<>();
-        for (Event event : EventList.getInstance().getEvents()) {
-            address = getAdress(event);
-            LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-            Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(location));
-            if(marker != null) {
-                marker.setTag(event.getId());
-                markers.add(marker);
-            }
+    private LatLng getAddress(String eventId) {
+        Geocoder geocoder = new Geocoder(getContext());
+        try {
+            Address address = Objects.requireNonNull(geocoder.getFromLocationName(ListEvent.getInstance().getEvent(eventId).getPosition(), 1)).get(0);
+            return new LatLng(address.getLatitude(), address.getLongitude());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        if(pos == null)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167,2.43896484375),5.3f));
-        else {
-            address = getAdress(Objects.requireNonNull(EventList.getInstance().getEvent(pos)));
-            LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
-            markers.stream().filter(marker -> Objects.equals(marker.getTag(), pos)).findFirst().ifPresent(Marker::showInfoWindow);
-        }
-
-        googleMap.setOnInfoWindowClickListener(marker -> {
-            if (marker.getTag() == null)
-                return;
-
-            Intent intent = new Intent(getContext(), EventActivitiesFactory.getEventActivityClass(UserData.getInstance().getConnectedUser().getUserType()));
-            intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
-            startActivity(intent);
-        });
     }
 
 
+    public void markersAndActualPosition(Location location) {
+        mapFragment.getMapAsync(googleMap -> {
+            if (location != null) {
+                Marker markerSelfPosition = googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                markers.put(markerSelfPosition, PopupMarkerFactory.SELF);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 7f));
+            } else {
+                googleMap.addMarker(new MarkerOptions().position(new LatLng(46.52863469527167, 2.43896484375)));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167, 2.43896484375), 4f));
+            }
 
-    private Address getAdress(Event event){
-        Geocoder geocoder = new Geocoder(getContext());
-        Address address;
-        // If we want t respect code specification for API >= 33 we must change way to produce map and include choice before crating map because GeocodeListener is async
-       //if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-       //    Geocoder.GeocodeListener geocodeListener = new Geocoder.GeocodeListener() {
-       //        @Override
-       //        public void onGeocode(@NonNull List<Address> addresses) {
-       //            address = addresses.get(0);
-       //        }
-       //        @Override
-       //        public void onError(String errorMessage){
-       //            throw new RuntimeException(errorMessage);
-       //        }
-       //    };
-       //    geocoder.getFromLocationName(event.getPlace(), 1,42,-6,52,9,geocodeListener);
-       //} else {
-       try {
-           address = Objects.requireNonNull(geocoder.getFromLocationName(event.getPosition(), 1)).get(0);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-        //}
-        return address;
+            googleMap.setOnMarkerClickListener(marker -> {
+                PopupMarker popup;
+                try {
+                    popup = PopupMarkerFactory.build(markers.get(marker), getLayoutInflater());
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+                googleMap.setInfoWindowAdapter(popup);
+                return false;
+            });
+
+            for (Event event : ListEvent.getInstance().getEvents()) {
+                LatLng location1 = getAddress(event.getId());
+                Marker marker = googleMap.addMarker(new MarkerOptions().position(location1));
+                if (marker != null) {
+                    marker.setTag(event.getId());
+                    markers.put(marker, PopupMarkerFactory.EVENT);
+                    if (event.getId().equals(eventId)) {
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10f));
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Problème lors de la création d'un markeur", Toast.LENGTH_LONG).show();
+                }
+            }
+            googleMap.setOnInfoWindowClickListener(marker -> {
+                if (marker.getTag() != null) {
+                    Intent intent = new Intent(getContext(), EventActivitiesFactory.getEventActivityClass(UserData.getInstance().getConnectedUser().getUserType()));                    intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
+                    startActivity(intent);
+                }
+            });
+        });
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            markersAndActualPosition(null);
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this::markersAndActualPosition)
+                .addOnFailureListener(e -> markersAndActualPosition(null));
+    }
+
+    private void gps() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        } else {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this::markersAndActualPosition)
+                    .addOnFailureListener(e -> markersAndActualPosition(null));
+        }
     }
 
     @Override
