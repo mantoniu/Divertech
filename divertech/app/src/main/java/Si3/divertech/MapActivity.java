@@ -68,6 +68,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
         return getApplicationContext();
     }
 
+
     private LatLng getAddress(String eventId) {
         Geocoder geocoder = new Geocoder(getContext());
         try {
@@ -77,6 +78,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
             throw new RuntimeException(e);
         }
     }
+
 
     public void markersAndActualPosition(Location location) {
         mapFragment.getMapAsync(googleMap -> {
@@ -108,6 +110,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                     markers.put(marker, PopupMarkerFactory.EVENT);
                     if (event.getId().equals(eventId)) {
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10f));
+                        Log.d("test", "test");
                     }
                 } else {
                     Toast.makeText(getContext(), "Problème lors de la création d'un markeur", Toast.LENGTH_LONG).show();
