@@ -75,7 +75,7 @@ public class EventActivity extends AppCompatActivity {
             MaterialCardView map = findViewById(R.id.card_name_event);
             map.setOnClickListener(click -> {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                intent.putExtra("pos", eventId);
+                intent.putExtra(getString(R.string.event_id), eventId);
                 startActivity(intent);
                 finish();
             });

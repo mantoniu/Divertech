@@ -211,6 +211,7 @@
     <string name="type_message_admin_vue_contact">Raison du message</string>
     <string name="see_notifications">Voir les notifications</string>
     <string name="back_possible">back</string>
+    <string name="selfPosition">Vous êtes ici</string>
     <string name="notification_de_publication_sur_le_fil_d_actualit">Notification de publication sur le fil d\'actualité</string>
     <string name="notification_de_r_ponse_vos_demandes">Notification de réponse à vos demandes</string>
     <string name="notification_avant_l_heure_de_vos_v_nements">Notification avant l\'heure de vos événements</string>

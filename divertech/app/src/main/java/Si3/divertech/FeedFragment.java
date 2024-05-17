@@ -5,7 +5,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,7 +166,6 @@ public class FeedFragment extends Fragment implements ClickableFragment {
             }
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
-            Log.d("CLICKED_FRAGMENT", "");
             createPopup(NotificationList.getInstance().getNotification(itemId));
         }
     }
