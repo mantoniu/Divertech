@@ -3,11 +3,16 @@ package Si3.divertech;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import Si3.divertech.feed.Feed;
+import Si3.divertech.feed.FeedFactory;
+import Si3.divertech.feed.FeedType;
+import Si3.divertech.users.UserData;
 
 public class MainActivity extends AppCompatActivity implements ClickableActivity{
 
@@ -24,27 +29,23 @@ public class MainActivity extends AppCompatActivity implements ClickableActivity
             button.setVisibility(View.VISIBLE);
             button.setOnClickListener(click -> finish());
         }
-        if (eventId != null) {
-            Bundle notificationBundle = new Bundle();
-            notificationBundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
-            notificationBundle.putString(getString(R.string.event_id), eventId);
-            FeedFragment feedFragment = new FeedFragment();
-            feedFragment.setArguments(notificationBundle);
-            getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
-        } else {
-            Bundle b = new Bundle();
-            b.putInt("page", 1);
-            FootMenu f = new FootMenu();
-            f.setArguments(b);
-            getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
 
-            // Notification feed fragment
-            Bundle notificationBundle = new Bundle();
-            notificationBundle.putInt(getString(R.string.FEED_TYPE), FeedType.NOTIFICATION.ordinal());
-            FeedFragment feedFragment = new FeedFragment();
-            feedFragment.setArguments(notificationBundle);
-            getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
+        Log.d("antoniu => ", UserData.getInstance().getConnectedUser().toString());
+        Feed feedFragment = FeedFactory.createFeed(FeedType.NOTIFICATION, UserData.getInstance().getConnectedUser().getUserType());
+        Bundle feedFragmentBundle = new Bundle();
+
+        feedFragmentBundle.putString(getString(R.string.event_id), eventId);
+        feedFragment.setArguments(feedFragmentBundle);
+
+        if (eventId == null) {
+            Bundle footMenuBundle = new Bundle();
+            footMenuBundle.putInt("page", 1);
+            FootMenu f = new FootMenu();
+            f.setArguments(footMenuBundle);
+            getSupportFragmentManager().beginTransaction().add(R.id.footMenu, f).commit();
         }
+
+        getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
     }
 
     @Override

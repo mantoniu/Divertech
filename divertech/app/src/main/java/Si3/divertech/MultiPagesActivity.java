@@ -21,6 +21,10 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import Si3.divertech.notifications.NotificationTypeAdapter;
+import Si3.divertech.notifications.NotificationTypes;
+import Si3.divertech.users.UserData;
+
 public class MultiPagesActivity extends AppCompatActivity {
 
     private NotificationTypes type;
@@ -29,7 +33,7 @@ public class MultiPagesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
+        if (UserData.getInstance().getConnectedUser().isAdmin()) {
             setContentView(R.layout.activity_admin_report);
         } else {
             setContentView(R.layout.activity_multi_pages);

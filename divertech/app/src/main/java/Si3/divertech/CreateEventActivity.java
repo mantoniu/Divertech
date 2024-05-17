@@ -1,13 +1,9 @@
 package Si3.divertech;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +18,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+import Si3.divertech.events.Event;
+import Si3.divertech.events.EventList;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -53,19 +52,19 @@ public class CreateEventActivity extends AppCompatActivity {
 
         addTextWatcher();
         String eventId = getIntent().getStringExtra(getString(R.string.event_id));
-        if (ListEvent.getInstance().getEvent(eventId) != null) {
+        if (EventList.getInstance().getEvent(eventId) != null) {
             EditText shortDescription = findViewById(R.id.short_description);
-            shortDescription.setText(ListEvent.getInstance().getEvent(eventId).getShortDescription());
+            shortDescription.setText(EventList.getInstance().getEvent(eventId).getShortDescription());
             EditText title = findViewById(R.id.title);
-            title.setText(ListEvent.getInstance().getEvent(eventId).getTitle());
+            title.setText(EventList.getInstance().getEvent(eventId).getTitle());
             //EditText localisation = findViewById(R.id.localisation);
-            //localisation.setText(ListEvent.getInstance().getEvent(eventId).getPosition());
+            //localisation.setText(EventList.getInstance().getEvent(eventId).getPosition());
             TextView date2 = findViewById(R.id.add_calendar);
-            date2.setText(ListEvent.getInstance().getEvent(eventId).getDate());
+            date2.setText(EventList.getInstance().getEvent(eventId).getDate());
             EditText description = findViewById(R.id.description);
-            description.setText(ListEvent.getInstance().getEvent(eventId).getDescription());
+            description.setText(EventList.getInstance().getEvent(eventId).getDescription());
             View validate = findViewById(R.id.button_validate);
-            validate.setOnClickListener(click -> modification(ListEvent.getInstance().getEvent(eventId)));
+            validate.setOnClickListener(click -> modification(EventList.getInstance().getEvent(eventId)));
         } else {
             View validate = findViewById(R.id.button_validate);
             validate.setOnClickListener(click -> addNew());
@@ -83,7 +82,7 @@ public class CreateEventActivity extends AppCompatActivity {
         //        shortDescription.getText().toString(),
         //        place.getText().toString(),
         //        description.getText().toString());
-        //ListEvent.modificateEvent(newEvent);
+        //EventList.modificateEvent(newEvent);
         //TODO ajouter gestion base de données
         testError();
         if (!error) {
@@ -96,14 +95,14 @@ public class CreateEventActivity extends AppCompatActivity {
         //EditText shortDescription = findViewById(R.id.short_description);
         //EditText place = findViewById(R.id.localisation);
         //EditText description = findViewById(R.id.description);
-        // Event newEvent = new Event(ListEvent.generateId(),
+        // Event newEvent = new Event(EventList.generateId(),
         //         title.getText().toString(),
         //         R.drawable.image_default,
         //         shortDescription.getText().toString(),
         //         place.getText().toString(),
         //         description.getText().toString());
-        // ListEvent.addEvent(newEvent);
-        // ListEvent.addUserEvent(newEvent.id);
+        // EventList.addEvent(newEvent);
+        // EventList.addUserEvent(newEvent.id);
         //TODO ajouter gestion base de données
         testError();
         if (!error) {

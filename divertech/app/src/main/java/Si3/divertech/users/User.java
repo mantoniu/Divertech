@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.users;
 
 import static android.content.ContentValues.TAG;
 
@@ -27,8 +27,8 @@ public class User {
     private String city;
     private String phoneNumber;
     private String language;
-    private boolean isAdmin;
     private DatabaseReference userRef;
+    private UserType userType;
 
     public User() {
     }
@@ -43,8 +43,8 @@ public class User {
         this.city = city;
         this.phoneNumber = phoneNumber;
         this.language = language;
-        this.isAdmin = isAdmin;
         this.userRef= FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        this.userType = isAdmin ? UserType.ADMIN : UserType.NORMAL;
     }
 
     public String getId() {
@@ -83,8 +83,12 @@ public class User {
         return city;
     }
 
-    public boolean getIsAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return userType == UserType.ADMIN;
+    }
+
+    public UserType getUserType() {
+        return userType;
     }
 
     @NonNull
@@ -100,7 +104,7 @@ public class User {
                 ", city='" + city + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
-                ", admin='" + isAdmin + '\'' +
+                ", userType='" + userType + '\'' +
                 '}';
     }
 

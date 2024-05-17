@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.feed;
 
 public enum FeedType {
     NOTIFICATION,

@@ -7,8 +7,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.Marker;
 import com.squareup.picasso.Picasso;
 
-import Si3.divertech.ListEvent;
 import Si3.divertech.R;
+import Si3.divertech.events.EventList;
 
 public class EventPopupMarker extends PopupMarker{
 
@@ -18,13 +18,13 @@ public class EventPopupMarker extends PopupMarker{
 
     @Override
     public void addInfoMarker(Marker marker) {
-        if (marker.getTag() != null && ListEvent.getInstance().containsEvent(marker.getTag().toString())) {
+        if (marker.getTag() != null && EventList.getInstance().containsEvent(marker.getTag().toString())) {
             TextView title = customPopUp.findViewById(R.id.title);
-            title.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getTitle());
+            title.setText(EventList.getInstance().getEvent(marker.getTag().toString()).getTitle());
             ImageView picture = customPopUp.findViewById(R.id.image);
-            Picasso.get().load(ListEvent.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
+            Picasso.get().load(EventList.getInstance().getEvent(marker.getTag().toString()).getPictureUrl()).into(picture);
             TextView description = customPopUp.findViewById(R.id.description);
-            description.setText(ListEvent.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
+            description.setText(EventList.getInstance().getEvent(marker.getTag().toString()).getShortDescription());
         }
     }
 }

@@ -33,7 +33,6 @@ public interface ClickableActivity {
             i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
             overridePendingTransition(0, 0);
-            finish();
         }
     }
 }

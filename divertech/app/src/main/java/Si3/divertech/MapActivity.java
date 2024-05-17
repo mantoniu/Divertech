@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,8 +29,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import Si3.divertech.events.Event;
+import Si3.divertech.events.EventActivitiesFactory;
+import Si3.divertech.events.EventList;
 import Si3.divertech.map.PopupMarker;
 import Si3.divertech.map.PopupMarkerFactory;
+import Si3.divertech.users.UserData;
 
 public class MapActivity extends AppCompatActivity implements ClickableActivity {
 
@@ -71,7 +76,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     private LatLng getAddress(String eventId) {
         Geocoder geocoder = new Geocoder(getContext());
         try {
-            Address address = Objects.requireNonNull(geocoder.getFromLocationName(ListEvent.getInstance().getEvent(eventId).getPosition(), 1)).get(0);
+            Address address = Objects.requireNonNull(geocoder.getFromLocationName(EventList.getInstance().getEvent(eventId).getPosition(), 1)).get(0);
             return new LatLng(address.getLatitude(), address.getLongitude());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -85,10 +90,8 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 Marker markerSelfPosition = googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 markers.put(markerSelfPosition, PopupMarkerFactory.SELF);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 7f));
-            } else {
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(46.52863469527167, 2.43896484375)));
+            } else
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167, 2.43896484375), 4f));
-            }
 
             googleMap.setOnMarkerClickListener(marker -> {
                 PopupMarker popup;
@@ -101,7 +104,8 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 return false;
             });
 
-            for (Event event : ListEvent.getInstance().getEvents()) {
+            for (Event event : EventList.getInstance().getEvents()) {
+                Log.d("antoniu => EVENTID", event.getId());
                 LatLng location1 = getAddress(event.getId());
                 Marker marker = googleMap.addMarker(new MarkerOptions().position(location1));
                 if (marker != null) {
@@ -116,8 +120,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
             }
             googleMap.setOnInfoWindowClickListener(marker -> {
                 if (marker.getTag() != null) {
-                    Intent intent = new Intent(getContext(), EventActivity.class);
-                    intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
+                    Intent intent = new Intent(getContext(), EventActivitiesFactory.getEventActivityClass(UserData.getInstance().getConnectedUser().getUserType()));                    intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
                     startActivity(intent);
                 }
             });

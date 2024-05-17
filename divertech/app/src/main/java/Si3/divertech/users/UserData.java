@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.users;
 
 import android.util.Log;
 
@@ -23,6 +23,7 @@ public class UserData extends Observable {
     private static String userId;
 
     private UserData() {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     public static UserData getInstance() {

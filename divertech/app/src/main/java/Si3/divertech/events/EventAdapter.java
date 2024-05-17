@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.events;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import Si3.divertech.ClickableFragment;
+import Si3.divertech.R;
+
 public class EventAdapter extends BaseAdapter {
     private final Context context;
     private final ClickableFragment fragment;
@@ -22,7 +25,7 @@ public class EventAdapter extends BaseAdapter {
     }
 
     public List<Event> getItemsList() {
-        return ListEvent.getInstance().getEvents();
+        return EventList.getInstance().getEvents();
     }
 
     @Override

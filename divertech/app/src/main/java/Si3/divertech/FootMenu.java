@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -63,7 +62,6 @@ public class FootMenu extends Fragment {
 
             buttons.get(i).setOnClickListener(click-> {
                 activity.onCick(finalI,n);
-
             });
         }
         return root;

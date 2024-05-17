@@ -1,4 +1,4 @@
-package Si3.divertech;
+package Si3.divertech.notifications;
 
 import android.util.Log;
 
@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+
+import Si3.divertech.users.UserData;
 
 public class NotificationList extends Observable {
     private static NotificationList instance;
@@ -43,14 +45,39 @@ public class NotificationList extends Observable {
     }
 
     public void deleteNotification(String id) {
-        notificationMap.remove(id);
-
         String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(userId).child("notifications").child(id).removeValue();
+        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(userId).child("notifications");
+
+        notificationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String notificationId = childSnapshot.getValue(String.class);
+
+                    if (notificationId != null && notificationId.equals(id)) {
+                        childSnapshot.getRef().removeValue()
+                                .addOnSuccessListener(aVoid -> {
+                                    setChanged();
+                                    notifyObservers();
+                                    notificationMap.remove(id);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.d("NOTIFICATION DELETE ERROR", "");
+                                });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("CANT GET NOTIFICATION USER LIST", "");
+            }
+        });
+
     }
 
     public void requestData() {
@@ -89,9 +116,9 @@ public class NotificationList extends Observable {
                                 Notification notification = new Notification(notificationId, eventId, type, description, userCreatorId);
                                 Log.d("NOTIFICATION", notification.toString());
                                 addNotification(notification);
+                                setChanged();
+                                notifyObservers();
                             }
-                            setChanged();
-                            notifyObservers();
                         }
 
                         @Override
