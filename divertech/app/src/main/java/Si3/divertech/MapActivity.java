@@ -8,7 +8,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -110,7 +109,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                     markers.put(marker, PopupMarkerFactory.EVENT);
                     if (event.getId().equals(eventId)) {
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10f));
-                        Log.d("test", "test");
                     }
                 } else {
                     Toast.makeText(getContext(), "Problème lors de la création d'un markeur", Toast.LENGTH_LONG).show();
@@ -142,7 +140,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     private void gps() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-            Log.d("GPS", "demande de permission GPS");
         } else {
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this::markersAndActualPosition)

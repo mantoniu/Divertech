@@ -5,7 +5,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -154,7 +153,6 @@ public class FeedFragment extends Fragment implements ClickableFragment {
     public void onClick(String itemId) {
         if (feedType == FeedType.EVENTS) {
             intent = new Intent(context, EventActivity.class);
-            Log.d("test", getString(R.string.event_id) + itemId);
             intent.putExtra(getString(R.string.event_id), itemId);
             startActivity(intent);
         } else if (UserData.getInstance().getConnectedUser().getIsAdmin()) {
@@ -168,7 +166,6 @@ public class FeedFragment extends Fragment implements ClickableFragment {
             }
             NotificationCreator.getInstance().getUser(NotificationList.getInstance().getNotification(itemId).getNotificationCreatorUser());
         } else {
-            Log.d("CLICKED_FRAGMENT", "");
             createPopup(NotificationList.getInstance().getNotification(itemId));
         }
     }
