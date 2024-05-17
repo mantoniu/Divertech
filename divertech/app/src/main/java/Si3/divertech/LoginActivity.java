@@ -75,8 +75,8 @@ public class LoginActivity extends AppCompatActivity implements Observer {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                UserData.getInstance().requestUserData(user);
                                 UserData.getInstance().addObserver(this);
+                                UserData.getInstance().requestUserData(user);
                             }
                         } else {
                             Toast.makeText(this, "Impossible de se connecter", Toast.LENGTH_SHORT).show();
@@ -141,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        UserData.getInstance().deleteObserver(this);
         finish();
     }
 }

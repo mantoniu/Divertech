@@ -116,9 +116,9 @@ public class NotificationList extends Observable {
                                 Notification notification = new Notification(notificationId, eventId, type, description, userCreatorId);
                                 Log.d("NOTIFICATION", notification.toString());
                                 addNotification(notification);
+                                setChanged();
+                                notifyObservers();
                             }
-                            setChanged();
-                            notifyObservers();
                         }
 
                         @Override
