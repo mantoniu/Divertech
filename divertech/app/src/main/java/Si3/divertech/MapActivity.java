@@ -90,10 +90,8 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                 Marker markerSelfPosition = googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 markers.put(markerSelfPosition, PopupMarkerFactory.SELF);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 7f));
-            } else {
-                googleMap.addMarker(new MarkerOptions().position(new LatLng(46.52863469527167, 2.43896484375)));
+            } else
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.52863469527167, 2.43896484375), 4f));
-            }
 
             googleMap.setOnMarkerClickListener(marker -> {
                 PopupMarker popup;
