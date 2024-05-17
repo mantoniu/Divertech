@@ -17,6 +17,8 @@ import java.util.List;
 
 public class FootMenu extends Fragment {
     private ClickableActivity activity;
+    private Drawable drawable;
+    private int page;
     private String attachedActivity;
     List<Integer> elements = List.of(R.id.homeLayout,R.id.locationLayout,R.id.eventLayout);
     List<ConstraintLayout> buttons = new ArrayList<>();
@@ -37,24 +39,25 @@ public class FootMenu extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        drawable.setTint(getResources().getColor(R.color.mediumPurple));
+        ((ImageView)getView().findViewById(images.get(page))).setImageDrawable(drawable);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
         View root =  inflater.inflate(R.layout.fragment_foot_menu,container,false);
         List<Drawable> drawables= List.of(getResources().getDrawable(R.drawable.home),getResources().getDrawable(R.drawable.location),getResources().getDrawable(R.drawable.agenda));
 
         int n = requireArguments().getInt("page",1);
+        page = n-1;
         for (int i=0;i<elements.size() ;i++){
             buttons.add(root.findViewById(elements.get(i)));
             int finalI = i+1;
             if(n == finalI) {
                 root.findViewById(borders.get(i)).setVisibility(View.VISIBLE);
-                Drawable drawable = drawables.get(i);
-                drawable.setTint(getResources().getColor(R.color.mediumPurple));
-                ((ImageView)root.findViewById(images.get(i))).setImageDrawable(drawable);
-            }
-            else{
-                Drawable drawable = drawables.get(i);
-                drawable.setTint(getResources().getColor(R.color.black));
-                ((ImageView)root.findViewById(images.get(i))).setImageDrawable(drawable);
+                drawable = drawables.get(i);
             }
 
             buttons.get(i).setOnClickListener(click-> {
@@ -76,5 +79,12 @@ public class FootMenu extends Fragment {
             throw new RuntimeException(e);
         }
         activity = (ClickableActivity)getActivity();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        drawable.setTint(getResources().getColor(R.color.black));
+        ((ImageView)getView().findViewById(images.get(page))).setImageDrawable(drawable);
     }
 }

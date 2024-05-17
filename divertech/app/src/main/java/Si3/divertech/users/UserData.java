@@ -52,14 +52,16 @@ public class UserData extends Observable {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("firstName").getValue(String.class);
+                String firstName = dataSnapshot.child("firstName").getValue(String.class);
                 String lastName = dataSnapshot.child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("address").getValue(String.class);
                 String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
                 String language = dataSnapshot.child("language").getValue(String.class);
+                String postalCode = dataSnapshot.child("postalCode").getValue(String.class);
+                String city = dataSnapshot.child("city").getValue(String.class);
                 Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
 
-                connectedUser = new User(userId, userEmail, name, lastName, address, phoneNumber, language, admin != null ? admin : false);
+                connectedUser = new User(userId, firstName, lastName,userEmail,phoneNumber,language,address,postalCode,city, admin != null ? admin : false);
                 Log.d("CONNECTED USER", connectedUser.toString());
 
                 setChanged();

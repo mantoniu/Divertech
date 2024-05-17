@@ -127,6 +127,7 @@
     <string name="report_title">Titre du signalement</string>
     <string name="dateExample">10 aout 2024 23h30</string>
     <string name="events">Mes évènements</string>
+    <string name="event">Mon évènement</string>
     <string name="notifications">Notifications</string>
     <string name="title">Title</string>
     <string name="flashlight_button">FlashLight button</string>
@@ -164,8 +165,10 @@
     <string name="les_champs_ci_dessous_sont_obligatoires">les champs ci-dessous sont obligatoires</string>
     <string name="choisir_une_langue_pour_l_application">Choisir une langue pour l\'application</string>
     <string name="mes_v_nements">Mes événements</string>
+    <string name="create_event">Créer un évènement</string>
     <string name="mon_feed">Mon feed</string>
     <string name="localisation">Localisation</string>
+    <string name="annuler">Annuler</string>
     <string name="servor_error">Impossible de communiquer avec le serveur</string>
     <string name="event_id">eventId</string>
     <string name="message_object">Objet message</string>
@@ -208,8 +211,11 @@
     <string name="type_message_admin_vue_contact">Raison du message</string>
     <string name="see_notifications">Voir les notifications</string>
     <string name="back_possible">back</string>
+    <string name="notification_de_publication_sur_le_fil_d_actualit">Notification de publication sur le fil d\'actualité</string>
+    <string name="notification_de_r_ponse_vos_demandes">Notification de réponse à vos demandes</string>
+    <string name="notification_avant_l_heure_de_vos_v_nements">Notification avant l\'heure de vos événements</string>
+    <string name="autorisation_de_notification">Autorisation de notification</string>
+    <string name="english">English</string>
     <string name="no_event_registered">Aucun évènement enregistré</string>
     <string name="no_notification">Aucune notification</string>
-
-
 </resources>

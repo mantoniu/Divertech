@@ -37,9 +37,6 @@ public class ParkingActivity extends AppCompatActivity {
             if (!error) finish();
         });
 
-        View headerView = findViewById(R.id.header_menu);
-        ((TextView) headerView.findViewById(R.id.feed_title)).setText(R.string.parking_space);
-
         MaterialCardView datePicker = findViewById(R.id.card_date);
         datePicker.setOnClickListener(click -> {
             DatePickerFragment newFragment = new DatePickerFragment(getSupportFragmentManager(), false, getWindow().getDecorView().getRootView());

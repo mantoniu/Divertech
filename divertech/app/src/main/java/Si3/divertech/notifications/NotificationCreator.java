@@ -37,8 +37,10 @@ public class NotificationCreator extends Observable {
                 String address = dataSnapshot.child("address").getValue(String.class);
                 String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
                 String language = dataSnapshot.child("language").getValue(String.class);
+                String postalCode = dataSnapshot.child("postalCode").getValue(String.class);
+                String city = dataSnapshot.child("city").getValue(String.class);
                 Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
-                notificationCreatorUser = new User(userId, userEmail, firstName, lastName, address, phoneNumber, language, admin != null ? admin : false);
+                notificationCreatorUser = new User(userId, firstName, lastName, userEmail, phoneNumber, language, address, postalCode, city, admin != null ? admin : false);
                 getInstance().setChanged();
                 Log.d("TAG", instance.hasChanged() + " ");
                 getInstance().notifyObservers();

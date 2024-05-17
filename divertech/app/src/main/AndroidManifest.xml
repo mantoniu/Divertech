@@ -44,6 +44,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:label="@string/notifications"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".qr_reader.CameraPreviewActivity"
@@ -58,6 +60,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".MapActivity"
+            android:label="@string/ma_carte"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <meta-data
@@ -68,21 +72,23 @@
         <activity
             android:name=".MultiPagesActivity"
             android:exported="true"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/contact"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".CreateEventActivity"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name=".LanguageModificationActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity
             android:name=".MultiPagesAdminActivity"
             android:exported="true"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/contact"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".ListEventActivity"
+            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:label="@string/events"
             android:exported="true"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
