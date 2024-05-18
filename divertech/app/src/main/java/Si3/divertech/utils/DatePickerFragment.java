@@ -54,7 +54,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(android.widget.DatePicker view, int year, int month, int day) {
         // Do something with the date the user picks.
         if (time) {
-            TimePickerFragment timeFragment = new TimePickerFragment(this.view, year, month, day, listener);
+            TimePickerFragment timeFragment = new TimePickerFragment(year, month, day, listener);
             timeFragment.show(this.test, "timePicker");
         } else {
             TextView textCalendar = this.view.findViewById(R.id.add_calendar);
@@ -77,10 +77,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         private final int month;
         private final int day;
         private final DateListener listener;
-        private final View view;
 
-        public TimePickerFragment(View view, int year, int month, int day, DateListener listener) {
-            this.view = view;
+        public TimePickerFragment(int year, int month, int day, DateListener listener) {
             this.year = year;
             this.month = month;
             this.day = day;
@@ -102,7 +100,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            listener.onDateChoose(day, month, year, hourOfDay, minute);
+            listener.onDateChoose(day, month + 1, year, hourOfDay, minute);
         }
     }
 }

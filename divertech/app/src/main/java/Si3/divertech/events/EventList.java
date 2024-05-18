@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -231,8 +232,14 @@ public class EventList extends Observable {
         Log.d("antoniu => ", date);
 
         eventRef.child("title").setValue(title);
-        if (pictureUrl != null)
+        if (pictureUrl != null) {
+            if (getEvent(eventId).getPictureUrl() != null && !getEvent(eventId).getPictureUrl().equals(pictureUrl)) {
+                FirebaseStorage.getInstance().getReferenceFromUrl(getEvent(eventId).getPictureUrl()).delete().addOnSuccessListener(task ->
+                        eventRef.child("pictureUrl").setValue(pictureUrl)
+                );
+            }
             eventRef.child("pictureUrl").setValue(pictureUrl);
+        }
         eventRef.child("shortDescription").setValue(shortDescription);
         eventRef.child("address").setValue(address);
         eventRef.child("postalCode").setValue(postalCode);

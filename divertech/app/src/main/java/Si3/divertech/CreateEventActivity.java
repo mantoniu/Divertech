@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import Si3.divertech.databinding.ActivityAdminNewEventBinding;
@@ -60,7 +62,12 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             }
         });
 
-        binding.buttonCancel.setOnClickListener(click -> finish());
+        binding.buttonCancel.setOnClickListener(click -> {
+            if (EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().equals(newPictureUrl)) {
+                FirebaseStorage.getInstance().getReferenceFromUrl(newPictureUrl).delete();
+            }
+            finish();
+        });
 
         binding.date.setOnClickListener(click -> {
             DatePickerFragment dateFragment = new DatePickerFragment(getSupportFragmentManager(), true, getWindow().getDecorView().getRootView(), this);
@@ -122,7 +129,6 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         OnSuccessListener<? super Uri> successListener = (OnSuccessListener<? super Uri>) uri -> {
             newPictureUrl = uri.toString();
             Picasso.get().load(newPictureUrl).into(binding.imageEvent);
-            EventList.getInstance().setEventPictureUrl(eventId, newPictureUrl);
             binding.uploadProgress.setVisibility(View.INVISIBLE);
         };
 
@@ -130,7 +136,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             showErrorMessage();
         };
 
-        UploadUtils.uploadImage(url, "/events/" + eventId + ".jpg", 60, getApplicationContext(), successListener, failureListener);
+        UploadUtils.uploadImage(url, "/events/" + UUID.randomUUID().toString() + ".jpg", 60, getApplicationContext(), successListener, failureListener);
     }
 
     public void writeEvent() {

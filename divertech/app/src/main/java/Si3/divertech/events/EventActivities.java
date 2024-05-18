@@ -22,6 +22,7 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         eventId = getIntent().getStringExtra(getString(R.string.event_id));
+        EventList.getInstance().addObserver(this);
         setActivity();
         updateInfo();
     }
