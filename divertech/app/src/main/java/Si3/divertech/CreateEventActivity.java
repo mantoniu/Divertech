@@ -1,58 +1,79 @@
 package Si3.divertech;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import Si3.divertech.databinding.ActivityAdminNewEventBinding;
 import Si3.divertech.events.Event;
 import Si3.divertech.events.EventList;
 
 public class CreateEventActivity extends AppCompatActivity {
-
+    private ActivityAdminNewEventBinding binding;
     private boolean error = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_new_event);
+        binding = ActivityAdminNewEventBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        View buttonAdd = findViewById(R.id.more);
-        buttonAdd.setOnClickListener(click -> {
-            if (findViewById(R.id.description_text_input).getVisibility() == View.VISIBLE) {
-                findViewById(R.id.description_text_input).setVisibility(View.GONE);
-                ((ImageView) buttonAdd).setImageResource(R.drawable.add);
+        binding.more.setOnClickListener(click -> {
+            if (binding.descriptionTextInput.getVisibility() == View.VISIBLE) {
+                binding.descriptionTextInput.setVisibility(View.GONE);
+                binding.more.setImageResource(R.drawable.add);
             } else {
                 findViewById(R.id.description_text_input).setVisibility(View.VISIBLE);
-                ((ImageView) buttonAdd).setImageResource(R.drawable.close2);
+                binding.more.setImageResource(R.drawable.close2);
             }
         });
 
-        View cancel = findViewById(R.id.button_cancel);
-        cancel.setOnClickListener(click -> finish());
+        binding.buttonCancel.setOnClickListener(click -> finish());
 
-        MaterialCardView date = findViewById(R.id.card_date);
-        date.setOnClickListener(click -> {
+        binding.date.setOnClickListener(click -> {
             DatePickerFragment dateFragment = new DatePickerFragment(getSupportFragmentManager(), true, getWindow().getDecorView().getRootView());
             dateFragment.show(getSupportFragmentManager(), "datePicker");
         });
 
+        ActivityResultLauncher<Intent> startCrop = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            //TODO
+                        }
+                    }
+                }
+        );
+
+        binding.cardImageEvent.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), ImageCropperActivity.class);
+            startCrop.launch(intent);
+        });
+
         addTextWatcher();
         String eventId = getIntent().getStringExtra(getString(R.string.event_id));
-        if (EventList.getInstance().getEvent(eventId) != null) {
+        if (EventList.getInstance().containsEvent(eventId)) {
+            if (!EventList.getInstance().getEvent(eventId).getPictureUrl().isEmpty())
+                Picasso.get().load(EventList.getInstance().getEvent(eventId).getPictureUrl()).into(binding.imageEvent);
+
             EditText shortDescription = findViewById(R.id.short_description);
             shortDescription.setText(EventList.getInstance().getEvent(eventId).getShortDescription());
             EditText title = findViewById(R.id.title);

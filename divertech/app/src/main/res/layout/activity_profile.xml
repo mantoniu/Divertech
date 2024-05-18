@@ -1,7 +1,5 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -46,20 +44,42 @@
                     android:contentDescription="@string/return_arrow_description"
                     android:background="@drawable/roundbackground"
                     android:backgroundTint="@color/white"
-                    android:tint="@color/black"
+                    app:tint="@color/black"
                     android:src="@drawable/return_arrow" />
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/profile_image"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/profile"
-                app:tint="@color/white_smoke"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/profile_picture_container"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                app:cardCornerRadius="250dp"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <ImageView
+                    android:id="@+id/profile_picture"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:src="@drawable/profile"
+                    android:foreground="@drawable/edit_picture"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/profile_picture" />
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                app:indicatorColor="@color/white"
+                android:id="@+id/progress_bar"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/profile_picture_container"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/profile_picture_container"
+                app:layout_constraintBottom_toBottomOf="@id/profile_picture_container" />
 
             <TextView
                 android:id="@+id/username"
@@ -68,9 +88,10 @@
                 android:textColor="@color/white_smoke"
                 android:textSize="30sp"
                 android:textStyle="bold"
+                android:text="Test je suis un test"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_image" />
+                app:layout_constraintTop_toBottomOf="@id/profile_picture_container" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

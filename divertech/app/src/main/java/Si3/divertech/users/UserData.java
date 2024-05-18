@@ -20,10 +20,10 @@ public class UserData extends Observable {
     private static UserData instance;
     private static User connectedUser;
     private static FirebaseUser firebaseUser;
+    private DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
     private static String userId;
 
     private UserData() {
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     public static UserData getInstance() {
@@ -41,7 +41,6 @@ public class UserData extends Observable {
             return;
 
         String userId = user.getUid();
-        String userEmail = user.getEmail();
 
         UserData.firebaseUser = user;
         UserData.userId = userId;
@@ -52,16 +51,7 @@ public class UserData extends Observable {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String firstName = dataSnapshot.child("firstName").getValue(String.class);
-                String lastName = dataSnapshot.child("lastName").getValue(String.class);
-                String address = dataSnapshot.child("address").getValue(String.class);
-                String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
-                String language = dataSnapshot.child("language").getValue(String.class);
-                String postalCode = dataSnapshot.child("postalCode").getValue(String.class);
-                String city = dataSnapshot.child("city").getValue(String.class);
-                Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
-
-                connectedUser = new User(userId, firstName, lastName,userEmail,phoneNumber,language,address,postalCode,city, admin != null ? admin : false);
+                connectedUser = getUserBySnapshot(dataSnapshot, userId);
                 Log.d("CONNECTED USER", connectedUser.toString());
 
                 setChanged();
@@ -78,22 +68,37 @@ public class UserData extends Observable {
         return connectedUser;
     }
 
+    public static User getUserBySnapshot(DataSnapshot dataSnapshot, String userId) {
+        String userEmail = dataSnapshot.child("email").getValue(String.class);
+        String firstName = dataSnapshot.child("firstName").getValue(String.class);
+        String lastName = dataSnapshot.child("lastName").getValue(String.class);
+        String address = dataSnapshot.child("address").getValue(String.class);
+        String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
+        String language = dataSnapshot.child("language").getValue(String.class);
+        String postalCode = dataSnapshot.child("postalCode").getValue(String.class);
+        String city = dataSnapshot.child("city").getValue(String.class);
+        String pictureUrl = dataSnapshot.child("pictureUrl").getValue(String.class);
+        Boolean admin = dataSnapshot.child("admin").getValue(Boolean.class);
+
+        return new User(userId, firstName, lastName, userEmail, phoneNumber, language, address, postalCode, city, pictureUrl != null ? pictureUrl : "", admin != null ? admin : false);
+    }
+
     public void writeNewUser(String userId, String firstName, String lastName, String mail, String phoneNumber, String language, String address, String postalCode, String city) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+        DatabaseReference userRef = usersRef.child(userId);
 
-        usersRef.child("firstName").setValue(firstName);
-        usersRef.child("lastName").setValue(lastName);
-        usersRef.child("mail").setValue(mail);
-        usersRef.child("phoneNumber").setValue(phoneNumber);
-        usersRef.child("language").setValue(language);
+        userRef.child("firstName").setValue(firstName);
+        userRef.child("lastName").setValue(lastName);
+        userRef.child("mail").setValue(mail);
+        userRef.child("phoneNumber").setValue(phoneNumber);
+        userRef.child("language").setValue(language);
         if(address != null)
-            usersRef.child("address").setValue(address);
+            userRef.child("address").setValue(address);
         if(postalCode != null)
-            usersRef.child("postalCode").setValue(postalCode);
+            userRef.child("postalCode").setValue(postalCode);
         if(city != null)
-            usersRef.child("city").setValue(city);
+            userRef.child("city").setValue(city);
 
-        usersRef.child("admin").setValue(false);
+        userRef.child("admin").setValue(false);
     }
 
     public void updateUser(String userId, String firstName, String lastName, String email, String phoneNumber, String language, String address, String postalCode, String city, String password) {
@@ -122,5 +127,9 @@ public class UserData extends Observable {
                         Log.d("RE-AUTHENTICATION ERROR", "", task.getException());
                     }
                 });
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        usersRef.child(userId).child("pictureUrl").setValue(pictureUrl);
     }
 }

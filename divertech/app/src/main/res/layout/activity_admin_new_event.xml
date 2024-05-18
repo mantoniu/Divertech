@@ -78,8 +78,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/image_default"
                     android:contentDescription="@string/image_event_text_replace" />
+
+                <ImageView
+                    android:src="@drawable/gray_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/edit_button" />
+
+                <ImageView
+                    android:src="@drawable/edit"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/edit_button" />
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textfield.TextInputLayout
