@@ -26,6 +26,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ImageCropperActivity extends AppCompatActivity {
+    private int aspectRatioX;
+    private int aspectRatioY;
+    private CropImageView.CropShape cropShape;
     ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
             Intent data = result.getData();
@@ -60,6 +63,19 @@ public class ImageCropperActivity extends AppCompatActivity {
         if (intent == null)
             return;
 
+        aspectRatioX = intent.getIntExtra("aspectRatioX", -1);
+        aspectRatioY = intent.getIntExtra("aspectRatioY", -1);
+        int shapeInt = intent.getIntExtra("shape", -1);
+
+        if (aspectRatioX < 0 || aspectRatioY < 0 || shapeInt < 0) {
+            finish();
+            return;
+        }
+
+        Log.d("created => test", "");
+
+        cropShape = CropImageView.CropShape.values()[shapeInt];
+
         if (isPermitted()) {
             getImageFile();
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -84,10 +100,10 @@ public class ImageCropperActivity extends AppCompatActivity {
         CropImageOptions cropImageOptions = new CropImageOptions();
         cropImageOptions.imageSourceIncludeGallery = true;
         cropImageOptions.imageSourceIncludeCamera = true;
-        cropImageOptions.cropShape = CropImageView.CropShape.OVAL;
+        cropImageOptions.cropShape = cropShape;
         cropImageOptions.fixAspectRatio = true;
-        cropImageOptions.aspectRatioX = 150;
-        cropImageOptions.aspectRatioY = 150;
+        cropImageOptions.aspectRatioX = aspectRatioX;
+        cropImageOptions.aspectRatioY = aspectRatioY;
         CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
         cropImage.launch(cropImageContractOptions);
     }

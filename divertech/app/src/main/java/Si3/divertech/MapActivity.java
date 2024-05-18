@@ -76,7 +76,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     private LatLng getAddress(String eventId) {
         Geocoder geocoder = new Geocoder(getContext());
         try {
-            Address address = Objects.requireNonNull(geocoder.getFromLocationName(EventList.getInstance().getEvent(eventId).getPosition(), 1)).get(0);
+            Address address = Objects.requireNonNull(geocoder.getFromLocationName(EventList.getInstance().getEvent(eventId).getFullAddress(), 1)).get(0);
             return new LatLng(address.getLatitude(), address.getLongitude());
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,8 +1,6 @@
 package Si3.divertech;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,14 +16,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.canhub.cropper.CropImageView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -33,6 +29,7 @@ import java.util.Observer;
 import Si3.divertech.databinding.ActivityProfileBinding;
 import Si3.divertech.users.User;
 import Si3.divertech.users.UserData;
+import Si3.divertech.utils.UploadUtils;
 
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
@@ -60,6 +57,9 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
 
         binding.profilePicture.setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), ImageCropperActivity.class);
+            intent.putExtra("aspectRatioX", 150);
+            intent.putExtra("aspectRatioY", 150);
+            intent.putExtra("shape", CropImageView.CropShape.OVAL.ordinal());
             startCrop.launch(intent);
         });
 
@@ -241,7 +241,12 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         binding.password.setText("**********");
     }
 
-    public void uploadImage(String url) {
+    public void showErrorMessage(ProgressBar progressBar) {
+        Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
+        waitingUpload = false;
+    }
+
+    private void uploadImage(String url) {
         if (url == null)
             return;
 
@@ -249,40 +254,17 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
         progressBar.setVisibility(View.VISIBLE);
         waitingUpload = true;
 
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(Uri.parse(url));
+        OnSuccessListener<? super Uri> successListener = (OnSuccessListener<? super Uri>) uri -> {
+            UserData.getInstance().setPictureUrl(uri.toString());
+            progressBar.setVisibility(View.INVISIBLE);
+            waitingUpload = false;
+        };
 
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
-            byte[] data = stream.toByteArray();
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference filePath = storage.getReference().child("/users/" + UserData.getInstance().getUserId() + ".jpg");
-            UploadTask uploadTask = filePath.putBytes(data);
-
-            uploadTask.addOnSuccessListener(taskSnapshot -> {
-                if (taskSnapshot.getMetadata() == null || taskSnapshot.getMetadata().getReference() == null)
-                    return;
-                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(uri -> {
-                    UserData.getInstance().setPictureUrl(uri.toString());
-                    progressBar.setVisibility(View.INVISIBLE);
-                    waitingUpload = false;
-                }).addOnFailureListener(exception -> showErrorMessage(progressBar));
-            }).addOnFailureListener(exception -> {
-                showErrorMessage(progressBar);
-            });
-
-            if (inputStream != null)
-                inputStream.close();
-        } catch (Exception e) {
+        OnFailureListener failureListener = (OnFailureListener) -> {
+            progressBar.setVisibility(View.INVISIBLE);
             showErrorMessage(progressBar);
-        }
-    }
+        };
 
-    public void showErrorMessage(ProgressBar progressBar) {
-        Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
-        progressBar.setVisibility(View.INVISIBLE);
-        waitingUpload = false;
+        UploadUtils.uploadImage(url, "/users/" + UserData.getInstance().getUserId() + ".jpg", 40, getApplicationContext(), successListener, failureListener);
     }
 }

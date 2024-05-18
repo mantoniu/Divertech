@@ -45,7 +45,7 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
         title.setText(EventList.getInstance().getEvent(eventId).getTitle());
 
         TextView place = findViewById(R.id.localisation);
-        place.setText(EventList.getInstance().getEvent(eventId).getPosition());
+        place.setText(EventList.getInstance().getEvent(eventId).getFullAddress());
 
         TextView description = findViewById(R.id.description);
         description.setMaxLines(3);
@@ -67,8 +67,15 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
 
         findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
 
-        Picasso.get().load(EventList.getInstance().getEvent(eventId).getPictureUrl()).into((ImageView) findViewById(R.id.image_event));
+        Picasso.get().load(EventList.getInstance().getEvent(eventId).getPictureUrl())
+                .into((ImageView) findViewById(R.id.image_event));
 
         ((TextView) findViewById(R.id.date)).setText(EventList.getInstance().getEvent(eventId).getFormattedDate());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateInfo();
     }
 }

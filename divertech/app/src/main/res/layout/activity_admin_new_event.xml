@@ -90,11 +90,18 @@
 
                 <ImageView
                     android:src="@drawable/edit"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:contentDescription="@string/edit_button" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/upload_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="invisible" />
 
             </com.google.android.material.card.MaterialCardView>
 

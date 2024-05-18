@@ -223,4 +223,29 @@ public class EventList extends Observable {
         eventMap.remove(eventId);
         listenerMap.remove(eventId);
     }
+
+    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
+        DatabaseReference eventsRef = rootRef.child("Events");
+        DatabaseReference eventRef = (eventId != null) ? eventsRef.child(eventId) : eventsRef.push();
+
+        Log.d("antoniu => ", date);
+
+        eventRef.child("title").setValue(title);
+        if (pictureUrl != null)
+            eventRef.child("pictureUrl").setValue(pictureUrl);
+        eventRef.child("shortDescription").setValue(shortDescription);
+        eventRef.child("address").setValue(address);
+        eventRef.child("postalCode").setValue(postalCode);
+        eventRef.child("city").setValue(city);
+        eventRef.child("description").setValue(description);
+        eventRef.child("date").setValue(date);
+
+        if (eventId == null)
+            registerUserToEvent(eventRef.getKey());
+    }
+
+    public void setEventPictureUrl(String eventId, String newPictureUrl) {
+        if (eventId != null)
+            rootRef.child("Events").child(eventId).child("pictureUrl").setValue(newPictureUrl);
+    }
 }
