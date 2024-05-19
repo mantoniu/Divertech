@@ -73,9 +73,11 @@ public class EventList extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    if (containsEvent(eventId))
+                        return;
                     addEvent(getEventBySnapshot(eventId, snapshot));
-                    registerUserToEvent(eventId);
                     listener.onDataBaseResponse(eventId, DataBaseResponses.SUCCESS);
+                    registerUserToEvent(eventId);
                 } else
                     listener.onDataBaseResponse(eventId, DataBaseResponses.EVENT_DOES_NOT_EXIST);
             }
@@ -249,10 +251,5 @@ public class EventList extends Observable {
 
         if (eventId == null)
             registerUserToEvent(eventRef.getKey());
-    }
-
-    public void setEventPictureUrl(String eventId, String newPictureUrl) {
-        if (eventId != null)
-            rootRef.child("Events").child(eventId).child("pictureUrl").setValue(newPictureUrl);
     }
 }
