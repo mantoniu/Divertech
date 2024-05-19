@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation("com.google.android.gms:play-services-location:21.2.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.github.androidmads:QRGenerator:1.0.1")
     implementation("io.github.elye:loaderviewlibrary:3.0.0")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.vanniktech:android-image-cropper:4.5.0")

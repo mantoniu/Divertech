@@ -220,4 +220,6 @@
     <string name="no_event_registered">Aucun évènement enregistré</string>
     <string name="no_notification">Aucune notification</string>
     <string name="edit_button">Edit button</string>
+    <string name="qr_code">QR CODE</string>
+    <string name="event_id_title">Identifiant de l\'évènement</string>
 </resources>
