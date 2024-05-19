@@ -63,7 +63,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         });
 
         binding.buttonCancel.setOnClickListener(click -> {
-            if (EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().equals(newPictureUrl)) {
+            if (newPictureUrl != null && EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().equals(newPictureUrl)) {
                 FirebaseStorage.getInstance().getReferenceFromUrl(newPictureUrl).delete();
             }
             finish();
