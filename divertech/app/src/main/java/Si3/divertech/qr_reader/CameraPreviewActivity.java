@@ -113,6 +113,9 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
     }
 
     public void showEventErrorPopup(@StringRes int textRes) {
+        if (errorPopup != null)
+            return;
+
         errorPopup = createPopup(R.layout.event_not_found_popup);
 
         errorPopup.showAtLocation(getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
@@ -121,7 +124,10 @@ public final class CameraPreviewActivity extends AppCompatActivity implements QR
         TextView text = popupView.findViewById(R.id.text_input);
         text.setText(textRes);
 
-        View.OnClickListener listener = (click) -> dismissPopup(errorPopup);
+        View.OnClickListener listener = (click) -> {
+            dismissPopup(errorPopup);
+            errorPopup = null;
+        };
 
         popupView.findViewById(R.id.close_button).setOnClickListener(listener);
 

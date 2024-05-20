@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,9 +73,11 @@ public class EventList extends Observable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    if (containsEvent(eventId))
+                        return;
                     addEvent(getEventBySnapshot(eventId, snapshot));
-                    registerUserToEvent(eventId);
                     listener.onDataBaseResponse(eventId, DataBaseResponses.SUCCESS);
+                    registerUserToEvent(eventId);
                 } else
                     listener.onDataBaseResponse(eventId, DataBaseResponses.EVENT_DOES_NOT_EXIST);
             }
@@ -222,5 +225,31 @@ public class EventList extends Observable {
         rootRef.child("Events").child(eventId).removeEventListener(listener);
         eventMap.remove(eventId);
         listenerMap.remove(eventId);
+    }
+
+    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
+        DatabaseReference eventsRef = rootRef.child("Events");
+        DatabaseReference eventRef = (eventId != null) ? eventsRef.child(eventId) : eventsRef.push();
+
+        Log.d("antoniu => ", date);
+
+        eventRef.child("title").setValue(title);
+        if (pictureUrl != null) {
+            if (getEvent(eventId).getPictureUrl() != null && !getEvent(eventId).getPictureUrl().equals(pictureUrl)) {
+                FirebaseStorage.getInstance().getReferenceFromUrl(getEvent(eventId).getPictureUrl()).delete().addOnSuccessListener(task ->
+                        eventRef.child("pictureUrl").setValue(pictureUrl)
+                );
+            }
+            eventRef.child("pictureUrl").setValue(pictureUrl);
+        }
+        eventRef.child("shortDescription").setValue(shortDescription);
+        eventRef.child("address").setValue(address);
+        eventRef.child("postalCode").setValue(postalCode);
+        eventRef.child("city").setValue(city);
+        eventRef.child("description").setValue(description);
+        eventRef.child("date").setValue(date);
+
+        if (eventId == null)
+            registerUserToEvent(eventRef.getKey());
     }
 }

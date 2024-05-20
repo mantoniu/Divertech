@@ -7,14 +7,17 @@ import androidx.annotation.NonNull;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+
+import Si3.divertech.utils.DateUtils;
 
 public class Event implements Parcelable {
     protected String id;
     private String title;
     private String pictureUrl;
     private String shortDescription;
-    private String position;
+    private String address;
+    private String postalCode;
+    private String city;
     private String description;
     private ZonedDateTime date;
 
@@ -22,6 +25,8 @@ public class Event implements Parcelable {
             = new Parcelable.Creator<Event>() {
         public Event createFromParcel(Parcel in) {
             return new Event(in.readString(),
+                    in.readString(),
+                    in.readString(),
                     in.readString(),
                     in.readString(),
                     in.readString(),
@@ -43,16 +48,18 @@ public class Event implements Parcelable {
     public Event() {
     }
 
-    public Event(String id, String title, String pictureUrl, String shortDescription, String position, String description, String date) {
-        this(id, title, pictureUrl, shortDescription, position, description, ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
+        this(id, title, pictureUrl, shortDescription, address, postalCode, city, description, ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
     }
 
-    public Event(String id, String title, String pictureUrl, String shortDescription, String position, String description, ZonedDateTime date) {
+    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, ZonedDateTime date) {
         this.id = id;
         this.title = title;
         this.pictureUrl = pictureUrl;
         this.shortDescription = shortDescription;
-        this.position = position;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.city = city;
         this.description = description;
         this.date = date;
     }
@@ -71,10 +78,6 @@ public class Event implements Parcelable {
 
     public String getId(){ return id;}
 
-    public String getPosition() {
-        return position;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -90,7 +93,9 @@ public class Event implements Parcelable {
         dest.writeString(title);
         dest.writeString(pictureUrl);
         dest.writeString(shortDescription);
-        dest.writeString(position);
+        dest.writeString(address);
+        dest.writeString(postalCode);
+        dest.writeString(city);
         dest.writeString(description);
         dest.writeString(date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
     }
@@ -103,7 +108,7 @@ public class Event implements Parcelable {
                 ", title='" + title + '\'' +
                 ", pictureUrl='" + pictureUrl + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
-                ", position='" + position + '\'' +
+                ", address='" + getFullAddress() + '\'' +
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 '}';
@@ -114,11 +119,10 @@ public class Event implements Parcelable {
     }
 
     public void setDate(String date) {
-        this.date = ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        this.date = DateUtils.parseString(date);
     }
-
     public String getFormattedDate() {
-        return date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy à HH:mm", Locale.getDefault()));
+        return DateUtils.formatZonedDate(date);
     }
 
     public void setId(String id) {
@@ -127,5 +131,21 @@ public class Event implements Parcelable {
 
     public ZonedDateTime getZonedDate() {
         return date;
+    }
+
+    public String getFullAddress() {
+        return address + ", " + city + ", " + postalCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getCity() {
+        return city;
     }
 }

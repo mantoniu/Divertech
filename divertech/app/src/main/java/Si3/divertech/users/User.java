@@ -1,13 +1,5 @@
 package Si3.divertech.users;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,13 +19,14 @@ public class User {
     private String city;
     private String phoneNumber;
     private String language;
+    private String pictureUrl = "";
     private DatabaseReference userRef;
     private UserType userType;
 
     public User() {
     }
 
-    public User(String userId, String firstName, String lastName, String mail, String phoneNumber, String language, String address,String postalCode, String city,boolean isAdmin) {
+    public User(String userId, String firstName, String lastName, String mail, String phoneNumber, String language, String address, String postalCode, String city, String pictureUrl, boolean isAdmin) {
         this.id = userId;
         this.email = mail;
         this.firstName = firstName;
@@ -43,6 +36,7 @@ public class User {
         this.city = city;
         this.phoneNumber = phoneNumber;
         this.language = language;
+        this.pictureUrl = pictureUrl;
         this.userRef= FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
         this.userType = isAdmin ? UserType.ADMIN : UserType.NORMAL;
     }
@@ -91,7 +85,10 @@ public class User {
         return userType;
     }
 
-    @NonNull
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -104,7 +101,9 @@ public class User {
                 ", city='" + city + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
-                ", userType='" + userType + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", userRef=" + userRef +
+                ", userType=" + userType +
                 '}';
     }
 
@@ -150,6 +149,10 @@ public class User {
     public void setLanguage(String language) {
         userRef.child("language").setValue(language);
         this.language = language;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public CompletableFuture<Boolean> updateUserEmail(String newEmail, String password) {

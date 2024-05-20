@@ -1,61 +1,94 @@
 package Si3.divertech;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.canhub.cropper.CropImageView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import Si3.divertech.databinding.ActivityProfileBinding;
 import Si3.divertech.users.User;
 import Si3.divertech.users.UserData;
+import Si3.divertech.utils.UploadUtils;
 
 public class ProfileActivity extends AppCompatActivity implements Observer {
 
     private List<TextInputLayout> fields;
+    private ActivityProfileBinding binding;
+    private boolean waitingUpload = false;
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        ActivityResultLauncher<Intent> startCrop = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            uploadImage(data.getStringExtra("croppedImageUri"));
+                        }
+                    }
+                }
+        );
+
+        binding.profilePicture.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), ImageCropperActivity.class);
+            intent.putExtra("aspectRatioX", 150);
+            intent.putExtra("aspectRatioY", 150);
+            intent.putExtra("shape", CropImageView.CropShape.OVAL.ordinal());
+            startCrop.launch(intent);
+        });
 
         fields=List.of(
-                findViewById(R.id.lastName_container),
-                findViewById(R.id.firstName_container),
-                findViewById(R.id.mail_container),
-                findViewById(R.id.phone_container),
-                findViewById(R.id.address_container),
-                findViewById(R.id.city_container),
-                findViewById(R.id.postalcode_container),
-                findViewById(R.id.password_container)
+                binding.lastNameContainer,
+                binding.firstNameContainer,
+                binding.mailContainer,
+                binding.phoneContainer,
+                binding.addressContainer,
+                binding.cityContainer,
+                binding.postalcodeContainer,
+                binding.passwordContainer
         );
 
         setValues();
         UserData.getInstance().addObserver(this);
-        findViewById(R.id.return_arrow).setOnClickListener(click -> finish());
+        binding.returnArrow.setOnClickListener(click -> finish());
         setOnClickEdit();
     }
 
     private void SetUpFields(TextInputLayout field, EditText edit, EditText confirm){
-        if(field == findViewById(R.id.password_container)){
+        if (field == binding.passwordContainer) {
             edit.setHint("Ancien mot de passe");
             confirm.setHint("Nouveau mot de passe");
             confirm.setInputType(129);
             confirm.setVisibility(View.VISIBLE);
         }else{
             edit.setText(field.getEditText().getText());
-            if(field == findViewById(R.id.mail_container)){
+            if (field == binding.mailContainer) {
                 confirm.setHint("Confirmer le mot de passe");
                 confirm.setInputType(129);
                 confirm.setVisibility(View.VISIBLE);
@@ -124,33 +157,26 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
             error.setVisibility(View.VISIBLE);
             return;
         }
-        if(field==findViewById(R.id.lastName_container)){
+        if (field == binding.lastNameContainer) {
             user.setLastName(edit.getText().toString());
-        }
-        else if(field==findViewById(R.id.firstName_container)){
+        } else if (field == binding.firstNameContainer) {
             user.setFirstName(edit.getText().toString());
-        }
-        else if(field==findViewById(R.id.mail_container)){
+        } else if (field == binding.mailContainer) {
             changeMail(edit, confirm, error, alertDialog, user);
-        }
-        else if(field==findViewById(R.id.phone_container)){
+        } else if (field == binding.phoneContainer) {
             if(!FormatChecker.checkPhone(edit)){
                 error.setText("Numéro de téléphone invalide");
                 error.setVisibility(View.VISIBLE);
                 return;
             }
             user.setPhoneNumber(edit.getText().toString());
-        }
-        else if(field==findViewById(R.id.address_container)){
+        } else if (field == binding.addressContainer) {
             user.setAddress(edit.getText().toString());
-        }
-        else if(field==findViewById(R.id.city_container)){
+        } else if (field == binding.cityContainer) {
             user.setCity(edit.getText().toString());
-        }
-        else if(field==findViewById(R.id.postalcode_container)){
+        } else if (field == binding.postalcodeContainer) {
             user.setPostalCode(edit.getText().toString());
-        }
-        else if(field==findViewById(R.id.password_container)){
+        } else if (field == binding.passwordContainer) {
             changePassword(edit, confirm, error, alertDialog, user);
         }
 
@@ -201,24 +227,44 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
     }
 
     private void setValues() {
-        User user = UserData.getInstance().getConnectedUser();
-        TextView name = findViewById(R.id.username);
-        name.setText(user.getFirstName()+" "+user.getLastName());
-        TextView lastName = findViewById(R.id.lastName);
-        lastName.setText(user.getLastName());
-        TextView firstName = findViewById(R.id.firstName);
-        firstName.setText(user.getFirstName());
-        TextView email = findViewById(R.id.mail);
-        email.setText(user.getEmail());
-        TextView phone = findViewById(R.id.phone);
-        phone.setText(user.getPhoneNumber());
-        TextView address = findViewById(R.id.address);
-        address.setText(user.getAddress());
-        TextView city = findViewById(R.id.city);
-        city.setText(user.getCity());
-        TextView postalCode = findViewById(R.id.postalcode);
-        postalCode.setText(user.getPostalCode());
-        TextView password = findViewById(R.id.password);
-        password.setText("**********");
+        if (!UserData.getInstance().getConnectedUser().getPictureUrl().isEmpty())
+            Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into(binding.profilePicture);
+
+        binding.username.setText(String.format("%s %s", UserData.getInstance().getConnectedUser().getFirstName(), UserData.getInstance().getConnectedUser().getLastName()));
+        binding.lastName.setText(UserData.getInstance().getConnectedUser().getLastName());
+        binding.firstName.setText(UserData.getInstance().getConnectedUser().getFirstName());
+        binding.mail.setText(UserData.getInstance().getConnectedUser().getEmail());
+        binding.phone.setText(UserData.getInstance().getConnectedUser().getPhoneNumber());
+        binding.address.setText(UserData.getInstance().getConnectedUser().getAddress());
+        binding.city.setText(UserData.getInstance().getConnectedUser().getCity());
+        binding.postalcode.setText(UserData.getInstance().getConnectedUser().getPostalCode());
+        binding.password.setText("**********");
+    }
+
+    public void showErrorMessage(ProgressBar progressBar) {
+        Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
+        waitingUpload = false;
+    }
+
+    private void uploadImage(String url) {
+        if (url == null)
+            return;
+
+        ProgressBar progressBar = binding.progressBar;
+        progressBar.setVisibility(View.VISIBLE);
+        waitingUpload = true;
+
+        OnSuccessListener<? super Uri> successListener = (OnSuccessListener<? super Uri>) uri -> {
+            UserData.getInstance().setPictureUrl(uri.toString());
+            progressBar.setVisibility(View.INVISIBLE);
+            waitingUpload = false;
+        };
+
+        OnFailureListener failureListener = (OnFailureListener) -> {
+            progressBar.setVisibility(View.INVISIBLE);
+            showErrorMessage(progressBar);
+        };
+
+        UploadUtils.uploadImage(url, "/users/" + UserData.getInstance().getUserId() + ".jpg", 40, getApplicationContext(), successListener, failureListener);
     }
 }

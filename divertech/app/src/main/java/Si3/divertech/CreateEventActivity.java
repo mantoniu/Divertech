@@ -1,151 +1,198 @@
 package Si3.divertech;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
-import com.google.android.material.card.MaterialCardView;
+import com.canhub.cropper.CropImageView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
-import Si3.divertech.events.Event;
+import Si3.divertech.databinding.ActivityAdminNewEventBinding;
 import Si3.divertech.events.EventList;
+import Si3.divertech.utils.DateListener;
+import Si3.divertech.utils.DatePickerFragment;
+import Si3.divertech.utils.DateUtils;
+import Si3.divertech.utils.UploadUtils;
 
-public class CreateEventActivity extends AppCompatActivity {
-
+public class CreateEventActivity extends AppCompatActivity implements DateListener {
+    private ActivityAdminNewEventBinding binding;
+    private String eventId;
+    private String newPictureUrl;
+    private ZonedDateTime date;
     private boolean error = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_new_event);
+        binding = ActivityAdminNewEventBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        View buttonAdd = findViewById(R.id.more);
-        buttonAdd.setOnClickListener(click -> {
-            if (findViewById(R.id.description_text_input).getVisibility() == View.VISIBLE) {
-                findViewById(R.id.description_text_input).setVisibility(View.GONE);
-                ((ImageView) buttonAdd).setImageResource(R.drawable.add);
+        binding.more.setOnClickListener(click -> {
+            if (binding.descriptionTextInput.getVisibility() == View.VISIBLE) {
+                binding.descriptionTextInput.setVisibility(View.GONE);
+                binding.more.setImageResource(R.drawable.add);
             } else {
                 findViewById(R.id.description_text_input).setVisibility(View.VISIBLE);
-                ((ImageView) buttonAdd).setImageResource(R.drawable.close2);
+                binding.more.setImageResource(R.drawable.close2);
             }
         });
 
-        View cancel = findViewById(R.id.button_cancel);
-        cancel.setOnClickListener(click -> finish());
+        binding.buttonCancel.setOnClickListener(click -> {
+            if (newPictureUrl != null && (eventId == null || (EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().equals(newPictureUrl)))) {
+                FirebaseStorage.getInstance().getReferenceFromUrl(newPictureUrl).delete();
+            }
+            finish();
+        });
 
-        MaterialCardView date = findViewById(R.id.card_date);
-        date.setOnClickListener(click -> {
-            DatePickerFragment dateFragment = new DatePickerFragment(getSupportFragmentManager(), true, getWindow().getDecorView().getRootView());
+        binding.date.setOnClickListener(click -> {
+            DatePickerFragment dateFragment = new DatePickerFragment(getSupportFragmentManager(), true, getWindow().getDecorView().getRootView(), this);
             dateFragment.show(getSupportFragmentManager(), "datePicker");
         });
 
+        ActivityResultLauncher<Intent> startCrop = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            uploadImage(data.getStringExtra("croppedImageUri"));
+                        }
+                    }
+                }
+        );
+
+        binding.cardImageEvent.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), ImageCropperActivity.class);
+            intent.putExtra("aspectRatioX", 1300);
+            intent.putExtra("aspectRatioY", 900);
+            intent.putExtra("shape", CropImageView.CropShape.RECTANGLE.ordinal());
+            startCrop.launch(intent);
+        });
+
         addTextWatcher();
-        String eventId = getIntent().getStringExtra(getString(R.string.event_id));
-        if (EventList.getInstance().getEvent(eventId) != null) {
-            EditText shortDescription = findViewById(R.id.short_description);
-            shortDescription.setText(EventList.getInstance().getEvent(eventId).getShortDescription());
-            EditText title = findViewById(R.id.title);
-            title.setText(EventList.getInstance().getEvent(eventId).getTitle());
-            //EditText localisation = findViewById(R.id.localisation);
-            //localisation.setText(EventList.getInstance().getEvent(eventId).getPosition());
-            TextView date2 = findViewById(R.id.add_calendar);
-            date2.setText(EventList.getInstance().getEvent(eventId).getDate());
-            EditText description = findViewById(R.id.description);
-            description.setText(EventList.getInstance().getEvent(eventId).getDescription());
-            View validate = findViewById(R.id.button_validate);
-            validate.setOnClickListener(click -> modification(EventList.getInstance().getEvent(eventId)));
-        } else {
-            View validate = findViewById(R.id.button_validate);
-            validate.setOnClickListener(click -> addNew());
+        eventId = getIntent().getStringExtra(getString(R.string.event_id));
+        if (EventList.getInstance().containsEvent(eventId)) {
+            if (EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().isEmpty())
+                Picasso.get().load(EventList.getInstance().getEvent(eventId).getPictureUrl()).into(binding.imageEvent);
+
+            if (EventList.getInstance().getEvent(eventId).getZonedDate() != null) {
+                date = EventList.getInstance().getEvent(eventId).getZonedDate();
+                binding.addCalendar.setText(EventList.getInstance().getEvent(eventId).getFormattedDate());
+                setDate();
+            }
+
+            binding.shortDescription.setText(EventList.getInstance().getEvent(eventId).getShortDescription());
+            binding.title.setText(EventList.getInstance().getEvent(eventId).getTitle());
+            binding.postalCode.setText(EventList.getInstance().getEvent(eventId).getPostalCode());
+            binding.address.setText(EventList.getInstance().getEvent(eventId).getAddress());
+            binding.city.setText(EventList.getInstance().getEvent(eventId).getCity());
+            binding.description.setText(EventList.getInstance().getEvent(eventId).getDescription());
         }
+        binding.buttonValidate.setOnClickListener(click -> writeEvent());
     }
 
-    public void modification(Event event) {
-        //EditText title = findViewById(R.id.title);
-        //EditText shortDescription = findViewById(R.id.short_description);
-        //EditText place = findViewById(R.id.localisation);
-        //EditText description = findViewById(R.id.description);
-        //Event newEvent = new Event(event.getId(),
-        //        title.getText().toString(),
-        //        R.drawable.image_default,
-        //        shortDescription.getText().toString(),
-        //        place.getText().toString(),
-        //        description.getText().toString());
-        //EventList.modificateEvent(newEvent);
-        //TODO ajouter gestion base de données
-        testError();
-        if (!error) {
-            finish();
-        }
+    public void showErrorMessage() {
+        Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
     }
 
-    public void addNew() {
-        //EditText title = findViewById(R.id.title);
-        //EditText shortDescription = findViewById(R.id.short_description);
-        //EditText place = findViewById(R.id.localisation);
-        //EditText description = findViewById(R.id.description);
-        // Event newEvent = new Event(EventList.generateId(),
-        //         title.getText().toString(),
-        //         R.drawable.image_default,
-        //         shortDescription.getText().toString(),
-        //         place.getText().toString(),
-        //         description.getText().toString());
-        // EventList.addEvent(newEvent);
-        // EventList.addUserEvent(newEvent.id);
-        //TODO ajouter gestion base de données
+    private void uploadImage(String url) {
+        if (url == null)
+            return;
+
+        binding.uploadProgress.setVisibility(View.VISIBLE);
+
+        OnSuccessListener<? super Uri> successListener = (OnSuccessListener<? super Uri>) uri -> {
+            newPictureUrl = uri.toString();
+            Picasso.get().load(newPictureUrl).into(binding.imageEvent);
+            binding.uploadProgress.setVisibility(View.INVISIBLE);
+        };
+
+        OnFailureListener failureListener = (OnFailureListener) -> showErrorMessage();
+
+        UploadUtils.uploadImage(url, "/events/" + UUID.randomUUID().toString() + ".jpg", 60, getApplicationContext(), successListener, failureListener);
+    }
+
+    public void writeEvent() {
         testError();
-        if (!error) {
-            finish();
-        }
+        if (error)
+            return;
+
+        if (binding.title.getText() == null || binding.shortDescription.getText() == null || binding.address.getText() == null
+                || binding.postalCode.getText() == null || binding.city.getText() == null || binding.description.getText() == null)
+            return;
+
+
+        String title = binding.title.getText().toString();
+        String shortDescription = binding.shortDescription.getText().toString();
+        String address = binding.address.getText().toString();
+        String postalCode = binding.postalCode.getText().toString();
+        String city = binding.city.getText().toString();
+        String description = binding.description.getText().toString();
+
+        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        finish();
     }
 
     public void testError() {
-        boolean test = false;
         TextInputLayout typeMessageLayout = findViewById(R.id.title_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.title)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.title_required));
             findViewById(R.id.title).requestFocus();
-            test = true;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.short_description_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.short_description)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.short_description_required));
             findViewById(R.id.short_description).requestFocus();
-            test = true;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.address_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.address)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.address_required));
             findViewById(R.id.address).requestFocus();
-            test = true;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.city_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.city)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.city_required));
             findViewById(R.id.city).requestFocus();
-            test = true;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.postal_code_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.postal_code)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.postal_code_required));
             findViewById(R.id.postal_code).requestFocus();
-            test = true;
+            error = true;
         }
         TextView calendar = findViewById(R.id.add_calendar);
         if (calendar.getText().toString().isEmpty() || calendar.getText().toString().contentEquals(getResources().getText(R.string.choose_date_required))) {
@@ -158,9 +205,8 @@ public class CreateEventActivity extends AppCompatActivity {
             calendar.setTextColor(getResources().getColor(R.color.red, getTheme()));
             calendar.setVisibility(View.VISIBLE);
             calendar.requestFocus();
-            test = true;
+            error = true;
         }
-        error = test;
     }
 
     private void addTextWatcher() {
@@ -228,4 +274,22 @@ public class CreateEventActivity extends AppCompatActivity {
         };
     }
 
+    @Override
+    public void onDateChoose(int day, int month, int year, int hour, int minute) {
+        date = ZonedDateTime.of(LocalDateTime.of(year, month, day, hour, minute), ZoneId.systemDefault());
+        setDate();
+    }
+
+    private void setDate() {
+        TextView textCalendar = findViewById(R.id.add_calendar);
+        Log.d("antoniu => ", DateUtils.formatZonedDate(date));
+        textCalendar.setText(DateUtils.formatZonedDate(date));
+        findViewById(R.id.add_calendar).setVisibility(View.VISIBLE);
+        textCalendar.setTextColor(getResources().getColor(R.color.black, getApplicationContext().getTheme()));
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone((ConstraintLayout) findViewById(R.id.calendar_constraint_layout));
+        constraintSet.connect(R.id.date, ConstraintSet.TOP, R.id.calendar_constraint_layout, ConstraintSet.TOP, 40);
+        constraintSet.connect(R.id.date, ConstraintSet.BOTTOM, R.id.add_calendar, ConstraintSet.TOP);
+        constraintSet.applyTo(findViewById(R.id.calendar_constraint_layout));
+    }
 }

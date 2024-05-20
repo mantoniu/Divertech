@@ -3,15 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="Si3.divertech"
     android:installLocation="auto">
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_AUDIO"
+        android:minSdkVersion="34" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +33,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Divertech"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ImageCropperActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -37,64 +52,66 @@
         </activity>
         <activity
             android:name=".ParkingActivity"
-            android:exported="false"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/notifications"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:theme="@style/Base.Theme.Divertech.ActionBar" />
         <activity
             android:name=".qr_reader.CameraPreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".events.EventActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
         <activity
             android:name=".events.AdminEventActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
         <activity
             android:name=".MapActivity"
-            android:label="@string/ma_carte"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:label="@string/ma_carte"
+            android:theme="@style/Base.Theme.Divertech.ActionBar" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:value="AIzaSyAffx5TpCmiWghzujOAo4d8STmxtEAQeBY" />
 
         <activity
             android:name=".MultiPagesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:label="@string/contact"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:theme="@style/Base.Theme.Divertech.ActionBar" />
         <activity
             android:name=".CreateEventActivity"
-            android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
         <activity
             android:name=".MultiPagesAdminActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
             android:label="@string/contact"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:theme="@style/Base.Theme.Divertech.ActionBar" />
         <activity
             android:name=".ListEventActivity"
-            android:theme="@style/Base.Theme.Divertech.ActionBar"
-            android:label="@string/events"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:label="@string/events"
+            android:theme="@style/Base.Theme.Divertech.ActionBar" />
         <activity
             android:name=".ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
+
 </manifest>
