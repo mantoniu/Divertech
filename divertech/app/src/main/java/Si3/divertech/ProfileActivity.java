@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -163,7 +164,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
                 //init dialog
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.dialog_layout, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
                 builder.setTitle("Modifier votre " + field.getHint().toString().toLowerCase());
 
                 EditText confirm = dialogView.findViewById(R.id.confirm);
