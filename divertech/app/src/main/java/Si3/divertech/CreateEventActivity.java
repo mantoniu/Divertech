@@ -63,7 +63,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         });
 
         binding.buttonCancel.setOnClickListener(click -> {
-            if (newPictureUrl != null && EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().equals(newPictureUrl)) {
+            if (eventId != null && newPictureUrl != null && EventList.getInstance().getEvent(eventId).getPictureUrl() != null && !EventList.getInstance().getEvent(eventId).getPictureUrl().equals(newPictureUrl)) {
                 FirebaseStorage.getInstance().getReferenceFromUrl(newPictureUrl).delete();
             }
             finish();
@@ -132,15 +132,14 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             binding.uploadProgress.setVisibility(View.INVISIBLE);
         };
 
-        OnFailureListener failureListener = (OnFailureListener) -> {
-            showErrorMessage();
-        };
+        OnFailureListener failureListener = (OnFailureListener) -> showErrorMessage();
 
         UploadUtils.uploadImage(url, "/events/" + UUID.randomUUID().toString() + ".jpg", 60, getApplicationContext(), successListener, failureListener);
     }
 
     public void writeEvent() {
-        if (!testError())
+        testError();
+        if (error)
             return;
 
         if (binding.title.getText() == null || binding.shortDescription.getText() == null || binding.address.getText() == null
@@ -159,41 +158,41 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         finish();
     }
 
-    public boolean testError() {
+    public void testError() {
         TextInputLayout typeMessageLayout = findViewById(R.id.title_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.title)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.title_required));
             findViewById(R.id.title).requestFocus();
-            return false;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.short_description_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.short_description)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.short_description_required));
             findViewById(R.id.short_description).requestFocus();
-            return false;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.address_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.address)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.address_required));
             findViewById(R.id.address).requestFocus();
-            return false;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.city_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.city)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.city_required));
             findViewById(R.id.city).requestFocus();
-            return false;
+            error = true;
         }
         typeMessageLayout = findViewById(R.id.postal_code_text_input);
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.postal_code)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.postal_code_required));
             findViewById(R.id.postal_code).requestFocus();
-            return false;
+            error = true;
         }
         TextView calendar = findViewById(R.id.add_calendar);
         if (calendar.getText().toString().isEmpty() || calendar.getText().toString().contentEquals(getResources().getText(R.string.choose_date_required))) {
@@ -206,9 +205,8 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             calendar.setTextColor(getResources().getColor(R.color.red, getTheme()));
             calendar.setVisibility(View.VISIBLE);
             calendar.requestFocus();
-            return false;
+            error = true;
         }
-        return true;
     }
 
     private void addTextWatcher() {
