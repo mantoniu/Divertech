@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Observable;
@@ -81,13 +82,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-    private LatLng getAddress(String eventId) {
-        Geocoder geocoder = new Geocoder(getContext());
+    public static LatLng getAddress(String address, Context context) {
+        Geocoder geocoder = new Geocoder(context);
         try {
-            Address address = Objects.requireNonNull(geocoder.getFromLocationName(EventList.getInstance().getEvent(eventId).getFullAddress(), 1)).get(0);
-            return new LatLng(address.getLatitude(), address.getLongitude());
+            List<Address> addresses = geocoder.getFromLocationName(address, 1);
+            if (addresses == null || addresses.isEmpty()) return null;
+            Address addressResult = Objects.requireNonNull(addresses.get(0));
+            return new LatLng(addressResult.getLatitude(), addressResult.getLongitude());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 
@@ -113,7 +116,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             for (Event event : EventList.getInstance().getEvents()) {
                 Log.d("antoniu => EVENTID", event.getId());
-                LatLng location1 = getAddress(event.getId());
+                LatLng location1 = getAddress(EventList.getInstance().getEvent(event.getId()).getFullAddress(), getContext());
+                if (location1 == null) {
+                    Toast.makeText(getContext(), getResources().getText(R.string.error_marker_creation), Toast.LENGTH_SHORT).show();
+                    continue;
+                }
                 Marker marker = googleMap.addMarker(new MarkerOptions().position(location1));
                 if (marker != null) {
                     marker.setTag(event.getId());

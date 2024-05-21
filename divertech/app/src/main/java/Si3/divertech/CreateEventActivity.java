@@ -39,7 +39,7 @@ import Si3.divertech.utils.DatePickerFragment;
 import Si3.divertech.utils.DateUtils;
 import Si3.divertech.utils.UploadUtils;
 
-public class CreateEventActivity extends AppCompatActivity implements DateListener {
+public class CreateEventActivity extends AppCompatActivity implements DateListener, View.OnFocusChangeListener {
     private ActivityAdminNewEventBinding binding;
     private String eventId;
     private String newPictureUrl;
@@ -113,7 +113,11 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             binding.city.setText(EventList.getInstance().getEvent(eventId).getCity());
             binding.description.setText(EventList.getInstance().getEvent(eventId).getDescription());
         }
-        binding.buttonValidate.setOnClickListener(click -> writeEvent());
+        binding.buttonValidate.setOnClickListener(click -> {
+            if (testAddress()) {
+                writeEvent();
+            }
+        });
     }
 
     public void showErrorMessage() {
@@ -245,6 +249,9 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             public void afterTextChanged(Editable s) {
             }
         });
+        postalCode.setOnFocusChangeListener(this);
+        address.setOnFocusChangeListener(this);
+        city.setOnFocusChangeListener(this);
     }
 
 
@@ -291,5 +298,33 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         constraintSet.connect(R.id.date, ConstraintSet.TOP, R.id.calendar_constraint_layout, ConstraintSet.TOP, 40);
         constraintSet.connect(R.id.date, ConstraintSet.BOTTOM, R.id.add_calendar, ConstraintSet.TOP);
         constraintSet.applyTo(findViewById(R.id.calendar_constraint_layout));
+    }
+
+    private boolean testAddress() {
+        String cityText = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.city_text_input)).getEditText()).getText().toString();
+        String addressText = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.address_text_input)).getEditText()).getText().toString();
+        String postalCode = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.postal_code_text_input)).getEditText()).getText().toString();
+        if (!cityText.equals("") && !addressText.equals("") && !postalCode.equals("")) {
+            if (MapActivity.getAddress(cityText + ", " + addressText + ", " + postalCode, getApplicationContext()) == null) {
+                ((TextView) findViewById(R.id.address_valisation)).setText(R.string.address_false);
+                findViewById(R.id.address_valisation).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.address_valisation)).setTextColor(getColor(R.color.red));
+                return false;
+            } else {
+                ((TextView) findViewById(R.id.address_valisation)).setText(R.string.address_good);
+                findViewById(R.id.address_valisation).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.address_valisation)).setTextColor(getColor(R.color.green));
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            testAddress();
+        }
     }
 }

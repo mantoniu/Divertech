@@ -222,4 +222,7 @@
     <string name="edit_button">Edit button</string>
     <string name="qr_code">QR CODE</string>
     <string name="event_id_title">Identifiant de l\'évènement</string>
+    <string name="address_good">Adresse valide</string>
+    <string name="address_false">Adresse non valide</string>
+    <string name="error_marker_creation">Erreur lors de la création de markers pour certains évènemments</string>
 </resources>
