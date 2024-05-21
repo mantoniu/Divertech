@@ -18,7 +18,9 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -28,6 +30,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
 import Si3.divertech.events.Event;
 import Si3.divertech.events.EventActivitiesFactory;
@@ -36,7 +40,7 @@ import Si3.divertech.map.PopupMarker;
 import Si3.divertech.map.PopupMarkerFactory;
 import Si3.divertech.users.UserData;
 
-public class MapActivity extends AppCompatActivity implements ClickableActivity {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, ClickableActivity, Observer {
 
     private String eventId;
 
@@ -46,9 +50,12 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
 
     private FusedLocationProviderClient fusedLocationClient;
 
+    GoogleMap googleMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventList.getInstance().addObserver(this);
         setContentView(R.layout.activity_map);
 
         eventId = getIntent().getStringExtra(getString(R.string.event_id));
@@ -63,6 +70,7 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
         mapFragment.onCreate(new Bundle());
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mapFragment.getMapAsync(this);
         this.gps();
     }
 
@@ -85,7 +93,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
 
 
     public void markersAndActualPosition(Location location) {
-        mapFragment.getMapAsync(googleMap -> {
             if (location != null) {
                 Marker markerSelfPosition = googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 markers.put(markerSelfPosition, PopupMarkerFactory.SELF);
@@ -124,8 +131,6 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
                     startActivity(intent);
                 }
             });
-        });
-
     }
 
     @Override
@@ -154,6 +159,18 @@ public class MapActivity extends AppCompatActivity implements ClickableActivity 
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        googleMap.clear();
+        this.gps();
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        this.gps();
     }
 }
 
