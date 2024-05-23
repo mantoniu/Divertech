@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 
 import Si3.divertech.databinding.ActivityAdminNewEventBinding;
 import Si3.divertech.events.EventList;
+import Si3.divertech.users.UserData;
 import Si3.divertech.utils.DateListener;
 import Si3.divertech.utils.DatePickerFragment;
 import Si3.divertech.utils.DateUtils;
@@ -157,8 +158,9 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         String postalCode = binding.postalCode.getText().toString();
         String city = binding.city.getText().toString();
         String description = binding.description.getText().toString();
+        String organizerId = UserData.getInstance().getUserId();
 
-        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME), organizerId);
         finish();
     }
 

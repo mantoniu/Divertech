@@ -21,10 +21,13 @@ public class Event implements Parcelable {
     private String description;
     private ZonedDateTime date;
 
+    private String organizer;
+
     public static final Parcelable.Creator<Event> CREATOR
             = new Parcelable.Creator<Event>() {
         public Event createFromParcel(Parcel in) {
             return new Event(in.readString(),
+                    in.readString(),
                     in.readString(),
                     in.readString(),
                     in.readString(),
@@ -41,18 +44,18 @@ public class Event implements Parcelable {
         }
     };
 
-    public Event(Parcel in){
+    public Event(Parcel in) {
 
     }
 
     public Event() {
     }
 
-    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
-        this(id, title, pictureUrl, shortDescription, address, postalCode, city, description, ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date, String organizer) {
+        this(id, title, pictureUrl, shortDescription, address, postalCode, city, description, ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME), organizer);
     }
 
-    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, ZonedDateTime date) {
+    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, ZonedDateTime date, String organizer) {
         this.id = id;
         this.title = title;
         this.pictureUrl = pictureUrl;
@@ -62,6 +65,7 @@ public class Event implements Parcelable {
         this.city = city;
         this.description = description;
         this.date = date;
+        this.organizer = organizer;
     }
 
     public String getTitle(){
@@ -76,10 +80,16 @@ public class Event implements Parcelable {
         return shortDescription;
     }
 
-    public String getId(){ return id;}
+    public String getId() {
+        return id;
+    }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getOrganizer() {
+        return organizer;
     }
 
     @Override
@@ -98,6 +108,7 @@ public class Event implements Parcelable {
         dest.writeString(city);
         dest.writeString(description);
         dest.writeString(date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        dest.writeString(organizer);
     }
 
     @NonNull
@@ -111,6 +122,7 @@ public class Event implements Parcelable {
                 ", address='" + getFullAddress() + '\'' +
                 ", description='" + description + '\'' +
                 ", date=" + date +
+                ", organizer id=" + organizer +
                 '}';
     }
 

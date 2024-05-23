@@ -8,7 +8,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -115,10 +114,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             });
 
             for (Event event : EventList.getInstance().getEvents()) {
-                Log.d("antoniu => EVENTID", event.getId());
                 LatLng location1 = getAddress(EventList.getInstance().getEvent(event.getId()).getFullAddress(), getContext());
                 if (location1 == null) {
-                    Toast.makeText(getContext(), getResources().getText(R.string.error_marker_creation), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.error_map, Toast.LENGTH_LONG).show();
                     continue;
                 }
                 Marker marker = googleMap.addMarker(new MarkerOptions().position(location1));
@@ -129,7 +127,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10f));
                     }
                 } else {
-                    Toast.makeText(getContext(), "Problème lors de la création d'un markeur", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.error_map, Toast.LENGTH_LONG).show();
                 }
             }
         googleMap.setOnInfoWindowClickListener(marker -> {
@@ -169,17 +167,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onNewIntent(intent);
         overridePendingTransition(0, 0);
         eventId = intent.getStringExtra(getString(R.string.event_id));
-        for (Marker marker : markers.keySet()) {
-            if (Objects.equals(marker.getTag(), eventId)) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10f));
-            }
-        }
+        if (eventId == null || markers.keySet().stream().noneMatch(marker -> Objects.equals(marker.getTag(), eventId))) {
+            this.gps();
+            findViewById(R.id.progress_bar_map).setVisibility(View.VISIBLE);
+        } else
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markers.keySet().stream().filter(marker -> Objects.equals(marker.getTag(), eventId)).findFirst().get().getPosition(), 10f));
     }
 
     @Override
     public void update(Observable o, Object arg) {
         googleMap.clear();
         this.gps();
+        findViewById(R.id.progress_bar_map).setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -177,7 +177,6 @@ public class EventList extends Observable {
     private Event getEventBySnapshot(String eventId, DataSnapshot snapshot) {
         if (!snapshot.exists())
             return null;
-
         Event event = snapshot.getValue(Event.class);
         if (event == null)
             return null;
@@ -227,7 +226,7 @@ public class EventList extends Observable {
         listenerMap.remove(eventId);
     }
 
-    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
+    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date, String organizerId) {
         DatabaseReference eventsRef = rootRef.child("Events");
         DatabaseReference eventRef = (eventId != null) ? eventsRef.child(eventId) : eventsRef.push();
 
@@ -248,6 +247,7 @@ public class EventList extends Observable {
         eventRef.child("city").setValue(city);
         eventRef.child("description").setValue(description);
         eventRef.child("date").setValue(date);
+        eventRef.child("organizer").setValue(organizerId);
 
         if (eventId == null)
             registerUserToEvent(eventRef.getKey());

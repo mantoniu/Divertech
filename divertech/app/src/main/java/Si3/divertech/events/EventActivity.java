@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,19 +17,24 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.card.MaterialCardView;
+import com.squareup.picasso.Picasso;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Observable;
+import java.util.Observer;
 
 import Si3.divertech.MapActivity;
 import Si3.divertech.MultiPagesActivity;
 import Si3.divertech.ParkingActivity;
 import Si3.divertech.R;
+import Si3.divertech.users.User;
 
-public class EventActivity extends EventActivities {
+public class EventActivity extends EventActivities implements Observer {
 
     private static final int WRITE_CALENDAR_PERMISSION_CODE = 101;
     private static final int READ_CALENDAR_PERMISSION_CODE = 102;
+
     @Override
     public void setActivity() {
         setContentView(R.layout.activity_event);
@@ -59,6 +66,9 @@ public class EventActivity extends EventActivities {
             Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
             startActivity(intent);
         });
+
+        EventOrganizer.getInstance().addObserver(this);
+        EventOrganizer.getInstance().getUser(EventList.getInstance().getEvent(getEventId()).getOrganizer());
     }
 
     private void addEventToCalendar(String eventId) {
@@ -143,5 +153,18 @@ public class EventActivity extends EventActivities {
                 Log.d("PERMISSION", "Calendar Permission Granted");
             } else Log.d("PERMISSION", "Camera Permission Denied");
         }
+    }
+
+    private void showOrganizer() {
+        User organizer = EventOrganizer.getInstance().getEventOrganizer();
+        Picasso.get().load(organizer.getPictureUrl())
+                .into((ImageView) findViewById(R.id.picture_organizer));
+        TextView organizerText = findViewById(R.id.organizer);
+        organizerText.setText(String.format("%s %s", organizer.getFirstName(), organizer.getLastName()));
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        showOrganizer();
     }
 }

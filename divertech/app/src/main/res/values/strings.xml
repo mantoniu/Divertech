@@ -154,7 +154,7 @@
     <string name="information_de_connexion">Information de connexion</string>
     <string name="code_postal">Code postal</string>
     <string name="ville">Ville</string>
-    <string name="exemple_doe">exemple : Doe</string>
+    <string name="exemple_doe">exemple : Doe</string>>
     <string name="exemple_john">exemple : John</string>
     <string name="n_cessite_6_caract_res_minimum_et_1_chiffre_1_lettre_majuscule_et_1_lettre_minuscule">nécessite 6 caractères minimum et 1 chiffre, 1 lettre majuscule et 1 lettre minuscule</string>
     <string name="exemple_limoges">exemple : Limoges</string>
@@ -225,4 +225,6 @@
     <string name="address_good">Adresse valide</string>
     <string name="address_false">Adresse non valide</string>
     <string name="error_marker_creation">Erreur lors de la création de markers pour certains évènemments</string>
+    <string name="charging">En attente des données</string>
+    <string name="error_map">Ooops, un évènnement n\'a pas pu être placé</string>
 </resources>
