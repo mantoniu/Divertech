@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import Si3.divertech.users.ProfileActivity;
 import Si3.divertech.users.User;
 import Si3.divertech.users.UserData;
 
@@ -49,12 +50,12 @@ public class HeaderMenu extends Fragment {
         int id = item.getItemId();
         User user = UserData.getInstance().getConnectedUser();
         if (id == R.id.menu_language_english) {
-            user.setLanguage("en");
+            UserData.getInstance().setLanguage("en");
         } else if (id == R.id.menu_language_french) {
-            user.setLanguage("fr");
+            UserData.getInstance().setLanguage("fr");
         } else if (id == R.id.menu_logout) {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
-            user.disconnect();
+            UserData.getInstance().disconnect();
             startActivity(intent);
             activity.finish();
         }

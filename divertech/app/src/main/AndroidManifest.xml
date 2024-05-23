@@ -110,7 +110,7 @@
             android:label="@string/events"
             android:theme="@style/Base.Theme.Divertech.ActionBar" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".users.ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 

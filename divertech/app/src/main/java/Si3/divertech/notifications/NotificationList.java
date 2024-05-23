@@ -134,6 +134,5 @@ public class NotificationList extends Observable {
                 Log.d("TAG", error.getMessage());
             }
         });
-
     }
 }
