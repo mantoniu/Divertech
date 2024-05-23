@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,7 +73,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mapFragment.getMapAsync(this);
-        this.gps();
     }
 
 
@@ -132,12 +132,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Toast.makeText(getContext(), "Problème lors de la création d'un markeur", Toast.LENGTH_LONG).show();
                 }
             }
-            googleMap.setOnInfoWindowClickListener(marker -> {
-                if (marker.getTag() != null) {
-                    Intent intent = new Intent(getContext(), EventActivitiesFactory.getEventActivityClass(UserData.getInstance().getConnectedUser().getUserType()));                    intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
-                    startActivity(intent);
-                }
-            });
+        googleMap.setOnInfoWindowClickListener(marker -> {
+            if (marker.getTag() != null) {
+                Intent intent = new Intent(getContext(), EventActivitiesFactory.getEventActivityClass(UserData.getInstance().getConnectedUser().getUserType()));
+                intent.putExtra(getString(R.string.event_id), marker.getTag().toString());
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.progress_bar_map).setVisibility(View.GONE);
     }
 
     @Override
@@ -166,6 +168,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         overridePendingTransition(0, 0);
+        eventId = intent.getStringExtra(getString(R.string.event_id));
+        for (Marker marker : markers.keySet()) {
+            if (Objects.equals(marker.getTag(), eventId)) {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10f));
+            }
+        }
     }
 
     @Override
@@ -178,6 +186,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
         this.gps();
+        findViewById(R.id.progress_bar_map).setVisibility(View.VISIBLE);
     }
 }
 

@@ -47,6 +47,7 @@ public class EventActivity extends EventActivities {
         map.setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.putExtra(getString(R.string.event_id), getEventId());
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });
