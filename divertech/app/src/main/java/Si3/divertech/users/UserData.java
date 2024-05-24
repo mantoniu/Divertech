@@ -17,6 +17,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Observable;
 import java.util.concurrent.CompletableFuture;
 
+import Si3.divertech.events.EventList;
+import Si3.divertech.notifications.NotificationList;
+
 public class UserData extends Observable {
     private static UserData instance;
     private static User connectedUser;
@@ -194,5 +197,7 @@ public class UserData extends Observable {
 
     public void disconnect() {
         FirebaseAuth.getInstance().signOut();
+        EventList.getInstance().reset();
+        NotificationList.getInstance().reset();
     }
 }

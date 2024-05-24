@@ -26,8 +26,8 @@ import Si3.divertech.users.UserData;
 public class EventList extends Observable {
     private static EventList instance;
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    private static final Map<String, Event> eventMap = new HashMap<>();
-    private static final Map<String, ValueEventListener> listenerMap = new HashMap<>();
+    private final Map<String, Event> eventMap = new HashMap<>();
+    private final Map<String, ValueEventListener> listenerMap = new HashMap<>();
     private static boolean initialized = false;
 
     private EventList() {
@@ -251,5 +251,9 @@ public class EventList extends Observable {
 
         if (eventId == null)
             registerUserToEvent(eventRef.getKey());
+    }
+
+    public void reset() {
+        instance = null;
     }
 }

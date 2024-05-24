@@ -56,6 +56,7 @@ public class HeaderMenu extends Fragment {
         } else if (id == R.id.menu_logout) {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             UserData.getInstance().disconnect();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             activity.finish();
         }

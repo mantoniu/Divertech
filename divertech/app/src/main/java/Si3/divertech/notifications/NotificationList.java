@@ -20,7 +20,7 @@ import Si3.divertech.users.UserData;
 
 public class NotificationList extends Observable {
     private static NotificationList instance;
-    private static final Map<String, Notification> notificationMap = new HashMap<>();
+    private final Map<String, Notification> notificationMap = new HashMap<>();
 
     private NotificationList() {
         requestData();
@@ -134,5 +134,9 @@ public class NotificationList extends Observable {
                 Log.d("TAG", error.getMessage());
             }
         });
+    }
+
+    public void reset() {
+        instance = null;
     }
 }
