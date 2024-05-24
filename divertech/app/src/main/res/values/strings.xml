@@ -227,4 +227,8 @@
     <string name="error_marker_creation">Erreur lors de la création de markers pour certains évènemments</string>
     <string name="charging">En attente des données</string>
     <string name="error_map">Ooops, un évènnement n\'a pas pu être placé</string>
+    <string name="profil_text">Mon profil</string>
+    <string name="quit_app">Se deconnecter</string>
+    <string name="english_flag">English</string>
+    <string name="francais_flag">Français</string>
 </resources>

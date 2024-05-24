@@ -14,6 +14,10 @@
         <item name="colorOnError">@color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="popupMenuBackground">@color/white</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="colorPrimaryContainer">@color/white</item>
+        <item name="actionBarStyle">@style/myActionBar</item>
     </style>
 
     <style name="Base.Theme.Divertech.ActionBar" parent="Theme.Material3.Light">
@@ -34,6 +38,7 @@
         <item name="backgroundColor">@color/white</item>
         <item name="colorPrimaryContainer">@color/white</item>
         <item name="actionBarStyle">@style/myActionBar</item>
+        <item name="android:itemBackground">@color/white</item>
     </style>
 
 
