@@ -29,8 +29,7 @@ public class HeaderMenu extends Fragment {
 
     //inflate the layout
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_header_menu, container, false);
     }
 
@@ -39,8 +38,6 @@ public class HeaderMenu extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.header_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-
-
     }
 
     @Override
@@ -68,7 +65,5 @@ public class HeaderMenu extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        activity = (Activity) context;
-
     }
 }

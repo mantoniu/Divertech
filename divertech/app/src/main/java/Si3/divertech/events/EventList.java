@@ -67,6 +67,10 @@ public class EventList extends Observable {
     }
 
     public void eventExists(String eventId, DataBaseListener listener) {
+        if (eventId.contains("/")) {
+            listener.onDataBaseResponse(eventId, DataBaseResponses.ERROR);
+            return;
+        }
         DatabaseReference eventsRef = rootRef.child("Events").child(eventId);
 
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
