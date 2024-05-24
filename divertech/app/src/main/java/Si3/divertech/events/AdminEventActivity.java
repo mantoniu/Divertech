@@ -36,6 +36,11 @@ public class AdminEventActivity extends EventActivities {
 
         findViewById(R.id.share).setOnClickListener(click -> createPopup());
 
+        findViewById(R.id.delete).setOnClickListener(click -> {
+            EventList.getInstance().deleteEvent(getEventId());
+            finish();
+        });
+
         findViewById(R.id.card_feed_type).setOnClickListener(click -> {
             Log.d("Admin", getEventId() + " ");
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

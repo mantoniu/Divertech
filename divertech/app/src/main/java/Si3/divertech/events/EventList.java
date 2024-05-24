@@ -253,6 +253,64 @@ public class EventList extends Observable {
             registerUserToEvent(eventRef.getKey());
     }
 
+    public void deleteEvent(String eventId) {
+        deleteNotificationsForEvent(eventId);
+        deleteRegistrationsWithEvent(eventId);
+        rootRef.child("Events").child(eventId).removeValue();
+    }
+
+    private void deleteRegistrationsWithEvent(String eventId) {
+        rootRef.child("Registrations").orderByChild("eventId").equalTo(eventId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot registrationRef : snapshot.getChildren()) {
+                    registrationRef.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("ERROR DELETING REGISTRATIONS WITH EVENT_ID :", eventId, error.toException());
+            }
+        });
+    }
+
+    private void deleteNotificationsForEvent(String eventId) {
+        rootRef.child("Notifications").orderByChild("eventId").equalTo(eventId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot notificationSnapshot : snapshot.getChildren()) {
+                            String notificationId = notificationSnapshot.getKey();
+                            removeNotificationForUsers(notificationId);
+                            notificationSnapshot.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("ERROR DELETING NOTIFICATIONS WITH EVENT_ID :", eventId, error.toException());
+                    }
+                });
+    }
+
+    private void removeNotificationForUsers(String notificationId) {
+        rootRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userId = snapshot.getKey();
+                if (userId == null)
+                    return;
+                rootRef.child("Users").child(userId).child("notifications").child(notificationId).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("ERROR DELETING USER NOTIFICATION : ", notificationId, error.toException());
+            }
+        });
+    }
+
     public void reset() {
         instance = null;
     }
