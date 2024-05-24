@@ -22,9 +22,9 @@ import Si3.divertech.notifications.NotificationList;
 
 public class UserData extends Observable {
     private static UserData instance;
-    private static User connectedUser;
+    private User connectedUser;
     private final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-    private static String userId;
+    private String userId;
 
     private UserData() {
     }
@@ -44,8 +44,7 @@ public class UserData extends Observable {
             return;
 
         String userId = user.getUid();
-
-        UserData.userId = userId;
+        this.userId = userId;
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(userId);

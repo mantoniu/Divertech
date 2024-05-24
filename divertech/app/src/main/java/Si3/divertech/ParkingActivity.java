@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
@@ -22,7 +21,7 @@ import java.util.Objects;
 
 import Si3.divertech.utils.DatePickerFragment;
 
-public class ParkingActivity extends AppCompatActivity {
+public class ParkingActivity extends RequireUserActivity {
 
     private boolean error = false;
     @Override

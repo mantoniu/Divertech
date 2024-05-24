@@ -34,13 +34,7 @@
         android:theme="@style/Theme.Divertech"
         tools:targetApi="31">
         <activity
-            android:name=".ImageCropperActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
-        <activity
-            android:name=".LoginActivity"
+            android:name=".LaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action
@@ -49,6 +43,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImageCropperActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".ParkingActivity"
