@@ -238,7 +238,7 @@ public class EventList extends Observable {
 
         eventRef.child("title").setValue(title);
         if (pictureUrl != null) {
-            if (getEvent(eventId).getPictureUrl() != null && !getEvent(eventId).getPictureUrl().equals(pictureUrl)) {
+            if (eventId != null && getEvent(eventId).getPictureUrl() != null && !getEvent(eventId).getPictureUrl().equals(pictureUrl)) {
                 FirebaseStorage.getInstance().getReferenceFromUrl(getEvent(eventId).getPictureUrl()).delete().addOnSuccessListener(task ->
                         eventRef.child("pictureUrl").setValue(pictureUrl)
                 );
