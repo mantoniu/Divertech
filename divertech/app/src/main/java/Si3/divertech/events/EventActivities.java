@@ -78,25 +78,6 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
                 .into((ImageView) findViewById(R.id.image_event));
 
         ((TextView) findViewById(R.id.date)).setText(EventList.getInstance().getEvent(eventId).getFormattedDate());
-
-        ImageView Instagram = findViewById(R.id.insta);
-
-        WebView myWebView = findViewById(R.id.web_view);
-        myWebView.loadUrl("https://www.instagram.com/hugodecrypte/?hl=fr");
-        WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-
-        if(EventList.getInstance().getEvent(eventId).getInstagramURL() == null){
-            //Instagram.setVisibility(View.GONE);
-            Instagram.setVisibility(View.VISIBLE);
-            Instagram.setOnClickListener(click -> {
-                Log.d("insta","bouton cliqué");
-
-            });
-        }
-        else {
-            Log.d("insta","pas null");
-        }
     }
 
     @Override

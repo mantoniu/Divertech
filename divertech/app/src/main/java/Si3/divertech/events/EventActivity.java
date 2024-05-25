@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,6 +61,33 @@ public class EventActivity extends EventActivities {
             Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
             startActivity(intent);
         });
+
+        ImageView Instagram = findViewById(R.id.insta);
+
+        WebView myWebView = findViewById(R.id.web_view);
+        myWebView.loadUrl("https://www.instagram.com/hugodecrypte/?hl=fr");
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        myWebView.setVisibility(View.GONE);
+        if(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null){
+            //Instagram.setVisibility(View.GONE);
+            Instagram.setVisibility(View.VISIBLE);
+            Instagram.setOnClickListener(click -> {
+                Log.d("insta","bouton cliqué");
+                if(myWebView.getVisibility() == View.VISIBLE){
+                    myWebView.setVisibility(View.GONE);
+                    Log.d("insta","gone");
+                }
+                else {
+                    myWebView.setVisibility(View.VISIBLE);
+                    Log.d("insta","visible");
+                }
+
+            });
+        }
+        else {
+            Log.d("insta","pas null");
+        }
     }
 
     private void addEventToCalendar(String eventId) {
