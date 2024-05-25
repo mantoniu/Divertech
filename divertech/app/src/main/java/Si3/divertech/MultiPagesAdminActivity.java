@@ -43,8 +43,6 @@ public class MultiPagesAdminActivity extends AppCompatActivity implements Observ
         typeSelector.setText(types.getContent());
         description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
 
-
-
         NotificationCreator.getInstance().addObserver(this);
         setWriterInformation();
     }

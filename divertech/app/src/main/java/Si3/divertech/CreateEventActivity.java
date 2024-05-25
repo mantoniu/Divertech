@@ -114,11 +114,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             binding.city.setText(EventList.getInstance().getEvent(eventId).getCity());
             binding.description.setText(EventList.getInstance().getEvent(eventId).getDescription());
         }
-        binding.buttonValidate.setOnClickListener(click -> {
-            if (testAddress()) {
-                writeEvent();
-            }
-        });
+        binding.buttonValidate.setOnClickListener(click -> writeEvent());
     }
 
     public void showErrorMessage() {
@@ -144,6 +140,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
 
     public void writeEvent() {
         testError();
+        Log.d("test", "hum");
         if (error)
             return;
 
@@ -165,7 +162,9 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
     }
 
     public void testError() {
+        Log.d("test", "ok");
         TextInputLayout typeMessageLayout = findViewById(R.id.title_text_input);
+        Log.d("test", String.valueOf(String.valueOf(((TextInputEditText) findViewById(R.id.title)).getText()).isEmpty()));
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.title)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.title_required));
@@ -213,6 +212,10 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             calendar.requestFocus();
             error = true;
         }
+        if (!testAddress()) {
+            error = true;
+            binding.addressTextInput.requestFocus();
+        }
     }
 
     private void addTextWatcher() {
@@ -235,6 +238,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.addressValisation.setVisibility(View.GONE);
                 Pattern p = Pattern.compile("[0-9][1-8]([0-9]{3}).");
                 if (p.matcher(s.toString()).matches() || s.length() != 5) {
                     error = true;
@@ -267,6 +271,8 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (view == binding.addressTextInput || view == binding.cityTextInput)
+                    binding.addressValisation.setVisibility(View.GONE);
                 if (s.length() > 0) {
                     error = false;
                     view.setErrorEnabled(false);
@@ -306,7 +312,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         String cityText = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.city_text_input)).getEditText()).getText().toString();
         String addressText = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.address_text_input)).getEditText()).getText().toString();
         String postalCode = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.postal_code_text_input)).getEditText()).getText().toString();
-        if (!cityText.equals("") && !addressText.equals("") && !postalCode.equals("")) {
+        if (!cityText.isEmpty() && !addressText.isEmpty() && !postalCode.isEmpty()) {
             if (MapActivity.getAddress(cityText + ", " + addressText + ", " + postalCode, getApplicationContext()) == null) {
                 ((TextView) findViewById(R.id.address_valisation)).setText(R.string.address_false);
                 findViewById(R.id.address_valisation).setVisibility(View.VISIBLE);

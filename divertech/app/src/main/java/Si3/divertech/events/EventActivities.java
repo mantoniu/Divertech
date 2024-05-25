@@ -1,6 +1,8 @@
 package Si3.divertech.events;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,20 +51,34 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
         place.setText(EventList.getInstance().getEvent(eventId).getFullAddress());
 
         TextView description = findViewById(R.id.description);
+
         description.setMaxLines(3);
-        description.setText(EventList.getInstance().getEvent(eventId).getDescription());
-        ImageView button = findViewById(R.id.more);
-        button.setOnClickListener(click -> {
-            if (isTextViewClicked) {
-                //This will shrink textview to 2 lines if it is expanded.
-                description.setMaxLines(3);
-                button.setImageResource(R.drawable.more);
-                isTextViewClicked = false;
-            } else {
-                //This will expand the textview if it is of 2 lines
-                description.setMaxLines(Integer.MAX_VALUE);
-                button.setImageResource(R.drawable.less);
-                isTextViewClicked = true;
+        if (EventList.getInstance().getEvent(eventId).getDescription().isEmpty())
+            description.setText(EventList.getInstance().getEvent(eventId).getShortDescription());
+        else description.setText(EventList.getInstance().getEvent(eventId).getDescription());
+        description.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ImageView button = findViewById(R.id.more);
+                if (description.getLineCount() <= 3) {
+                    button.setVisibility(View.GONE);
+
+                } else {
+                    button.setOnClickListener(click -> {
+                        if (isTextViewClicked) {
+                            //This will shrink textview to 2 lines if it is expanded.
+                            description.setMaxLines(3);
+                            button.setImageResource(R.drawable.more);
+                            isTextViewClicked = false;
+                        } else {
+                            //This will expand the textview if it is of 2 lines
+                            description.setMaxLines(Integer.MAX_VALUE);
+                            button.setImageResource(R.drawable.less);
+                            isTextViewClicked = true;
+                        }
+                    });
+                }
+                description.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
 
