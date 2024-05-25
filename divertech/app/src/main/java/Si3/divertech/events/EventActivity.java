@@ -68,18 +68,20 @@ public class EventActivity extends EventActivities {
         myWebView.loadUrl("https://www.instagram.com/hugodecrypte/?hl=fr");
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        myWebView.setVisibility(View.GONE);
+        MaterialCardView web = findViewById(R.id.pageFeed);
+        web.setVisibility(View.GONE);
         if(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null){
             //Instagram.setVisibility(View.GONE);
             Instagram.setVisibility(View.VISIBLE);
             Instagram.setOnClickListener(click -> {
                 Log.d("insta","bouton cliqué");
-                if(myWebView.getVisibility() == View.VISIBLE){
-                    myWebView.setVisibility(View.GONE);
+                if(web.getVisibility() == View.VISIBLE){
+
+                    web.setVisibility(View.GONE);
                     Log.d("insta","gone");
                 }
                 else {
-                    myWebView.setVisibility(View.VISIBLE);
+                    web.setVisibility(View.VISIBLE);
                     Log.d("insta","visible");
                 }
 
