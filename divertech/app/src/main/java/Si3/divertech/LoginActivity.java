@@ -2,6 +2,10 @@ package Si3.divertech;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +52,17 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
         Button login = binding.login;
         login.setOnClickListener(click -> {
+            if (!NetwordTest.isNetworkAvailable(this.getApplication())) {
+                Spannable centeredText = new SpannableString("Pas de connexion internet\nMerci de vérifier votre connection"); //TODO à reprendre
+                centeredText.setSpan(
+                        new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                        0, centeredText.length() - 1,
+                        Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                );
+                Toast.makeText(getApplicationContext(), centeredText, Toast.LENGTH_LONG).show();
+                return;
+            }
+
             ProgressBar loading = findViewById(R.id.progress);
             loading.setVisibility(View.VISIBLE);
             TextInputEditText username = binding.username;
