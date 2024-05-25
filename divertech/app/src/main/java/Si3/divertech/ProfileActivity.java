@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.canhub.cropper.CropImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -88,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
             confirm.setVisibility(View.VISIBLE);
         }else{
             edit.setText(field.getEditText().getText());
-            if (field == binding.mailContainer) {
+            if(field == findViewById(R.id.mail_container)){
                 confirm.setHint("Confirmer le mot de passe");
                 confirm.setInputType(129);
                 confirm.setVisibility(View.VISIBLE);
@@ -189,7 +190,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer {
                 //init dialog
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.dialog_layout, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
                 builder.setTitle("Modifier votre " + field.getHint().toString().toLowerCase());
 
                 EditText confirm = dialogView.findViewById(R.id.confirm);

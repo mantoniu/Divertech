@@ -41,6 +41,10 @@
         <item name="android:itemBackground">@color/white</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/white</item>
+        <item name="android:windowElevation">0dp</item>
+    </style>
 
     <style name="Theme.Divertech" parent="Base.Theme.Divertech" />
 </resources>
