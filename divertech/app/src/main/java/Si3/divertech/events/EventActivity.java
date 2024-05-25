@@ -62,33 +62,29 @@ public class EventActivity extends EventActivities {
             startActivity(intent);
         });
 
-        ImageView Instagram = findViewById(R.id.insta);
+        // -- réseau social
 
-        WebView myWebView = findViewById(R.id.web_view);
-        myWebView.loadUrl("https://www.instagram.com/hugodecrypte/?hl=fr");
-        WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        ImageView Instagram = findViewById(R.id.insta);
         MaterialCardView web = findViewById(R.id.pageFeed);
         web.setVisibility(View.GONE);
-        if(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null){
-            //Instagram.setVisibility(View.GONE);
+        Instagram.setVisibility(View.GONE);
+
+        if(!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().equals(""))){
+            WebView myWebView = findViewById(R.id.web_view);
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.getSettings().setDomStorageEnabled(true);
+            myWebView.getSettings().setUserAgentString("Android");
+            myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
+            //myWebView.loadUrl("https://www.instagram.com/hugodecrypte/");
             Instagram.setVisibility(View.VISIBLE);
             Instagram.setOnClickListener(click -> {
-                Log.d("insta","bouton cliqué");
                 if(web.getVisibility() == View.VISIBLE){
-
-                    web.setVisibility(View.GONE);
-                    Log.d("insta","gone");
+                    web.setVisibility(View.GONE);Log.d("insta","gone");
                 }
                 else {
-                    web.setVisibility(View.VISIBLE);
-                    Log.d("insta","visible");
+                    web.setVisibility(View.VISIBLE);Log.d("insta","visible");
                 }
-
             });
-        }
-        else {
-            Log.d("insta","pas null");
         }
     }
 

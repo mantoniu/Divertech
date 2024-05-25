@@ -224,4 +224,7 @@
     <string name="event_id_title">Identifiant de l\'évènement</string>
     <string name="instagram_open">Voir la publication</string>
     <string name="url_social_network">URL réseau social</string>
+    <string name="publication_instagram_associee">Publication Instagram</string>
+    <string name="publication_instagram_associee_texte">Publication Instagram Associée</string>
+    <string name="publication_instagram_associee_texte_non">Pas De Publication Instagram Associée</string>
 </resources>

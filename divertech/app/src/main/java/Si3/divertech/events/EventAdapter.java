@@ -52,6 +52,7 @@ public class EventAdapter extends BaseAdapter {
         ImageView eventImage = layoutItem.findViewById(R.id.item_image);
         TextView eventTitle = layoutItem.findViewById(R.id.item_title);
         TextView eventDescription = layoutItem.findViewById(R.id.item_content);
+        TextView eventInsta = layoutItem.findViewById(R.id.item_insta);
 
         // Filling the layout with notifications values
         Event event = getItemsList().get(position);
@@ -61,6 +62,15 @@ public class EventAdapter extends BaseAdapter {
         Picasso.get().load(event.getPictureUrl()).into(eventImage);
         eventTitle.setText(event.getTitle());
         eventDescription.setText(event.getShortDescription());
+
+        if(event.getInstagramURL() == null || event.getInstagramURL().equals("")){
+            eventInsta.setVisibility(View.GONE);
+        }
+        else{
+            eventInsta.setVisibility(View.VISIBLE);
+            eventInsta.setText(R.string.publication_instagram_associee_texte);
+        }
+
 
         layoutItem.setOnClickListener((click) -> fragment.onClick(event.getId()));
 

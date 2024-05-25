@@ -47,7 +47,7 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
     protected void updateInfo() {
         if (!EventList.getInstance().containsEvent(eventId))
             return;
-
+        Log.d("test",EventList.getInstance().getEvent(eventId).toString());
         TextView title = findViewById(R.id.name_event);
         title.setText(EventList.getInstance().getEvent(eventId).getTitle());
 
