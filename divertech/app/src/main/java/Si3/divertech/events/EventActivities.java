@@ -1,6 +1,12 @@
 package Si3.divertech.events;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,8 +78,6 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
                 .into((ImageView) findViewById(R.id.image_event));
 
         ((TextView) findViewById(R.id.date)).setText(EventList.getInstance().getEvent(eventId).getFormattedDate());
-
-
     }
 
     @Override
