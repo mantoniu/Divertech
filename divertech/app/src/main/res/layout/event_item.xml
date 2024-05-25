@@ -48,6 +48,16 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:text="@string/description" />
+
+            <TextView
+                android:id="@+id/item_insta"
+                android:textStyle=""
+                android:fontFamily="sans-serif-light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="@string/description" />
         </LinearLayout>
 
     </LinearLayout>

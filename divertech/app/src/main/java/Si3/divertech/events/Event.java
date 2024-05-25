@@ -92,7 +92,9 @@ public class Event implements Parcelable {
         return description;
     }
 
-    public String getInstagramURL(){return instagramURL;}
+    public String getInstagramURL(){
+        if(instagramURL==null) return "";
+        return instagramURL;}
 
     @Override
     public int describeContents() {

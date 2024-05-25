@@ -112,6 +112,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             binding.address.setText(EventList.getInstance().getEvent(eventId).getAddress());
             binding.city.setText(EventList.getInstance().getEvent(eventId).getCity());
             binding.description.setText(EventList.getInstance().getEvent(eventId).getDescription());
+            binding.socialNetwork.setText(EventList.getInstance().getEvent(eventId).getInstagramURL());
         }
         binding.buttonValidate.setOnClickListener(click -> writeEvent());
     }

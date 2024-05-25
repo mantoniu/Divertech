@@ -212,6 +212,68 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- instagram -->
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_insta"
+                android:layout_width="0dp"
+                app:strokeWidth="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_date"
+                app:cardElevation="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/instaPP"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/instagram"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="12dp"
+                        android:contentDescription="@string/map_button" />
+
+                    <TextView
+                        android:id="@+id/insta_event"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/publication_instagram_associee"
+                        android:textSize="18sp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintLeft_toRightOf="@id/instaPP"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                    <TextView
+                        android:id="@+id/instaURL"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/localisationEventExemple"
+                        android:textSize="15sp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintLeft_toLeftOf="@id/insta_event"
+                        app:layout_constraintTop_toBottomOf="@id/insta_event"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- feed admin -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_feed_type"
                 android:layout_width="0dp"
@@ -220,7 +282,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_date"
+                app:layout_constraintTop_toBottomOf="@id/card_insta"
                 app:cardElevation="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp">
