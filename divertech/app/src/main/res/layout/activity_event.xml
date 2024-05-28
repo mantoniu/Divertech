@@ -272,28 +272,38 @@
                         android:textSize="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        app:layout_constraintLeft_toLeftOf="@id/picture_organizer"
+                        app:layout_constraintLeft_toLeftOf="@id/organizer_picture_container"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/picture_organizer"
+                        app:layout_constraintBottom_toTopOf="@id/organizer_picture_container"
                         android:textAppearance="?attr/textAppearanceTitleMedium" />
 
-                    <ImageView
-                        android:id="@+id/picture_organizer"
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/organizer_picture_container"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/profile"
                         android:layout_marginBottom="10dp"
+                        app:cardCornerRadius="250dp"
                         app:layout_constraintTop_toBottomOf="@id/card_organizer_title"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginStart="10dp"
-                        android:contentDescription="@string/car_picture" />
+                        android:layout_marginStart="10dp">
+
+                        <ImageView
+                            android:id="@+id/picture_organizer"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/profile"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/profile_picture" />
+                    </androidx.cardview.widget.CardView>
+
 
                     <TextView
                         android:id="@+id/organizer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/default_organizer_text"
+                        android:text="@string/charging"
                         android:textSize="16sp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
@@ -325,7 +335,7 @@
                         android:layout_height="40dp"
                         android:src="@drawable/message"
                         android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toTopOf="@id/picture_organizer"
+                        app:layout_constraintTop_toTopOf="@id/organizer_picture_container"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginEnd="10dp"

@@ -41,8 +41,6 @@ public class MultiPagesAdminActivity extends RequireUserActivity implements Obse
         typeSelector.setText(types.getContent());
         description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
 
-
-
         NotificationCreator.getInstance().addObserver(this);
         setWriterInformation();
     }

@@ -10,20 +10,24 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.material.card.MaterialCardView;
+import com.squareup.picasso.Picasso;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Observable;
 
 import Si3.divertech.MapActivity;
 import Si3.divertech.MultiPagesActivity;
 import Si3.divertech.ParkingActivity;
 import Si3.divertech.R;
+import Si3.divertech.users.User;
 
 public class EventActivity extends EventActivities {
     private final ActivityResultLauncher<String> requestWritePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -60,6 +64,7 @@ public class EventActivity extends EventActivities {
         map.setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             intent.putExtra(getString(R.string.event_id), getEventId());
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });
@@ -71,6 +76,9 @@ public class EventActivity extends EventActivities {
             Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
             startActivity(intent);
         });
+
+        EventOrganizer.getInstance().addObserver(this);
+        EventOrganizer.getInstance().getUser(EventList.getInstance().getEvent(getEventId()).getOrganizer());
     }
 
     private void addEventToCalendar(String eventId) {
@@ -135,8 +143,23 @@ public class EventActivity extends EventActivities {
         return eventExists;
     }
 
+    private void showOrganizer() {
+        User organizer = EventOrganizer.getInstance().getEventOrganizer();
+        Picasso.get().load(organizer.getPictureUrl())
+                .into((ImageView) findViewById(R.id.picture_organizer));
+        TextView organizerText = findViewById(R.id.organizer);
+        organizerText.setText(String.format("%s %s", organizer.getFirstName(), organizer.getLastName()));
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        showOrganizer();
+    }
+
     @Override
     protected void updateInfo() {
+        if (!EventList.getInstance().containsEvent(getEventId()))
+            return;
         super.updateInfo();
 
         // -- réseau social

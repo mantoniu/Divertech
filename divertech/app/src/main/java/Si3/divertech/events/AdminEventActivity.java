@@ -83,6 +83,8 @@ public class AdminEventActivity extends EventActivities {
 
     @Override
     protected void updateInfo() {
+        if (!EventList.getInstance().containsEvent(getEventId()))
+            return;
         super.updateInfo();
         if (!EventList.getInstance().getEvent(getEventId()).getInstagramURL().isEmpty()) {
             findViewById(R.id.card_insta).setVisibility(View.VISIBLE);

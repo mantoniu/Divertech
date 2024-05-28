@@ -67,6 +67,10 @@ public class EventList extends Observable {
     }
 
     public void eventExists(String eventId, DataBaseListener listener) {
+        if (eventId.contains("/")) {
+            listener.onDataBaseResponse(eventId, DataBaseResponses.ERROR);
+            return;
+        }
         DatabaseReference eventsRef = rootRef.child("Events").child(eventId);
 
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,7 +181,6 @@ public class EventList extends Observable {
     private Event getEventBySnapshot(String eventId, DataSnapshot snapshot) {
         if (!snapshot.exists())
             return null;
-
         Event event = snapshot.getValue(Event.class);
         if (event == null)
             return null;
@@ -227,7 +230,7 @@ public class EventList extends Observable {
         listenerMap.remove(eventId);
     }
 
-    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String instagramURL, String date) {
+    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String instagramURL, String date, String organizerId) {
         DatabaseReference eventsRef = rootRef.child("Events");
         DatabaseReference eventRef = (eventId != null) ? eventsRef.child(eventId) : eventsRef.push();
 
@@ -235,7 +238,7 @@ public class EventList extends Observable {
 
         eventRef.child("title").setValue(title);
         if (pictureUrl != null) {
-            if (getEvent(eventId).getPictureUrl() != null && !getEvent(eventId).getPictureUrl().equals(pictureUrl)) {
+            if (eventId != null && getEvent(eventId).getPictureUrl() != null && !getEvent(eventId).getPictureUrl().equals(pictureUrl)) {
                 FirebaseStorage.getInstance().getReferenceFromUrl(getEvent(eventId).getPictureUrl()).delete().addOnSuccessListener(task ->
                         eventRef.child("pictureUrl").setValue(pictureUrl)
                 );
@@ -249,6 +252,7 @@ public class EventList extends Observable {
         eventRef.child("description").setValue(description);
         eventRef.child("instagramURL").setValue(instagramURL);
         eventRef.child("date").setValue(date);
+        eventRef.child("organizer").setValue(organizerId);
 
         if (eventId == null)
             registerUserToEvent(eventRef.getKey());
