@@ -216,6 +216,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_insta"
+                android:visibility="gone"
                 android:layout_width="0dp"
                 app:strokeWidth="0dp"
                 android:layout_height="wrap_content"
@@ -261,7 +262,6 @@
                         android:id="@+id/instaURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/localisationEventExemple"
                         android:textSize="15sp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"

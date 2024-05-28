@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -75,7 +74,6 @@ public class EventActivity extends EventActivities {
             myWebView.getSettings().setDomStorageEnabled(true);
             myWebView.getSettings().setUserAgentString("Android");
             myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
-            //myWebView.loadUrl("https://www.instagram.com/hugodecrypte/");
             Instagram.setVisibility(View.VISIBLE);
             Instagram.setOnClickListener(click -> {
                 if(web.getVisibility() == View.VISIBLE){

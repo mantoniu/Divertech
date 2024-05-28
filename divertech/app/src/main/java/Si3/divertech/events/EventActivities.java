@@ -1,12 +1,6 @@
 package Si3.divertech.events;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,7 +41,6 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
     protected void updateInfo() {
         if (!EventList.getInstance().containsEvent(eventId))
             return;
-        Log.d("test",EventList.getInstance().getEvent(eventId).toString());
         TextView title = findViewById(R.id.name_event);
         title.setText(EventList.getInstance().getEvent(eventId).getTitle());
 

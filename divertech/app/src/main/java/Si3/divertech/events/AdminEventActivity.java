@@ -75,4 +75,14 @@ public class AdminEventActivity extends EventActivities {
 
         popup.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
     }
+
+    @Override
+    protected void updateInfo() {
+        super.updateInfo();
+        if (!EventList.getInstance().getEvent(getEventId()).getInstagramURL().isEmpty()) {
+            findViewById(R.id.card_insta).setVisibility(View.VISIBLE);
+            TextView url = findViewById(R.id.instaURL);
+            url.setText(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
+        } else findViewById(R.id.card_insta).setVisibility(View.GONE);
+    }
 }
