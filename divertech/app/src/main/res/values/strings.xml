@@ -243,4 +243,9 @@
     <string name="password_need_to_contain_one_number">Le mot de passe doit contenir au moins un chiffre</string>
     <string name="password_update_error">Erreur lors de la mise à jour du mot de passe</string>
     <string name="divertech_logo">Divertech logo</string>
+    <string name="no_connection">Pas de connexion internet\nMerci de vérifier votre connection</string>
+    <string name="user_name_required">Nom d\'utilisateur requis</string>
+    <string name="password_required">Mot de passe requis</string>
+    <string name="connection_impossible">Impossible de se connecter</string>
+    <string name="name_password_incorrect">Nom d\'utilisateur ou mot de passe incorrect</string>
 </resources>

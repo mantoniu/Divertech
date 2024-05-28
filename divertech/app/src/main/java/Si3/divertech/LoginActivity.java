@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         Button login = binding.login;
         login.setOnClickListener(click -> {
             if (!NetwordTest.isNetworkAvailable(this.getApplication())) {
-                Spannable centeredText = new SpannableString("Pas de connexion internet\nMerci de vérifier votre connection"); //TODO à reprendre
+                Spannable centeredText = new SpannableString(getString(R.string.no_connection));
                 centeredText.setSpan(
                         new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                         0, centeredText.length() - 1,
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
             if (username.getText() != null && username.getText().toString().isEmpty()) {
                 TextInputLayout usernameLayout = findViewById(R.id.username_container);
-                usernameLayout.setError("Nom d'utilisateur requis");
+                usernameLayout.setError(getString(R.string.user_name_required));
                 findViewById(R.id.username).requestFocus();
                 loading.setVisibility(View.GONE);
                 return;
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
             if (password.getText() != null && password.getText().toString().isEmpty()) {
                 TextInputLayout passwordLayout = findViewById(R.id.password_container);
-                passwordLayout.setError("Mot de passe requis");
+                passwordLayout.setError(getString(R.string.password_required));
                 findViewById(R.id.password).requestFocus();
                 loading.setVisibility(View.GONE);
                 return;
@@ -101,9 +101,9 @@ public class LoginActivity extends AppCompatActivity implements Observer {
                                 UserData.getInstance().requestUserData(user);
                             }
                         } else {
-                            Toast.makeText(this, "Impossible de se connecter", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getString(R.string.connection_impossible), Toast.LENGTH_SHORT).show();
                             TextInputLayout passwordLayout = findViewById(R.id.password_container);
-                            passwordLayout.setError("Nom d'utilisateur ou mot de passe incorrect");
+                            passwordLayout.setError(getString(R.string.name_password_incorrect));
                             loading.setVisibility(View.GONE);
                         }
                     });
