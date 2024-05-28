@@ -199,6 +199,26 @@
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/social_media_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/url_social_network"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postal_code_text_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/social_network"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_date"
@@ -210,7 +230,7 @@
                 app:strokeColor="@color/black"
                 app:layout_constraintLeft_toLeftOf="@+id/short_description_text_input"
                 app:layout_constraintRight_toRightOf="@+id/short_description_text_input"
-                app:layout_constraintTop_toBottomOf="@+id/postal_code_text_input">
+                app:layout_constraintTop_toBottomOf="@+id/social_media_text_input">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/calendar_constraint_layout"

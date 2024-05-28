@@ -111,6 +111,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             binding.address.setText(EventList.getInstance().getEvent(eventId).getAddress());
             binding.city.setText(EventList.getInstance().getEvent(eventId).getCity());
             binding.description.setText(EventList.getInstance().getEvent(eventId).getDescription());
+            binding.socialNetwork.setText(EventList.getInstance().getEvent(eventId).getInstagramURL());
         }
         binding.buttonValidate.setOnClickListener(click -> writeEvent());
     }
@@ -146,6 +147,8 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             return;
 
 
+
+
         String title = binding.title.getText().toString();
         String shortDescription = binding.shortDescription.getText().toString();
         String address = binding.address.getText().toString();
@@ -153,7 +156,10 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
         String city = binding.city.getText().toString();
         String description = binding.description.getText().toString();
 
-        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        String instagramURL = "";
+        if (binding.socialNetwork.getText()!= null) instagramURL = binding.socialNetwork.getText().toString();
+
+        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, instagramURL, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
         finish();
     }
 

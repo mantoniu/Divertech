@@ -19,12 +19,17 @@ public class Event implements Parcelable {
     private String postalCode;
     private String city;
     private String description;
+
+    private String instagramURL;
     private ZonedDateTime date;
+
+
 
     public static final Parcelable.Creator<Event> CREATOR
             = new Parcelable.Creator<Event>() {
         public Event createFromParcel(Parcel in) {
             return new Event(in.readString(),
+                    in.readString(),
                     in.readString(),
                     in.readString(),
                     in.readString(),
@@ -49,10 +54,14 @@ public class Event implements Parcelable {
     }
 
     public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
-        this(id, title, pictureUrl, shortDescription, address, postalCode, city, description, ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        this(id, title, pictureUrl, shortDescription, address, postalCode, city, description, "",ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
     }
 
-    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, ZonedDateTime date) {
+    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String instagramURL, String date) {
+        this(id, title, pictureUrl, shortDescription, address, postalCode, city, description, instagramURL,ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME));
+    }
+
+    public Event(String id, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String instagramURL, ZonedDateTime date) {
         this.id = id;
         this.title = title;
         this.pictureUrl = pictureUrl;
@@ -61,6 +70,7 @@ public class Event implements Parcelable {
         this.postalCode = postalCode;
         this.city = city;
         this.description = description;
+        this.instagramURL = instagramURL;
         this.date = date;
     }
 
@@ -82,6 +92,10 @@ public class Event implements Parcelable {
         return description;
     }
 
+    public String getInstagramURL(){
+        if(instagramURL==null) return "";
+        return instagramURL;}
+
     @Override
     public int describeContents() {
         return 0;
@@ -97,6 +111,7 @@ public class Event implements Parcelable {
         dest.writeString(postalCode);
         dest.writeString(city);
         dest.writeString(description);
+        dest.writeString(instagramURL);
         dest.writeString(date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
     }
 
@@ -110,6 +125,7 @@ public class Event implements Parcelable {
                 ", shortDescription='" + shortDescription + '\'' +
                 ", address='" + getFullAddress() + '\'' +
                 ", description='" + description + '\'' +
+                ", instagram='" + instagramURL + '\'' +
                 ", date=" + date +
                 '}';
     }

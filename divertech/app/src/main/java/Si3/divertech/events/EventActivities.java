@@ -41,7 +41,6 @@ public abstract class EventActivities extends RequireUserActivity implements Obs
     protected void updateInfo() {
         if (!EventList.getInstance().containsEvent(eventId))
             return;
-
         TextView title = findViewById(R.id.name_event);
         title.setText(EventList.getInstance().getEvent(eventId).getTitle());
 
