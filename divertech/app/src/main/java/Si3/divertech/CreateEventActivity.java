@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
@@ -39,7 +38,7 @@ import Si3.divertech.utils.DatePickerFragment;
 import Si3.divertech.utils.DateUtils;
 import Si3.divertech.utils.UploadUtils;
 
-public class CreateEventActivity extends AppCompatActivity implements DateListener {
+public class CreateEventActivity extends RequireUserActivity implements DateListener {
     private ActivityAdminNewEventBinding binding;
     private String eventId;
     private String newPictureUrl;

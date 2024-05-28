@@ -40,6 +40,14 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+            UserData.getInstance().addObserver(this);
+            UserData.getInstance().requestUserData(mAuth.getCurrentUser());
+            return;
+        }
+
         TextView register = binding.register;
         register.setOnClickListener(click -> {
             Intent i = new Intent(this, RegisterActivity.class);
@@ -85,8 +93,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
                         }
                     });
         });
-
-        mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
@@ -137,7 +143,6 @@ public class LoginActivity extends AppCompatActivity implements Observer {
         if (UserData.getInstance().getConnectedUser() == null)
             return;
 
-        Toast.makeText(this, "Connexion réussie", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         UserData.getInstance().deleteObserver(this);

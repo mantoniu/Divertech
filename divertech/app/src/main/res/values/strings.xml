@@ -225,4 +225,13 @@
     <string name="instagram_open">Voir la publication</string>
     <string name="url_social_network">URL réseau social</string>
     <string name="publication_instagram_associee">Publication Instagram</string>
+    <string name="canot_be_empty">Ce champ ne peut pas être vide</string>
+    <string name="invalid_phone_number">Numéro de téléphone invalide</string>
+    <string name="invalid_email_address">Adresse mail invalide</string>
+    <string name="incorrect_password">Mot de passe incorrect</string>
+    <string name="email_update_error">Erreur lors de la mise à jour de l\'adresse mail</string>
+    <string name="password_need_to_contain_six_characters">Le mot de passe doit contenir au moins 6 caractères</string>
+    <string name="password_need_to_contain_one_number">Le mot de passe doit contenir au moins un chiffre</string>
+    <string name="password_update_error">Erreur lors de la mise à jour du mot de passe</string>
+    <string name="divertech_logo">Divertech logo</string>
 </resources>

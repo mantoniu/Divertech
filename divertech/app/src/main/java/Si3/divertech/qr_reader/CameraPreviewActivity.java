@@ -24,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -43,12 +42,13 @@ import com.google.mlkit.common.MlKitException;
 import Si3.divertech.DataBaseListener;
 import Si3.divertech.DataBaseResponses;
 import Si3.divertech.R;
+import Si3.divertech.RequireUserActivity;
 import Si3.divertech.events.EventActivity;
 import Si3.divertech.events.EventList;
 import Si3.divertech.qr_reader.barcodescanner.BarcodeScannerProcessor;
 import Si3.divertech.qr_reader.preference.PreferenceUtils;
 
-public final class CameraPreviewActivity extends AppCompatActivity implements QRDataListener, DataBaseListener {
+public final class CameraPreviewActivity extends RequireUserActivity implements QRDataListener, DataBaseListener {
     private static final int CAMERA_PERMISSION_CODE = 100;
     @Nullable
     private Camera camera;

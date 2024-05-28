@@ -7,14 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import Si3.divertech.feed.Feed;
 import Si3.divertech.feed.FeedFactory;
 import Si3.divertech.feed.FeedType;
 import Si3.divertech.users.UserData;
 
-public class MainActivity extends AppCompatActivity implements ClickableActivity{
+public class MainActivity extends RequireUserActivity implements ClickableActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

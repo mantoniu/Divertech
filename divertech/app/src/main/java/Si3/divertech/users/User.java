@@ -1,13 +1,7 @@
 package Si3.divertech.users;
 
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.concurrent.CompletableFuture;
 
 public class User {
     private String id;
@@ -109,104 +103,5 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public void setEmail(String email) {
-        userRef.child("email").setValue(email);
-        this.email = email;
-    }
-
-    public void setFirstName(String firstName) {
-        userRef.child("firstName").setValue(firstName);
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        userRef.child("lastName").setValue(lastName);
-        this.lastName = lastName;
-    }
-
-    public void setAddress(String address) {
-        userRef.child("address").setValue(address);
-        this.address = address;
-    }
-
-    public void setPostalCode(String postalCode) {
-        userRef.child("postalCode").setValue(postalCode);
-        this.postalCode = postalCode;
-    }
-
-    public void setCity(String city) {
-        userRef.child("city").setValue(city);
-        this.city = city;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        userRef.child("phoneNumber").setValue(phoneNumber);
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setLanguage(String language) {
-        userRef.child("language").setValue(language);
-        this.language = language;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
-    }
-
-    public CompletableFuture<Boolean> updateUserEmail(String newEmail, String password) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
-            user.reauthenticate(credential)
-                    .addOnCompleteListener(reAuthTask -> {
-                        if (reAuthTask.isSuccessful()) {
-                            user.updateEmail(newEmail)
-                                    .addOnCompleteListener(updateTask -> {
-                                        if (updateTask.isSuccessful()) {
-                                            future.complete(true);
-                                        } else {
-                                            future.complete(false);
-                                        }
-                                    });
-                        } else {
-                            future.complete(false);
-                        }
-                    });
-        } else {
-            future.complete(false);
-        }
-        return future;
-    }
-    public CompletableFuture<Boolean> changeUserPassword(String newPassword, String currentPassword) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
-            user.reauthenticate(credential)
-                    .addOnCompleteListener(reAuthTask -> {
-                        if (reAuthTask.isSuccessful()) {
-                            user.updatePassword(newPassword)
-                                    .addOnCompleteListener(updateTask -> {
-                                        if (updateTask.isSuccessful()) {
-                                            future.complete(true);
-                                        } else {
-                                            future.complete(false);
-                                        }
-                                    });
-                        } else {
-                            future.complete(false);
-                        }
-                    });
-        } else {
-            future.complete(false);
-        }
-        return future;
-    }
-
-    public void disconnect() {
-        FirebaseAuth.getInstance().signOut();
     }
 }
