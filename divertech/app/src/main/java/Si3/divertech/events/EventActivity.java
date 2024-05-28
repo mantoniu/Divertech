@@ -135,25 +135,6 @@ public class EventActivity extends EventActivities {
         return eventExists;
     }
 
-
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this, permission) == -1) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        } else {
-            Log.d("PERMISSION", "Permission already granted");
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == READ_CALENDAR_PERMISSION_CODE || requestCode == WRITE_CALENDAR_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == 0) {
-                Log.d("PERMISSION", "Calendar Permission Granted");
-            } else Log.d("PERMISSION", "Camera Permission Denied");
-        }
-    }
-
     @Override
     protected void updateInfo() {
         super.updateInfo();
