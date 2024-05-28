@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,15 +14,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
 import java.util.Observable;
+import java.util.concurrent.CompletableFuture;
+
+import Si3.divertech.events.EventList;
+import Si3.divertech.notifications.NotificationList;
 
 public class UserData extends Observable {
     private static UserData instance;
-    private static User connectedUser;
-    private static FirebaseUser firebaseUser;
-    private DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-    private static String userId;
+    private User connectedUser;
+    private final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+    private String userId;
 
     private UserData() {
     }
@@ -41,9 +44,7 @@ public class UserData extends Observable {
             return;
 
         String userId = user.getUid();
-
-        UserData.firebaseUser = user;
-        UserData.userId = userId;
+        this.userId = userId;
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(userId);
@@ -101,35 +102,101 @@ public class UserData extends Observable {
         userRef.child("admin").setValue(false);
     }
 
-    public void updateUser(String userId, String firstName, String lastName, String email, String phoneNumber, String language, String address, String postalCode, String city, String password) {
-        if (firebaseUser == null)
-            return;
-
-        writeNewUser(userId, firstName, lastName, email, phoneNumber, language, address, postalCode, city);
-
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(Objects.requireNonNull(firebaseUser.getEmail()), password);
-
-        firebaseUser.reauthenticate(credential)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        firebaseUser.updateEmail(email)
-                                .addOnCompleteListener(task2 -> {
-                                    if (task2.isSuccessful()) {
-                                        requestUserData(firebaseUser);
-                                    } else {
-                                        Exception exception = task2.getException();
-                                        if (exception != null)
-                                            Log.e("UPDATE EMAIL ERROR", "", exception);
-                                    }
-                                });
-                    } else {
-                        Log.d("RE-AUTHENTICATION ERROR", "", task.getException());
-                    }
-                });
+    private void setUserField(String path, String value) {
+        usersRef.child(userId).child(path).setValue(value);
     }
 
     public void setPictureUrl(String pictureUrl) {
-        usersRef.child(userId).child("pictureUrl").setValue(pictureUrl);
+        setUserField("pictureUrl", pictureUrl);
+    }
+
+    public void setUserEmail(String email) {
+        setUserField("email", email);
+    }
+
+    public void setLastName(String lastName) {
+        setUserField("lastName", lastName);
+    }
+
+    public void setFirstName(String firstName) {
+        setUserField("firstName", firstName);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        setUserField("phoneNumber", phoneNumber);
+    }
+
+    public void setCity(String city) {
+        setUserField("city", city);
+    }
+
+    public void setLanguage(String language) {
+        setUserField("language", language);
+    }
+
+    public void setAddress(String address) {
+        setUserField("address", address);
+    }
+
+    public void setPostalCode(String postalCode) {
+        setUserField("postalCode", postalCode);
+    }
+
+    public CompletableFuture<Boolean> updateUserEmail(String newEmail, String password) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(reAuthTask -> {
+                        if (reAuthTask.isSuccessful()) {
+                            user.updateEmail(newEmail)
+                                    .addOnCompleteListener(updateTask -> {
+                                        if (updateTask.isSuccessful()) {
+                                            future.complete(true);
+                                        } else {
+                                            future.complete(false);
+                                        }
+                                    });
+                        } else {
+                            future.complete(false);
+                        }
+                    });
+        } else {
+            future.complete(false);
+        }
+        return future;
+    }
+
+    public CompletableFuture<Boolean> changeUserPassword(String newPassword, String currentPassword) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(reAuthTask -> {
+                        if (reAuthTask.isSuccessful()) {
+                            user.updatePassword(newPassword)
+                                    .addOnCompleteListener(updateTask -> {
+                                        if (updateTask.isSuccessful()) {
+                                            future.complete(true);
+                                        } else {
+                                            future.complete(false);
+                                        }
+                                    });
+                        } else {
+                            future.complete(false);
+                        }
+                    });
+        } else {
+            future.complete(false);
+        }
+        return future;
+    }
+
+    public void disconnect() {
+        FirebaseAuth.getInstance().signOut();
+        EventList.getInstance().reset();
+        NotificationList.getInstance().reset();
     }
 }

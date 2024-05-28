@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
@@ -15,8 +14,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import Si3.divertech.R;
+import Si3.divertech.RequireUserActivity;
 
-public abstract class EventActivities extends AppCompatActivity implements Observer {
+public abstract class EventActivities extends RequireUserActivity implements Observer {
     private String eventId;
     private boolean isTextViewClicked = false;
 
@@ -43,7 +43,6 @@ public abstract class EventActivities extends AppCompatActivity implements Obser
     protected void updateInfo() {
         if (!EventList.getInstance().containsEvent(eventId))
             return;
-
         TextView title = findViewById(R.id.name_event);
         title.setText(EventList.getInstance().getEvent(eventId).getTitle());
 

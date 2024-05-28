@@ -78,7 +78,8 @@ public class HeaderMenu extends Fragment implements Observer {
             int id = item.getItemId();
             if (id == R.id.menu_logout) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
-                UserData.getInstance().getConnectedUser().disconnect();
+                UserData.getInstance().disconnect();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             } else if (id == R.id.menu_profile_edit) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
@@ -95,9 +96,9 @@ public class HeaderMenu extends Fragment implements Observer {
         popupMenu.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
             if (id == R.id.menu_language_english) {
-                UserData.getInstance().getConnectedUser().setLanguage("en");
+                UserData.getInstance().setLanguage("en");
             } else if (id == R.id.menu_language_french) {
-                UserData.getInstance().getConnectedUser().setLanguage("fr");
+                UserData.getInstance().setLanguage("fr");
             }
             return false;
         });

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
@@ -40,7 +39,7 @@ import Si3.divertech.utils.DatePickerFragment;
 import Si3.divertech.utils.DateUtils;
 import Si3.divertech.utils.UploadUtils;
 
-public class CreateEventActivity extends AppCompatActivity implements DateListener, View.OnFocusChangeListener {
+public class CreateEventActivity extends RequireUserActivity implements DateListener {
     private ActivityAdminNewEventBinding binding;
     private String eventId;
     private String newPictureUrl;
@@ -113,6 +112,7 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
             binding.address.setText(EventList.getInstance().getEvent(eventId).getAddress());
             binding.city.setText(EventList.getInstance().getEvent(eventId).getCity());
             binding.description.setText(EventList.getInstance().getEvent(eventId).getDescription());
+            binding.socialNetwork.setText(EventList.getInstance().getEvent(eventId).getInstagramURL());
         }
         binding.buttonValidate.setOnClickListener(click -> writeEvent());
     }
@@ -140,7 +140,6 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
 
     public void writeEvent() {
         testError();
-        Log.d("test", "hum");
         if (error)
             return;
 
@@ -157,14 +156,15 @@ public class CreateEventActivity extends AppCompatActivity implements DateListen
         String description = binding.description.getText().toString();
         String organizerId = UserData.getInstance().getUserId();
 
-        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME), organizerId);
+        String instagramURL = "";
+        if (binding.socialNetwork.getText()!= null) instagramURL = binding.socialNetwork.getText().toString();
+
+        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, instagramURL, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
         finish();
     }
 
     public void testError() {
-        Log.d("test", "ok");
         TextInputLayout typeMessageLayout = findViewById(R.id.title_text_input);
-        Log.d("test", String.valueOf(String.valueOf(((TextInputEditText) findViewById(R.id.title)).getText()).isEmpty()));
         if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.title)).getText()).toString().isEmpty()) {
             typeMessageLayout.setErrorEnabled(true);
             typeMessageLayout.setError(getString(R.string.title_required));

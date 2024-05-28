@@ -62,6 +62,9 @@ public class EventAdapter extends BaseAdapter {
         eventTitle.setText(event.getTitle());
         eventDescription.setText(event.getShortDescription());
 
+
+
+
         layoutItem.setOnClickListener((click) -> fragment.onClick(event.getId()));
 
         return layoutItem;

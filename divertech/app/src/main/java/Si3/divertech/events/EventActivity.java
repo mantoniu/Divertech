@@ -9,6 +9,7 @@ import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -152,5 +153,35 @@ public class EventActivity extends EventActivities {
     @Override
     public void update(Observable o, Object arg) {
         showOrganizer();
+    }
+
+    @Override
+    protected void updateInfo() {
+        super.updateInfo();
+
+        // -- réseau social
+
+        ImageView Instagram = findViewById(R.id.insta);
+        MaterialCardView web = findViewById(R.id.pageFeed);
+        web.setVisibility(View.GONE);
+        Instagram.setVisibility(View.GONE);
+
+        if (!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().equals(""))) {
+            WebView myWebView = findViewById(R.id.web_view);
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.getSettings().setDomStorageEnabled(true);
+            myWebView.getSettings().setUserAgentString("Android");
+            myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
+            Instagram.setVisibility(View.VISIBLE);
+            Instagram.setOnClickListener(click -> {
+                if (web.getVisibility() == View.VISIBLE) {
+                    web.setVisibility(View.GONE);
+                    Log.d("insta", "gone");
+                } else {
+                    web.setVisibility(View.VISIBLE);
+                    Log.d("insta", "visible");
+                }
+            });
+        }
     }
 }

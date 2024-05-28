@@ -307,8 +307,8 @@
                         android:textSize="16sp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        app:layout_constraintLeft_toRightOf="@id/organizer_picture_container"
-                        app:layout_constraintRight_toLeftOf="@id/contact_organizer"
+                        app:layout_constraintLeft_toRightOf="@id/picture_organizer"
+                        app:layout_constraintRight_toLeftOf="@id/insta"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/card_organizer_title"
                         android:textAppearance="?attr/textAppearanceTitleMedium" />
@@ -341,8 +341,39 @@
                         android:layout_marginEnd="10dp"
                         android:contentDescription="@string/map_button" />
 
+                    <ImageView
+                        android:id="@+id/insta"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/instagram"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintTop_toTopOf="@id/picture_organizer"
+                        app:layout_constraintRight_toLeftOf="@id/contact_organizer"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="@string/map_button" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/pageFeed"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_margin="20dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toBottomOf="@id/card_organizer"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <WebView
+                        android:id="@+id/web_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="400dp"/>
+                </androidx.core.widget.NestedScrollView>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Description -->
 

@@ -4,15 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import Si3.divertech.feed.Feed;
 import Si3.divertech.feed.FeedFactory;
 import Si3.divertech.feed.FeedType;
 import Si3.divertech.qr_reader.CameraPreviewActivity;
 import Si3.divertech.users.UserData;
 
-public class ListEventActivity extends AppCompatActivity implements ClickableActivity{
+public class ListEventActivity extends RequireUserActivity implements ClickableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

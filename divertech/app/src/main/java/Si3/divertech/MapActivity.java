@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,7 +40,7 @@ import Si3.divertech.map.PopupMarker;
 import Si3.divertech.map.PopupMarkerFactory;
 import Si3.divertech.users.UserData;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, ClickableActivity, Observer {
+public class MapActivity extends RequireUserActivity implements ClickableActivity {
 
     private String eventId;
 

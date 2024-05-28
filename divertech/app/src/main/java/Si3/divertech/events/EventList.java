@@ -26,8 +26,8 @@ import Si3.divertech.users.UserData;
 public class EventList extends Observable {
     private static EventList instance;
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    private static final Map<String, Event> eventMap = new HashMap<>();
-    private static final Map<String, ValueEventListener> listenerMap = new HashMap<>();
+    private final Map<String, Event> eventMap = new HashMap<>();
+    private final Map<String, ValueEventListener> listenerMap = new HashMap<>();
     private static boolean initialized = false;
 
     private EventList() {
@@ -230,7 +230,7 @@ public class EventList extends Observable {
         listenerMap.remove(eventId);
     }
 
-    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date, String organizerId) {
+    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String instagramURL, String date, String organizerId) {
         DatabaseReference eventsRef = rootRef.child("Events");
         DatabaseReference eventRef = (eventId != null) ? eventsRef.child(eventId) : eventsRef.push();
 
@@ -250,10 +250,76 @@ public class EventList extends Observable {
         eventRef.child("postalCode").setValue(postalCode);
         eventRef.child("city").setValue(city);
         eventRef.child("description").setValue(description);
+        eventRef.child("instagramURL").setValue(instagramURL);
         eventRef.child("date").setValue(date);
         eventRef.child("organizer").setValue(organizerId);
 
         if (eventId == null)
             registerUserToEvent(eventRef.getKey());
+    }
+
+    public void deleteEvent(String eventId) {
+        if (!UserData.getInstance().getConnectedUser().isAdmin())
+            return;
+
+        deleteNotificationsForEvent(eventId);
+        deleteRegistrationsWithEvent(eventId);
+        rootRef.child("Events").child(eventId).removeValue();
+    }
+
+    private void deleteRegistrationsWithEvent(String eventId) {
+        rootRef.child("Registrations").orderByChild("eventId").equalTo(eventId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot registrationRef : snapshot.getChildren()) {
+                    registrationRef.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("ERROR DELETING REGISTRATIONS WITH EVENT_ID :", eventId, error.toException());
+            }
+        });
+    }
+
+    private void deleteNotificationsForEvent(String eventId) {
+        rootRef.child("Notifications").orderByChild("eventId").equalTo(eventId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot notificationSnapshot : snapshot.getChildren()) {
+                            String notificationId = notificationSnapshot.getKey();
+                            removeNotificationForUsers(notificationId);
+                            notificationSnapshot.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("ERROR DELETING NOTIFICATIONS WITH EVENT_ID :", eventId, error.toException());
+                    }
+                });
+    }
+
+    private void removeNotificationForUsers(String notificationId) {
+        rootRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userId = snapshot.getKey();
+                if (userId == null)
+                    return;
+                rootRef.child("Users").child(userId).child("notifications").child(notificationId).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("ERROR DELETING USER NOTIFICATION : ", notificationId, error.toException());
+            }
+        });
+    }
+
+    public void reset() {
+        instance = null;
     }
 }

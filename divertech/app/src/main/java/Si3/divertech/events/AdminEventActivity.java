@@ -36,6 +36,11 @@ public class AdminEventActivity extends EventActivities {
 
         findViewById(R.id.share).setOnClickListener(click -> createPopup());
 
+        findViewById(R.id.delete).setOnClickListener(click -> {
+            EventList.getInstance().deleteEvent(getEventId());
+            finish();
+        });
+
         findViewById(R.id.card_feed_type).setOnClickListener(click -> {
             Log.d("Admin", getEventId() + " ");
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -74,5 +79,15 @@ public class AdminEventActivity extends EventActivities {
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
         popup.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+    }
+
+    @Override
+    protected void updateInfo() {
+        super.updateInfo();
+        if (!EventList.getInstance().getEvent(getEventId()).getInstagramURL().isEmpty()) {
+            findViewById(R.id.card_insta).setVisibility(View.VISIBLE);
+            TextView url = findViewById(R.id.instaURL);
+            url.setText(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
+        } else findViewById(R.id.card_insta).setVisibility(View.GONE);
     }
 }

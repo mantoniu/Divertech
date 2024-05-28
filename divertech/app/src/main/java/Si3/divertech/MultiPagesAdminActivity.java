@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Observable;
@@ -19,7 +17,7 @@ import Si3.divertech.notifications.NotificationList;
 import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.users.User;
 
-public class MultiPagesAdminActivity extends AppCompatActivity implements Observer {
+public class MultiPagesAdminActivity extends RequireUserActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

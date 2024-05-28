@@ -9,9 +9,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,7 +22,7 @@ import Si3.divertech.notifications.NotificationTypeAdapter;
 import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.users.UserData;
 
-public class MultiPagesActivity extends AppCompatActivity {
+public class MultiPagesActivity extends RequireUserActivity {
 
     private NotificationTypes type;
 
