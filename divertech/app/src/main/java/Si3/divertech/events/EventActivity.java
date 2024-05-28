@@ -12,9 +12,8 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -27,9 +26,24 @@ import Si3.divertech.ParkingActivity;
 import Si3.divertech.R;
 
 public class EventActivity extends EventActivities {
+    private final ActivityResultLauncher<String> requestWritePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            addEventToCalendar(getEventId());
+        } else {
+            Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG)
+                    .show();
+        }
+    });
 
-    private static final int WRITE_CALENDAR_PERMISSION_CODE = 101;
-    private static final int READ_CALENDAR_PERMISSION_CODE = 102;
+    private final ActivityResultLauncher<String> requestReadPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            requestWritePermission.launch(Manifest.permission.WRITE_CALENDAR);
+        } else {
+            Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG)
+                    .show();
+        }
+    });
+
     @Override
     public void setActivity() {
         setContentView(R.layout.activity_event);
@@ -37,9 +51,6 @@ public class EventActivity extends EventActivities {
         View contact = findViewById(R.id.contact_organizer);
         contact.setOnClickListener(click -> startActivity(modification));
 
-
-        checkPermission(Manifest.permission.WRITE_CALENDAR, WRITE_CALENDAR_PERMISSION_CODE);
-        checkPermission(Manifest.permission.READ_CALENDAR, READ_CALENDAR_PERMISSION_CODE);
         if (!EventList.getInstance().containsEvent(getEventId())) {
             finish();
             return;
@@ -53,7 +64,7 @@ public class EventActivity extends EventActivities {
             finish();
         });
 
-        findViewById(R.id.card_date).setOnClickListener((click) -> addEventToCalendar(getEventId()));
+        findViewById(R.id.card_date).setOnClickListener((click) -> requestReadPermission.launch(Manifest.permission.READ_CALENDAR));
 
         MaterialCardView parkingLayout = findViewById(R.id.card_parking);
         parkingLayout.setOnClickListener(v -> {
@@ -69,22 +80,19 @@ public class EventActivity extends EventActivities {
             return;
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != -1) {
-            ContentValues values = new ContentValues();
-            values.put(CalendarContract.Events.DTSTART, EventList.getInstance().getEvent(eventId).getZonedDate().toInstant().toEpochMilli());
-            values.put(CalendarContract.Events.TITLE, EventList.getInstance().getEvent(eventId).getTitle());
-            values.put(CalendarContract.Events.DESCRIPTION, EventList.getInstance().getEvent(eventId).getShortDescription());
-            values.put(CalendarContract.Events.CALENDAR_ID, getDefaultCalendarId());
-            values.put(CalendarContract.Events.EVENT_TIMEZONE, ZoneId.systemDefault().getId());
-            values.put(CalendarContract.Events.DURATION, "PT2H");
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events.DTSTART, EventList.getInstance().getEvent(eventId).getZonedDate().toInstant().toEpochMilli());
+        values.put(CalendarContract.Events.TITLE, EventList.getInstance().getEvent(eventId).getTitle());
+        values.put(CalendarContract.Events.DESCRIPTION, EventList.getInstance().getEvent(eventId).getShortDescription());
+        values.put(CalendarContract.Events.CALENDAR_ID, getDefaultCalendarId());
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, ZoneId.systemDefault().getId());
+        values.put(CalendarContract.Events.DURATION, "PT2H");
 
-            Uri uri = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
-            if (uri != null) {
-                Toast.makeText(getApplicationContext(), "L'évènement a été ajouté à l'agenda", Toast.LENGTH_LONG).show();
-            }
+        Uri uri = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
+        if (uri != null) {
+            Toast.makeText(getApplicationContext(), "L'évènement a été ajouté à l'agenda", Toast.LENGTH_LONG).show();
         }
     }
-
 
     private long getDefaultCalendarId() {
         String[] projection = new String[]{CalendarContract.Calendars._ID};

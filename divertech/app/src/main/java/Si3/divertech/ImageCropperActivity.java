@@ -79,7 +79,7 @@ public class ImageCropperActivity extends AppCompatActivity {
         if (isPermitted()) {
             getImageFile();
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            requestPermission.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            requestPermission.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE);
         }
     }
 
@@ -110,6 +110,7 @@ public class ImageCropperActivity extends AppCompatActivity {
 
     private void permissionDenied() {
         Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG).show();
+        finish();
     }
 
     private void saveCroppedImage(Bitmap bitmap) {
