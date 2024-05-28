@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -157,6 +158,8 @@ public class EventActivity extends EventActivities {
 
     @Override
     protected void updateInfo() {
+        if (!EventList.getInstance().containsEvent(getEventId()))
+            return;
         super.updateInfo();
 
         // -- réseau social

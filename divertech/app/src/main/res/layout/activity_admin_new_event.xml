@@ -214,26 +214,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/social_media_text_input"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/url_social_network"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/postal_code_text_input">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/social_network"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
-
                 <TextView
                     android:id="@+id/address_validation"
                     android:layout_width="match_parent"
@@ -246,7 +226,28 @@
                     android:layout_margin="5dp"
                     android:visibility="gone"
                     android:textSize="15sp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/social_media_text_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/url_social_network"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bloc_postal_code_and_city">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/social_network"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_date"
@@ -308,6 +309,7 @@
                         android:textAppearance="?attr/textAppearanceTitleMedium" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
+
 
             <!-- Date -->
 

@@ -39,7 +39,7 @@ import Si3.divertech.utils.DatePickerFragment;
 import Si3.divertech.utils.DateUtils;
 import Si3.divertech.utils.UploadUtils;
 
-public class CreateEventActivity extends RequireUserActivity implements DateListener {
+public class CreateEventActivity extends RequireUserActivity implements DateListener, View.OnFocusChangeListener {
     private ActivityAdminNewEventBinding binding;
     private String eventId;
     private String newPictureUrl;
@@ -159,7 +159,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
         String instagramURL = "";
         if (binding.socialNetwork.getText()!= null) instagramURL = binding.socialNetwork.getText().toString();
 
-        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, instagramURL, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, instagramURL, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME), organizerId);
         finish();
     }
 
@@ -238,7 +238,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.addressValisation.setVisibility(View.GONE);
+                binding.addressValidation.setVisibility(View.GONE);
                 Pattern p = Pattern.compile("[0-9][1-8]([0-9]{3}).");
                 if (p.matcher(s.toString()).matches() || s.length() != 5) {
                     error = true;
@@ -272,7 +272,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (view == binding.addressTextInput || view == binding.cityTextInput)
-                    binding.addressValisation.setVisibility(View.GONE);
+                    binding.addressValidation.setVisibility(View.GONE);
                 if (s.length() > 0) {
                     error = false;
                     view.setErrorEnabled(false);
@@ -314,14 +314,14 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
         String postalCode = Objects.requireNonNull(((TextInputLayout) findViewById(R.id.postal_code_text_input)).getEditText()).getText().toString();
         if (!cityText.isEmpty() && !addressText.isEmpty() && !postalCode.isEmpty()) {
             if (MapActivity.getAddress(cityText + ", " + addressText + ", " + postalCode, getApplicationContext()) == null) {
-                ((TextView) findViewById(R.id.address_valisation)).setText(R.string.address_false);
-                findViewById(R.id.address_valisation).setVisibility(View.VISIBLE);
-                ((TextView) findViewById(R.id.address_valisation)).setTextColor(getColor(R.color.red));
+                ((TextView) findViewById(R.id.address_validation)).setText(R.string.address_false);
+                findViewById(R.id.address_validation).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.address_validation)).setTextColor(getColor(R.color.red));
                 return false;
             } else {
-                ((TextView) findViewById(R.id.address_valisation)).setText(R.string.address_good);
-                findViewById(R.id.address_valisation).setVisibility(View.VISIBLE);
-                ((TextView) findViewById(R.id.address_valisation)).setTextColor(getColor(R.color.green));
+                ((TextView) findViewById(R.id.address_validation)).setText(R.string.address_good);
+                findViewById(R.id.address_validation).setVisibility(View.VISIBLE);
+                ((TextView) findViewById(R.id.address_validation)).setTextColor(getColor(R.color.green));
                 return true;
             }
         }

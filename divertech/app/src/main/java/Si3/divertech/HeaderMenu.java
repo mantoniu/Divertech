@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Observable;
 import java.util.Observer;
 
+import Si3.divertech.users.ProfileActivity;
 import Si3.divertech.users.UserData;
 
 public class HeaderMenu extends Fragment implements Observer {
@@ -63,9 +64,10 @@ public class HeaderMenu extends Fragment implements Observer {
     public void updateToolbar() {
         MenuItem profileImageItem = menu.findItem(R.id.menu_profile);
         View profileImageView = profileImageItem.getActionView();
-        if (profileImageView != null)
+        if (profileImageView != null) {
             profileImageView.setOnClickListener(this::showProfilePopupMenu);
-        Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+            Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+        }
         MenuItem langImage = menu.findItem(R.id.menu_language);
         if (langImage.getActionView() != null)
             langImage.getActionView().setOnClickListener(this::showLangMenu);

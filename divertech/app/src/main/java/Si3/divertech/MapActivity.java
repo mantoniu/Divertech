@@ -40,7 +40,7 @@ import Si3.divertech.map.PopupMarker;
 import Si3.divertech.map.PopupMarkerFactory;
 import Si3.divertech.users.UserData;
 
-public class MapActivity extends RequireUserActivity implements ClickableActivity {
+public class MapActivity extends RequireUserActivity implements ClickableActivity, Observer, OnMapReadyCallback {
 
     private String eventId;
 
