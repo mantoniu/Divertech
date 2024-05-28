@@ -60,30 +60,6 @@ public class EventActivity extends EventActivities {
             Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
             startActivity(intent);
         });
-
-        // -- réseau social
-
-        ImageView Instagram = findViewById(R.id.insta);
-        MaterialCardView web = findViewById(R.id.pageFeed);
-        web.setVisibility(View.GONE);
-        Instagram.setVisibility(View.GONE);
-
-        if(!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().equals(""))){
-            WebView myWebView = findViewById(R.id.web_view);
-            myWebView.getSettings().setJavaScriptEnabled(true);
-            myWebView.getSettings().setDomStorageEnabled(true);
-            myWebView.getSettings().setUserAgentString("Android");
-            myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
-            Instagram.setVisibility(View.VISIBLE);
-            Instagram.setOnClickListener(click -> {
-                if(web.getVisibility() == View.VISIBLE){
-                    web.setVisibility(View.GONE);Log.d("insta","gone");
-                }
-                else {
-                    web.setVisibility(View.VISIBLE);Log.d("insta","visible");
-                }
-            });
-        }
     }
 
     private void addEventToCalendar(String eventId) {
@@ -167,6 +143,36 @@ public class EventActivity extends EventActivities {
             if (grantResults.length > 0 && grantResults[0] == 0) {
                 Log.d("PERMISSION", "Calendar Permission Granted");
             } else Log.d("PERMISSION", "Camera Permission Denied");
+        }
+    }
+
+    @Override
+    protected void updateInfo() {
+        super.updateInfo();
+
+        // -- réseau social
+
+        ImageView Instagram = findViewById(R.id.insta);
+        MaterialCardView web = findViewById(R.id.pageFeed);
+        web.setVisibility(View.GONE);
+        Instagram.setVisibility(View.GONE);
+
+        if (!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().equals(""))) {
+            WebView myWebView = findViewById(R.id.web_view);
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.getSettings().setDomStorageEnabled(true);
+            myWebView.getSettings().setUserAgentString("Android");
+            myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
+            Instagram.setVisibility(View.VISIBLE);
+            Instagram.setOnClickListener(click -> {
+                if (web.getVisibility() == View.VISIBLE) {
+                    web.setVisibility(View.GONE);
+                    Log.d("insta", "gone");
+                } else {
+                    web.setVisibility(View.VISIBLE);
+                    Log.d("insta", "visible");
+                }
+            });
         }
     }
 }
