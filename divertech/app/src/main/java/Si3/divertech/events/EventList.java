@@ -227,7 +227,7 @@ public class EventList extends Observable {
         listenerMap.remove(eventId);
     }
 
-    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String date) {
+    public void writeEvent(String eventId, String title, String pictureUrl, String shortDescription, String address, String postalCode, String city, String description, String instagramURL, String date) {
         DatabaseReference eventsRef = rootRef.child("Events");
         DatabaseReference eventRef = (eventId != null) ? eventsRef.child(eventId) : eventsRef.push();
 
@@ -247,6 +247,7 @@ public class EventList extends Observable {
         eventRef.child("postalCode").setValue(postalCode);
         eventRef.child("city").setValue(city);
         eventRef.child("description").setValue(description);
+        eventRef.child("instagramURL").setValue(instagramURL);
         eventRef.child("date").setValue(date);
 
         if (eventId == null)

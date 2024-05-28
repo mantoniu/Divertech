@@ -222,4 +222,7 @@
     <string name="edit_button">Edit button</string>
     <string name="qr_code">QR CODE</string>
     <string name="event_id_title">Identifiant de l\'évènement</string>
+    <string name="instagram_open">Voir la publication</string>
+    <string name="url_social_network">URL réseau social</string>
+    <string name="publication_instagram_associee">Publication Instagram</string>
 </resources>

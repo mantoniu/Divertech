@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -130,5 +133,35 @@ public class EventActivity extends EventActivities {
         }
 
         return eventExists;
+    }
+
+    @Override
+    protected void updateInfo() {
+        super.updateInfo();
+
+        // -- réseau social
+
+        ImageView Instagram = findViewById(R.id.insta);
+        MaterialCardView web = findViewById(R.id.pageFeed);
+        web.setVisibility(View.GONE);
+        Instagram.setVisibility(View.GONE);
+
+        if (!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().equals(""))) {
+            WebView myWebView = findViewById(R.id.web_view);
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.getSettings().setDomStorageEnabled(true);
+            myWebView.getSettings().setUserAgentString("Android");
+            myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
+            Instagram.setVisibility(View.VISIBLE);
+            Instagram.setOnClickListener(click -> {
+                if (web.getVisibility() == View.VISIBLE) {
+                    web.setVisibility(View.GONE);
+                    Log.d("insta", "gone");
+                } else {
+                    web.setVisibility(View.VISIBLE);
+                    Log.d("insta", "visible");
+                }
+            });
+        }
     }
 }
