@@ -248,4 +248,5 @@
     <string name="password_required">Mot de passe requis</string>
     <string name="connection_impossible">Impossible de se connecter</string>
     <string name="name_password_incorrect">Nom d\'utilisateur ou mot de passe incorrect</string>
+    <string name="url_not_good">L\'URL n\'est pas valide</string>
 </resources>
