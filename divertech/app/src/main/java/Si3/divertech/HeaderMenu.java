@@ -65,9 +65,11 @@ public class HeaderMenu extends Fragment implements Observer {
     public void updateToolbar() {
         MenuItem profileImageItem = menu.findItem(R.id.menu_profile);
         View profileImageView = profileImageItem.getActionView();
-        if (profileImageView != null) {
-            profileImageView.setOnClickListener(this::showProfilePopupMenu);
-            Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+        if (UserData.getInstance().getConnectedUser() != null) {
+            if (profileImageView != null) {
+                profileImageView.setOnClickListener(this::showProfilePopupMenu);
+                Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+            }
         }
         MenuItem langImage = menu.findItem(R.id.menu_language);
         if (langImage.getActionView() != null)
