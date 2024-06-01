@@ -33,6 +33,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Divertech"
         tools:targetApi="31">
+        <service
+            android:name=".notificationservice.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".ReportActivity"
             android:label="@string/signalement"

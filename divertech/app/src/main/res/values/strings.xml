@@ -251,4 +251,8 @@
     <string name="signalement">Signalement</string>
     <string name="titre_du_signalement">Titre du signalement</string>
     <string name="signalement_important">Signalement important</string>
+    <string name="g_rer_mes_notifications">Gérer mes notifications</string>
+    <string name="g_rer_mes_notifications_informatives">Gérer mes notifications informatives</string>
+    <string name="g_rer_mes_notifications_importantes">gérer mes notifications importantes</string>
+    <string name="no_channel">Votre appareil ne supporte pas les channels de notifications</string>
 </resources>
