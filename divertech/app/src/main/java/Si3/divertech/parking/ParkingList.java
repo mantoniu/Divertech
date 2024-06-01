@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Optional;
 
+import Si3.divertech.events.EventList;
 import Si3.divertech.users.UserData;
 
 public class ParkingList extends Observable {
@@ -177,6 +178,8 @@ public class ParkingList extends Observable {
         reservationRef.child("status").setValue("WAITING");
         DatabaseReference userReservationRef = FirebaseDatabase.getInstance().getReference().child("Users/" + userId).child("Reservations").push();
         userReservationRef.setValue(reservationRef.getKey());
+        DatabaseReference userCreatorReservationRef = FirebaseDatabase.getInstance().getReference().child("Users/" + EventList.getInstance().getEvent(eventId).getOrganizer()).child("Reservations").push();
+        userCreatorReservationRef.setValue(reservationRef.getKey());
         requestData();
         Log.d("test", ReservationsMap.toString());
     }
