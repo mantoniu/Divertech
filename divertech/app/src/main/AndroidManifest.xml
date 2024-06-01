@@ -51,12 +51,22 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
+        <activity
+            android:name=".ParkingResultActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".ParkingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
+        <activity
+            android:name=".ParkingFeedAdminActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
+        <activity
+            android:name=".ParkingReservationAdminActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
         <activity
             android:name=".RegisterActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

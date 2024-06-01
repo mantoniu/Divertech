@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import Si3.divertech.events.EventList;
 import Si3.divertech.notifications.NotificationList;
+import Si3.divertech.parking.ParkingList;
 import Si3.divertech.users.UserData;
 
 public abstract class RequireUserActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public abstract class RequireUserActivity extends AppCompatActivity {
 
         EventList.getInstance().reset();
         NotificationList.getInstance().reset();
+        ParkingList.getInstance().reset();
         Intent intent = new Intent(getApplicationContext(), LaunchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

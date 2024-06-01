@@ -110,6 +110,6 @@ public class HeaderMenu extends Fragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        updateToolbar();
+        if (menu != null) updateToolbar();
     }
 }

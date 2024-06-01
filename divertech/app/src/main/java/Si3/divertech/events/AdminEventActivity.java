@@ -18,6 +18,7 @@ import android.widget.Toast;
 import Si3.divertech.CreateEventActivity;
 import Si3.divertech.MainActivity;
 import Si3.divertech.MultiPagesActivity;
+import Si3.divertech.ParkingFeedAdminActivity;
 import Si3.divertech.R;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -46,6 +47,13 @@ public class AdminEventActivity extends EventActivities {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra(getString(R.string.event_id), getEventId());
             intent.putExtra(getString(R.string.back_possible), true);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.parking_reservations).setOnClickListener(click -> {
+            Log.d("Admin", getEventId() + " ");
+            Intent intent = new Intent(getApplicationContext(), ParkingFeedAdminActivity.class);
+            intent.putExtra(getString(R.string.event_id), getEventId());
             startActivity(intent);
         });
     }

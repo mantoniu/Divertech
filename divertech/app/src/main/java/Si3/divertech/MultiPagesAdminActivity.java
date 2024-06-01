@@ -49,13 +49,13 @@ public class MultiPagesAdminActivity extends RequireUserActivity implements Obse
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
         TextView name = findViewById(R.id.name);
         name.setText(String.format("%s\n%s", writer.getFirstName(), writer.getLastName()));
-        View call = findViewById(R.id.bloc_contact_phone);
+        View call = findViewById(R.id.bloc_contact_refuse);
         call.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));
             startActivity(intent);
         });
 
-        View mail = findViewById(R.id.bloc_contact_mail);
+        View mail = findViewById(R.id.bloc_contact_accept);
         mail.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + writer.getEmail()));
             startActivity(intent);

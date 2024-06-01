@@ -97,7 +97,7 @@
     <string name="event_picture">Event picture</string>
     <string name="description">Description</string>
     <string name="event_name">Nom de l\'event</string>
-    <string name="notification_type">Type de notification</string>
+    <string name="notification_type">Type de reservations</string>
     <string name="delete_button">Delete button</string>
     <string name="close_button">Close button</string>
     <string name="event_page">Page de l\'évènement</string>
@@ -215,7 +215,7 @@
     <string name="notification_de_publication_sur_le_fil_d_actualit">Notification de publication sur le fil d\'actualité</string>
     <string name="notification_de_r_ponse_vos_demandes">Notification de réponse à vos demandes</string>
     <string name="notification_avant_l_heure_de_vos_v_nements">Notification avant l\'heure de vos événements</string>
-    <string name="autorisation_de_notification">Autorisation de notification</string>
+    <string name="autorisation_de_notification">Autorisation de reservations</string>
     <string name="english">English</string>
     <string name="no_event_registered">Aucun évènement enregistré</string>
     <string name="no_notification">Aucune notification</string>
@@ -249,4 +249,5 @@
     <string name="connection_impossible">Impossible de se connecter</string>
     <string name="name_password_incorrect">Nom d\'utilisateur ou mot de passe incorrect</string>
     <string name="url_not_good">L\'URL n\'est pas valide</string>
+    <string name="no_parking_reservations">Aucune demande réservation de parking</string>
 </resources>

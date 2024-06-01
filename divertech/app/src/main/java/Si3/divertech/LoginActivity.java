@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements Observer {
 
         Button login = binding.login;
         login.setOnClickListener(click -> {
-            if (!NetwordTest.isNetworkAvailable(this.getApplication())) {
+            if (!NetworkTest.isNetworkAvailable(this.getApplication())) {
                 Spannable centeredText = new SpannableString(getString(R.string.no_connection));
                 centeredText.setSpan(
                         new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
