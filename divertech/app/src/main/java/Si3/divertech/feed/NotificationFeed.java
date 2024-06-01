@@ -60,7 +60,7 @@ public class NotificationFeed extends Feed {
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(String.format("%s", notification.getType()));
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(String.format("%s", notification.getTitle()));
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);

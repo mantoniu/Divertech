@@ -11,6 +11,12 @@ android {
         viewBinding = true
     }
 
+    packaging {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
+
     defaultConfig {
         applicationId = "Si3.divertech"
         minSdk = 24
@@ -41,6 +47,9 @@ android {
 }
 
 dependencies {
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.17.0")
+    implementation("com.google.firebase:firebase-messaging:23.0.8")
     implementation("com.google.android.gms:play-services-location:21.2.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("com.github.androidmads:QRGenerator:1.0.1")

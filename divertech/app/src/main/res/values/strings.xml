@@ -248,4 +248,7 @@
     <string name="password_required">Mot de passe requis</string>
     <string name="connection_impossible">Impossible de se connecter</string>
     <string name="name_password_incorrect">Nom d\'utilisateur ou mot de passe incorrect</string>
+    <string name="signalement">Signalement</string>
+    <string name="titre_du_signalement">Titre du signalement</string>
+    <string name="signalement_important">Signalement important</string>
 </resources>

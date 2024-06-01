@@ -80,7 +80,7 @@ public class NotificationAdapter extends BaseAdapter {
         if (EventList.getInstance().containsEvent(notification.getEventId())) {
             Picasso.get().load(EventList.getInstance().getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
             notificationTitle.setText(EventList.getInstance().getEvent(notification.getEventId()).getTitle());
-            notificationContent.setText(notification.getType());
+            notificationContent.setText(notification.getTitle());
         }
 
         layoutItem.setOnClickListener((click) -> fragment.onClick(notification.getId()));

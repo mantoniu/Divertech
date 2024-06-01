@@ -29,12 +29,8 @@ public class MultiPagesActivity extends RequireUserActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_multi_pages);
 
-        if (UserData.getInstance().getConnectedUser().isAdmin()) {
-            setContentView(R.layout.activity_admin_report);
-        } else {
-            setContentView(R.layout.activity_multi_pages);
-        }
 
 
         View b = findViewById(R.id.return_arrow);
