@@ -2,6 +2,7 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,6 +83,7 @@ public class HeaderMenu extends Fragment implements Observer {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 UserData.getInstance().disconnect();
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             } else if (id == R.id.menu_profile_edit) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
@@ -89,6 +91,9 @@ public class HeaderMenu extends Fragment implements Observer {
             }
             return false;
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu.setForceShowIcon(true);
+        }
         popupMenu.show();
     }
 
@@ -104,6 +109,9 @@ public class HeaderMenu extends Fragment implements Observer {
             }
             return false;
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu.setForceShowIcon(true);
+        }
         popupMenu.show();
     }
 
