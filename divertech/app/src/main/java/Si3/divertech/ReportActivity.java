@@ -72,7 +72,7 @@ public class ReportActivity extends RequireUserActivity {
             if (testError())
                 return;
 
-            if (!NetwordTest.isNetworkAvailable(this.getApplication())) {
+            if (!NetworkTest.isNetworkAvailable(this.getApplication())) {
                 Spannable centeredText = new SpannableString(getString(R.string.no_connection));
                 centeredText.setSpan(
                         new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
