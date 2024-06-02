@@ -215,7 +215,7 @@
     <string name="notification_de_publication_sur_le_fil_d_actualit">Notification de publication sur le fil d\'actualité</string>
     <string name="notification_de_r_ponse_vos_demandes">Notification de réponse à vos demandes</string>
     <string name="notification_avant_l_heure_de_vos_v_nements">Notification avant l\'heure de vos événements</string>
-    <string name="autorisation_de_notification">Autorisation de reservations</string>
+    <string name="autorisation_de_notification">Autorisation de notification</string>
     <string name="english">English</string>
     <string name="no_event_registered">Aucun évènement enregistré</string>
     <string name="no_notification">Aucune notification</string>
@@ -258,4 +258,13 @@
     <string name="accepted_state">Accepté</string>
     <string name="waiting_state">En attente</string>
     <string name="refuse_state">Refusé</string>
+    <string name="signalement">Signalement</string>
+    <string name="titre_du_signalement">Titre du signalement</string>
+    <string name="signalement_important">Signalement important</string>
+    <string name="g_rer_mes_notifications">Gérer mes notifications</string>
+    <string name="g_rer_mes_notifications_informatives">Gérer mes notifications informatives</string>
+    <string name="g_rer_mes_notifications_importantes">gérer mes notifications importantes</string>
+    <string name="no_channel">Votre appareil ne supporte pas les channels de notifications</string>
+    <string name="traduction_en_anglais_si_souhait_e">traduction en anglais (si souhaitée)</string>
+    <string name="entrez_une_traduction_en_anglais">Entrez une traduction en anglais</string>
 </resources>

@@ -50,7 +50,6 @@ public class AdminNotificationFeed extends NotificationFeed {
     @Override
     public void onClick(String itemId) {
         intent = new Intent(getContext(), MultiPagesAdminActivity.class);
-        intent.putExtra("type", NotificationList.getInstance().getNotification(itemId).getType());
         intent.putExtra(getString(R.string.notification_id), itemId);
         if (notificationCreatorObserver == null)
             notificationCreatorObserver = new NotificationCreatorObserver();

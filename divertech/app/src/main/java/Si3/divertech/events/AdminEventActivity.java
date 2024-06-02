@@ -20,6 +20,7 @@ import Si3.divertech.MainActivity;
 import Si3.divertech.MultiPagesActivity;
 import Si3.divertech.ParkingFeedAdminActivity;
 import Si3.divertech.R;
+import Si3.divertech.ReportActivity;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
@@ -31,7 +32,8 @@ public class AdminEventActivity extends EventActivities {
         modification.putExtra(getString(R.string.event_id), getEventId());
         View change = findViewById(R.id.edit);
         change.setOnClickListener(click -> startActivity(modification));
-        Intent report = new Intent(getApplicationContext(), MultiPagesActivity.class);
+        Intent report = new Intent(getApplicationContext(), ReportActivity.class);
+        report.putExtra(getString(R.string.event_id), getEventId());
         View reportButton = findViewById(R.id.button_report);
         reportButton.setOnClickListener(click -> startActivity(report));
 

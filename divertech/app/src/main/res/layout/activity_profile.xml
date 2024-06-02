@@ -372,7 +372,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/autorisation_de_notification"
+            android:text="@string/g_rer_mes_notifications"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -381,33 +381,29 @@
 
 
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/beforehourenotif"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/notif_info_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notification_avant_l_heure_de_vos_v_nements"
-            android:switchPadding="5dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/g_rer_mes_notifications_informatives"
+            android:textColor="@color/white"
+            android:background="@drawable/back"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notif_choice"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notif_choice" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/answernotif"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/notif_warning_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notification_de_r_ponse_vos_demandes"
-            android:switchPadding="5dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/g_rer_mes_notifications_importantes"
+            android:textColor="@color/white"
+            android:background="@drawable/back"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/beforehourenotif"/>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/feednotification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/notification_de_publication_sur_le_fil_d_actualit"
-            android:switchPadding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/answernotif"/>
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notif_info_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

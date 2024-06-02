@@ -80,6 +80,7 @@ public class EventActivity extends EventActivities {
     public void setActivity() {
         setContentView(R.layout.activity_event);
         Intent modification = new Intent(getApplicationContext(), MultiPagesActivity.class);
+        modification.putExtra("eventId", getEventId());
         View contact = findViewById(R.id.contact_organizer);
         contact.setOnClickListener(click -> startActivity(modification));
 
