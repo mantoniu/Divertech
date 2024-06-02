@@ -5,21 +5,19 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import Si3.divertech.notificationservice.FCMSender;
+import Si3.divertech.events.EventList;
 import Si3.divertech.users.UserData;
 
 public class NotificationList extends Observable {
@@ -140,7 +138,7 @@ public class NotificationList extends Observable {
 
     }
 
-    private void retrieveUserIds(String eventId,String notificationId,Context context) {
+    private void retrieveUserIds(String eventId, String notificationId, String creatorId) {
         String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
@@ -152,7 +150,7 @@ public class NotificationList extends Observable {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot registrationSnapshot : dataSnapshot.getChildren()) {
                     String userId = registrationSnapshot.child("userId").getValue(String.class);
-                    if(userId != null) {
+                    if (userId != null && !userId.equals(creatorId)) {
                         FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("notifications").push().setValue(notificationId);
                     }
                 }
@@ -165,14 +163,26 @@ public class NotificationList extends Observable {
         });
     }
 
-    public void sendNotification(String eventId, NotificationTypes types, String description, String userCreatorId, Context context) {
+    public void sendNotification(String eventId, NotificationTypes types, String description, String descriptionEn, String userCreatorId, Context context) {
         DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
         DatabaseReference newNotificationRef = notificationsRef.push();
         newNotificationRef.child("eventId").setValue(eventId);
         newNotificationRef.child("type").setValue(types.ordinal());
         newNotificationRef.child("description").setValue(description);
+        newNotificationRef.child("descriptionEn").setValue(descriptionEn);
         newNotificationRef.child("userCreatorId").setValue(userCreatorId);
-        retrieveUserIds(eventId,newNotificationRef.getKey(),context);
+        retrieveUserIds(eventId, newNotificationRef.getKey(), userCreatorId);
+    }
+
+    public void sendUserNotification(String eventId, NotificationTypes types, String description) {
+        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+        DatabaseReference newNotificationRef = notificationsRef.push();
+        newNotificationRef.child("eventId").setValue(eventId);
+        newNotificationRef.child("type").setValue(types.ordinal());
+        newNotificationRef.child("description").setValue(description);
+        newNotificationRef.child("userCreatorId").setValue(UserData.getInstance().getUserId());
+        FirebaseDatabase.getInstance().getReference().child("Users").child(EventList.getInstance().getEvent(eventId).getOrganizer()).child("notifications").push().setValue(newNotificationRef.getKey());
+
     }
 
     public void reset() {

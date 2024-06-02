@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import Si3.divertech.notifications.NotificationList;
 import Si3.divertech.notifications.NotificationTypeAdapter;
 import Si3.divertech.notifications.NotificationTypes;
-import Si3.divertech.users.UserData;
 
 public class MultiPagesActivity extends RequireUserActivity {
 
@@ -30,8 +30,6 @@ public class MultiPagesActivity extends RequireUserActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_pages);
-
-
 
         View b = findViewById(R.id.return_arrow);
         b.setOnClickListener(click -> finish());
@@ -62,6 +60,7 @@ public class MultiPagesActivity extends RequireUserActivity {
 
     private void forward() {
         if (!testError()) {
+            NotificationList.getInstance().sendUserNotification(getIntent().getStringExtra("eventId"), type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString());
             finish();
         }
     }
@@ -81,6 +80,13 @@ public class MultiPagesActivity extends RequireUserActivity {
             MessageLayout.setError(getResources().getText(R.string.error_no_message));
             findViewById(R.id.edit_text_area).requestFocus();
             findViewById(R.id.edit_text_area).requestLayout();
+            res = true;
+        }
+        TextInputLayout MessageLayoutEn = findViewById(R.id.description_en);
+        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString().isEmpty()) {
+            MessageLayoutEn.setError(getResources().getText(R.string.error_no_message));
+            findViewById(R.id.edit_text_area_en).requestFocus();
+            findViewById(R.id.edit_text_area_en).requestLayout();
             res = true;
         }
         return res;

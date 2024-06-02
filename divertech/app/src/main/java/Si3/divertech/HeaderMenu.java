@@ -82,6 +82,7 @@ public class HeaderMenu extends Fragment implements Observer {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 UserData.getInstance().disconnect();
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             } else if (id == R.id.menu_profile_edit) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);

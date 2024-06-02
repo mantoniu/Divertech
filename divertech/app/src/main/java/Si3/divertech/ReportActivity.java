@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -73,13 +71,13 @@ public class ReportActivity extends AppCompatActivity {
             if(testError())
                 return;
             //notify all users that there is a new feed post
-            NotificationList.getInstance().sendNotification(eventId,type,((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(), UserData.getInstance().getUserId(),this);
+            NotificationList.getInstance().sendNotification(eventId, type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), UserData.getInstance().getUserId(), this);
             NotificationContent notification;
             String imgURL="https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Finfo.png?alt=media&token=f95e2232-938e-4c32-961a-b1711e0461d6";
-            notification= new NotificationContent(type, ((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(),((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText().toString(),imgURL, NotificationChannel.CHANNEL_INFO);
+            notification = new NotificationContent(type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), imgURL, NotificationChannel.CHANNEL_INFO);
             if(checkBox.isChecked()) {
                 imgURL = "https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Fwarning.png?alt=media&token=97890267-6b58-436a-8ece-feeaf5a8d203";
-                notification= new NotificationContent(type, ((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(),((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText().toString(),imgURL,NotificationChannel.CHANNEL_WARNING);
+                notification = new NotificationContent(type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), imgURL, NotificationChannel.CHANNEL_WARNING);
             }
             NotifyUser.notifyUserWithEventId(eventId, notification, this);
             finish();
