@@ -26,13 +26,21 @@ public class NotifyUser {
      * @param context the context of the application
      */
     public static void notifyUserWithId(String userId,NotificationContent notification, Context context) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("FCMtoken");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
         ref.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                if(task.getResult().getValue(String.class) == null)
-                    return;
-                String token = task.getResult().getValue(String.class);
-                notifyUserWithToken(token, notification, context);
+                DataSnapshot snapshot = task.getResult();
+                if (snapshot.exists()) {
+                    String token = snapshot.child("FCMtoken").getValue(String.class);
+                    String language = snapshot.child("language").getValue(String.class);
+
+                    if (token != null && language != null) {
+                        notifyUserWithToken(token, notification,language, context);
+                    }
+                } else {
+                    Log.e("DBToken", "User does not exist");
+                }
             } else {
                 Log.e("DBToken", "Error getting data", task.getException());
             }
@@ -44,13 +52,13 @@ public class NotifyUser {
      * @param token the token of the user
      * @param context the context of the application
      */
-    public static void notifyUserWithToken(String token,NotificationContent notification, Context context) {
+    public static void notifyUserWithToken(String token,NotificationContent notification,String lang, Context context) {
         //wont notify the sender of the notification
         if(token.equals(DBToken.getInstance().getToken()))
             return;
         FCMSender sender = new FCMSender();
         try {
-            sender.sendNotification(context,token,notification);
+            sender.sendNotification(context,token,lang,notification);
         } catch (IOException e) {
             Log.d("FCM", e.getMessage());
         }

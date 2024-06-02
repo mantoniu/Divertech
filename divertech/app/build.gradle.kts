@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("androidx.fragment:fragment:1.3.2")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.11.0")
     implementation("com.google.firebase:firebase-messaging:24.0.0")

@@ -29,7 +29,7 @@ public class FCMSender {
      * @param notification The content of the notification to send
      * @throws IOException If an error occurs while sending the notification
      */
-    public void sendNotification(Context context, String token, NotificationContent notification) throws IOException {
+    public void sendNotification(Context context, String token,String lang, NotificationContent notification) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         // Create the JSON object to send to the FCM API
@@ -42,7 +42,7 @@ public class FCMSender {
         // Fill the JSON object with the necessary data
         try {
             notificationJson.put("title", String.valueOf(notification.getType().ordinal()));
-            notificationJson.put("body", notification.getBody());
+            notificationJson.put("body", (lang.equals("fr") || notification.getBodyTranslation().isEmpty())?notification.getBody():notification.getBodyTranslation());
             notificationJson.put("image", notification.getImageUrl());
 
             dataJson.put("token", token);
