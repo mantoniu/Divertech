@@ -1,7 +1,10 @@
 package Si3.divertech;
 
+import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +13,8 @@ import android.widget.ImageButton;
 import Si3.divertech.feed.Feed;
 import Si3.divertech.feed.FeedFactory;
 import Si3.divertech.feed.FeedType;
+import Si3.divertech.notificationservice.MessagingService;
+import Si3.divertech.notificationservice.NotificationChannel;
 import Si3.divertech.users.UserData;
 
 public class MainActivity extends RequireUserActivity implements ClickableActivity {
@@ -44,6 +49,18 @@ public class MainActivity extends RequireUserActivity implements ClickableActivi
         }
 
         getSupportFragmentManager().beginTransaction().add(R.id.notification_feed, feedFragment).commit();
+
+        askForNotificationPermission();
+        MessagingService.retrieveFCMToken();
+        NotificationChannel.createNotificationChannel(this,NotificationChannel.CHANNEL_INFO,"Informations basse priorité","Informations utiles mais non urgentes", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel.createNotificationChannel(this,NotificationChannel.CHANNEL_WARNING,"Informations haute priorité","Informations urgentes relatives à l'evenement",NotificationManager.IMPORTANCE_HIGH);
+    }
+
+    public void askForNotificationPermission() {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
+            //post notification permission
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@ import Si3.divertech.notifications.NotificationCreator;
 import Si3.divertech.notifications.NotificationList;
 import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.users.User;
+import Si3.divertech.users.UserData;
 
 public class MultiPagesAdminActivity extends RequireUserActivity implements Observer {
 
@@ -38,7 +39,9 @@ public class MultiPagesAdminActivity extends RequireUserActivity implements Obse
         AutoCompleteTextView typeSelector = findViewById(R.id.selector);
         int type = getIntent().getIntExtra("type", 0);
         NotificationTypes types = NotificationTypes.values()[type];
-        typeSelector.setText(types.getContent());
+        if (UserData.getInstance().getConnectedUser().getLanguage().equals("en"))
+            typeSelector.setText(types.getContentEn());
+        typeSelector.setText(types.getContentFr());
         description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
 
         NotificationCreator.getInstance().addObserver(this);
