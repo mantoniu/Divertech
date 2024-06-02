@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -49,7 +48,6 @@ public class ReportActivity extends AppCompatActivity {
         b.setOnClickListener(click -> finish());
 
         Button button = findViewById(R.id.send_button);
-        CheckBox checkBox = findViewById(R.id.checkbox);
 
         NotificationTypeAdapter adapter = new NotificationTypeAdapter(getApplicationContext(), R.layout.list_item, new ArrayList<>(Arrays.stream(NotificationTypes.values()).collect(Collectors.toList())));
         AutoCompleteTextView spinner = findViewById(R.id.selector);
@@ -75,7 +73,7 @@ public class ReportActivity extends AppCompatActivity {
             NotificationContent notification;
             String imgURL="https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Finfo.png?alt=media&token=f95e2232-938e-4c32-961a-b1711e0461d6";
             notification = new NotificationContent(type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), imgURL, NotificationChannel.CHANNEL_INFO);
-            if(checkBox.isChecked()) {
+            if (type == NotificationTypes.INCIDENT) {
                 imgURL = "https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Fwarning.png?alt=media&token=97890267-6b58-436a-8ece-feeaf5a8d203";
                 notification = new NotificationContent(type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), imgURL, NotificationChannel.CHANNEL_WARNING);
             }
@@ -105,6 +103,13 @@ public class ReportActivity extends AppCompatActivity {
             MessageLayout.setError(getResources().getText(R.string.error_no_message));
             findViewById(R.id.edit_text_area).requestFocus();
             findViewById(R.id.edit_text_area).requestLayout();
+            res = true;
+        }
+        TextInputLayout MessageLayoutEn = findViewById(R.id.description_en);
+        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString().isEmpty()) {
+            MessageLayoutEn.setError(getResources().getText(R.string.error_no_message));
+            findViewById(R.id.edit_text_area_en).requestFocus();
+            findViewById(R.id.edit_text_area_en).requestLayout();
             res = true;
         }
         return res;

@@ -111,10 +111,11 @@ public class NotificationList extends Observable {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String eventId = snapshot.child("eventId").getValue(String.class);
                             String title = snapshot.child("title").getValue(String.class);
+                            int type = snapshot.child("type").getValue(int.class);
                             String description = snapshot.child("description").getValue(String.class);
                             String userCreatorId = snapshot.child("userCreatorId").getValue(String.class);
 
-                            Notification notification = new Notification(notificationId, eventId, title, description, userCreatorId);
+                            Notification notification = new Notification(notificationId, eventId, title, type, description, userCreatorId);
                             Log.d("NOTIFICATION", notification.toString());
                             addNotification(notification);
                             setChanged();

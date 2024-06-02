@@ -20,6 +20,7 @@ import Si3.divertech.events.EventActivity;
 import Si3.divertech.notifications.Notification;
 import Si3.divertech.notifications.NotificationAdapter;
 import Si3.divertech.notifications.NotificationList;
+import Si3.divertech.users.UserData;
 
 public class NotificationFeed extends Feed {
     @Override
@@ -60,7 +61,7 @@ public class NotificationFeed extends Feed {
 
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
-        ((TextView) popupView.findViewById(R.id.notification_type)).setText(String.format("%s", notification.getTitle()));
+        ((TextView) popupView.findViewById(R.id.notification_type)).setText(String.format("%s", UserData.getInstance().getConnectedUser().getLanguage().equals("fr") ? notification.getType().getTitleFr() : notification.getType().getTitleEn()));
         ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);

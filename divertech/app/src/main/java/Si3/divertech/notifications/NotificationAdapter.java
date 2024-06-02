@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import Si3.divertech.ClickableFragment;
 import Si3.divertech.R;
 import Si3.divertech.events.EventList;
+import Si3.divertech.users.UserData;
 
 public class NotificationAdapter extends BaseAdapter {
     private final String eventId;
@@ -80,9 +81,8 @@ public class NotificationAdapter extends BaseAdapter {
         if (EventList.getInstance().containsEvent(notification.getEventId())) {
             Picasso.get().load(EventList.getInstance().getEvent(notification.getEventId()).getPictureUrl()).into(notificationImage);
             notificationTitle.setText(EventList.getInstance().getEvent(notification.getEventId()).getTitle());
-            notificationContent.setText(notification.getTitle());
+            notificationContent.setText(UserData.getInstance().getConnectedUser().getLanguage().equals("fr") ? notification.getType().getTitleFr() : notification.getType().getTitleEn());
         }
-
         layoutItem.setOnClickListener((click) -> fragment.onClick(notification.getId()));
 
         return layoutItem;
