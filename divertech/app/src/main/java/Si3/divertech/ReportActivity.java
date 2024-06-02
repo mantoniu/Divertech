@@ -3,6 +3,10 @@ package Si3.divertech;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -29,7 +32,7 @@ import Si3.divertech.notificationservice.NotificationContent;
 import Si3.divertech.notificationservice.NotifyUser;
 import Si3.divertech.users.UserData;
 
-public class ReportActivity extends AppCompatActivity {
+public class ReportActivity extends RequireUserActivity {
     private String eventId;
     private NotificationTypes type;
 
@@ -66,12 +69,23 @@ public class ReportActivity extends AppCompatActivity {
         );
 
         button.setOnClickListener(click -> {
-            if(testError())
+            if (testError())
                 return;
+
+            if (!NetwordTest.isNetworkAvailable(this.getApplication())) {
+                Spannable centeredText = new SpannableString(getString(R.string.no_connection));
+                centeredText.setSpan(
+                        new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                        0, centeredText.length() - 1,
+                        Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                );
+                Toast.makeText(getApplicationContext(), centeredText, Toast.LENGTH_LONG).show();
+                return;
+            }
             //notify all users that there is a new feed post
             NotificationList.getInstance().sendNotification(eventId, type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), UserData.getInstance().getUserId(), this);
             NotificationContent notification;
-            String imgURL="https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Finfo.png?alt=media&token=f95e2232-938e-4c32-961a-b1711e0461d6";
+            String imgURL = "https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Finfo.png?alt=media&token=f95e2232-938e-4c32-961a-b1711e0461d6";
             notification = new NotificationContent(type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), imgURL, NotificationChannel.CHANNEL_INFO);
             if (type == NotificationTypes.INCIDENT) {
                 imgURL = "https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Fwarning.png?alt=media&token=97890267-6b58-436a-8ece-feeaf5a8d203";
