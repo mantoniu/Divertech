@@ -19,9 +19,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import Si3.divertech.notifications.NotificationList;
+import Si3.divertech.notifications.NotificationTypeAdapter;
+import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.notificationservice.NotificationChannel;
 import Si3.divertech.notificationservice.NotificationContent;
 import Si3.divertech.notificationservice.NotifyUser;
@@ -29,6 +34,7 @@ import Si3.divertech.users.UserData;
 
 public class ReportActivity extends AppCompatActivity {
     private String eventId;
+    private NotificationTypes type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +51,35 @@ public class ReportActivity extends AppCompatActivity {
         b.setOnClickListener(click -> finish());
 
         Button button = findViewById(R.id.send_button);
-        TextView title = findViewById(R.id.title);
         CheckBox checkBox = findViewById(R.id.checkbox);
 
+        NotificationTypeAdapter adapter = new NotificationTypeAdapter(getApplicationContext(), R.layout.list_item, new ArrayList<>(Arrays.stream(NotificationTypes.values()).collect(Collectors.toList())));
+        AutoCompleteTextView spinner = findViewById(R.id.selector);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemClickListener((parent, arg1, position, arg3) -> type = adapter.getItem(position));
+        spinner.setOnDismissListener(() -> {
+                    TextInputLayout typeMessageLayout = findViewById(R.id.type_message_selection);
+                    if (((AutoCompleteTextView) findViewById(R.id.selector)).getText().toString().isEmpty()) {
+                        typeMessageLayout.setErrorEnabled(true);
+                        typeMessageLayout.setError(getResources().getText(R.string.error_type_message));
+                        findViewById(R.id.selector).requestFocus();
+                    } else {
+                        typeMessageLayout.setErrorEnabled(false);
+                    }
+                }
+        );
 
         button.setOnClickListener(click -> {
             if(testError())
                 return;
             //notify all users that there is a new feed post
-            NotificationList.getInstance().sendNotification(eventId,title.getText().toString(),((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(), UserData.getInstance().getUserId(),this);
+            NotificationList.getInstance().sendNotification(eventId,type,((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(), UserData.getInstance().getUserId(),this);
             NotificationContent notification;
             String imgURL="https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Finfo.png?alt=media&token=f95e2232-938e-4c32-961a-b1711e0461d6";
-            notification= new NotificationContent(title.getText().toString(), ((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(),imgURL, NotificationChannel.CHANNEL_INFO);
+            notification= new NotificationContent(type, ((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(),imgURL, NotificationChannel.CHANNEL_INFO);
             if(checkBox.isChecked()) {
                 imgURL = "https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Fwarning.png?alt=media&token=97890267-6b58-436a-8ece-feeaf5a8d203";
-                notification= new NotificationContent(title.getText().toString(), ((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(),imgURL,NotificationChannel.CHANNEL_WARNING);
+                notification= new NotificationContent(type, ((TextInputEditText) findViewById(R.id.edit_text_area)).getText().toString(),imgURL,NotificationChannel.CHANNEL_WARNING);
             }
             NotifyUser.notifyUserWithEventId(eventId, notification, this);
             finish();
@@ -75,11 +95,11 @@ public class ReportActivity extends AppCompatActivity {
 
     public boolean testError() {
         boolean res = false;
-        TextInputLayout titleLayout = findViewById(R.id.textfield_title);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.title)).getText()).toString().isEmpty()) {
-            titleLayout.setError(getResources().getText(R.string.error_no_message));
-            findViewById(R.id.title).requestFocus();
-            findViewById(R.id.title).requestLayout();
+        TextInputLayout typeMessageLayout = findViewById(R.id.type_message_selection);
+        if (((AutoCompleteTextView) findViewById(R.id.selector)).getText().toString().isEmpty()) {
+            typeMessageLayout.setErrorEnabled(true);
+            typeMessageLayout.setError(getResources().getText(R.string.error_type_message));
+            findViewById(R.id.selector).requestFocus();
             res = true;
         }
         TextInputLayout MessageLayout = findViewById(R.id.description);

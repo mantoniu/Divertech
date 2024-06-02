@@ -18,6 +18,7 @@ import java.util.Objects;
 import Si3.divertech.LoginActivity;
 import Si3.divertech.MainActivity;
 import Si3.divertech.R;
+import Si3.divertech.notifications.NotificationTypes;
 
 /**
  * This class is used to handle the reception of messages from the Firebase Cloud Messaging service.
@@ -44,7 +45,7 @@ public class MessagingService extends FirebaseMessagingService {
             if(remoteMessage.getNotification().getChannelId().equals(NotificationChannel.CHANNEL_INFO)){
                 notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), Objects.requireNonNull(remoteMessage.getNotification().getChannelId()))
                         .setSmallIcon(R.drawable.logo)
-                        .setContentTitle(remoteMessage.getNotification().getTitle())
+                        .setContentTitle(NotificationTypes.fromInt(Integer.parseInt(Objects.requireNonNull(remoteMessage.getNotification().getTitle()))).getNotificationHeader())
                         .setContentText(remoteMessage.getNotification().getBody())
                         .setLargeIcon(ConvertImage.getBitmapFromUrl(String.valueOf(remoteMessage.getNotification().getImageUrl())))
                         .setContentIntent(pendingIntent)
@@ -53,7 +54,7 @@ public class MessagingService extends FirebaseMessagingService {
             else{
                notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), Objects.requireNonNull(remoteMessage.getNotification().getChannelId()))
                         .setSmallIcon(R.drawable.logo)
-                        .setContentTitle(remoteMessage.getNotification().getTitle())
+                       .setContentTitle(NotificationTypes.fromInt(Integer.parseInt(Objects.requireNonNull(remoteMessage.getNotification().getTitle()))).getNotificationHeader())
                         .setContentText(remoteMessage.getNotification().getBody())
                         .setLargeIcon(ConvertImage.getBitmapFromUrl(String.valueOf(remoteMessage.getNotification().getImageUrl())))
                         .setContentIntent(pendingIntent);

@@ -165,11 +165,11 @@ public class NotificationList extends Observable {
         });
     }
 
-    public void sendNotification(String eventId, String title, String description, String userCreatorId, Context context) {
+    public void sendNotification(String eventId, NotificationTypes types, String description, String userCreatorId, Context context) {
         DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
         DatabaseReference newNotificationRef = notificationsRef.push();
         newNotificationRef.child("eventId").setValue(eventId);
-        newNotificationRef.child("title").setValue(title);
+        newNotificationRef.child("type").setValue(types.ordinal());
         newNotificationRef.child("description").setValue(description);
         newNotificationRef.child("userCreatorId").setValue(userCreatorId);
         retrieveUserIds(eventId,newNotificationRef.getKey(),context);

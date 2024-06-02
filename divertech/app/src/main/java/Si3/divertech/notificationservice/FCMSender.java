@@ -41,7 +41,7 @@ public class FCMSender {
 
         // Fill the JSON object with the necessary data
         try {
-            notificationJson.put("title", notification.getTitle());
+            notificationJson.put("title", String.valueOf(notification.getType().ordinal()));
             notificationJson.put("body", notification.getBody());
             notificationJson.put("image", notification.getImageUrl());
 

@@ -21,6 +21,8 @@ import Si3.divertech.R;
  */
 public class OAuth {
     public static String getAccessToken(Context context) throws IOException {
+        //not safe at all
+        //should be stored in a secure place but for the sake of the project it is stored in the resources folder
         InputStream inputStream = context.getResources().openRawResource(R.raw.adminsdk);
         GoogleCredentials credentials = GoogleCredentials
                 .fromStream(inputStream)
