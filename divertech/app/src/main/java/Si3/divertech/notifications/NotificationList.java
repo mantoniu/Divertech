@@ -1,6 +1,5 @@
 package Si3.divertech.notifications;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -59,9 +58,7 @@ public class NotificationList extends Observable {
                     notifyObservers();
                     notificationMap.remove(id);
                 })
-                .addOnFailureListener(e -> {
-                    Log.d("NOTIFICATION DELETE ERROR", "");
-                });
+                .addOnFailureListener(e -> Log.d("NOTIFICATION DELETE ERROR", ""));
     }
 
     public void requestData() {
@@ -94,9 +91,10 @@ public class NotificationList extends Observable {
                             String eventId = snapshot.child("eventId").getValue(String.class);
                             int type = snapshot.child("type").getValue(int.class);
                             String description = snapshot.child("description").getValue(String.class);
+                            String descriptionEn = snapshot.child("descriptionEn").getValue(String.class);
                             String userCreatorId = snapshot.child("userCreatorId").getValue(String.class);
 
-                            Notification notification = new Notification(notificationId, eventId, "title", type, description, userCreatorId);
+                            Notification notification = new Notification(notificationId, eventId, "title", type, description, descriptionEn, userCreatorId);
                             Log.d("NOTIFICATION", notification.toString());
                             addNotification(notification);
                             setChanged();
@@ -145,7 +143,7 @@ public class NotificationList extends Observable {
         });
     }
 
-    public void sendNotification(String eventId, NotificationTypes types, String description, String descriptionEn, String userCreatorId, Context context) {
+    public void sendNotification(String eventId, NotificationTypes types, String description, String descriptionEn, String userCreatorId) {
         DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
         DatabaseReference newNotificationRef = notificationsRef.push();
         newNotificationRef.child("eventId").setValue(eventId);

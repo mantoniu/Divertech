@@ -62,7 +62,7 @@ public class NotificationFeed extends Feed {
         popupView.findViewById(R.id.close_button).setOnClickListener((click) -> popup.dismiss());
 
         ((TextView) popupView.findViewById(R.id.notification_type)).setText(String.format("%s", UserData.getInstance().getConnectedUser().getLanguage().equals("fr") ? notification.getType().getTitleFr() : notification.getType().getTitleEn()));
-        ((TextView) popupView.findViewById(R.id.notification_description)).setText(notification.getDescription());
+        ((TextView) popupView.findViewById(R.id.notification_description)).setText(UserData.getInstance().getConnectedUser().getLanguage().equals("fr") ? notification.getDescription() : notification.getDescriptionEn());
 
         popup.showAtLocation(requireView(), Gravity.CENTER, 0, 0);
     }

@@ -1,5 +1,6 @@
 package Si3.divertech.users;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -26,7 +27,10 @@ import Si3.divertech.utils.UploadUtils;
 public class ProfileController {
     private ProfileView view;
 
-    public ProfileController() {
+    private final Context context;
+
+    public ProfileController(Context context) {
+        this.context = context;
     }
 
     public void editProfilePicture() {
@@ -44,7 +48,7 @@ public class ProfileController {
                 View dialogView = inflater.inflate(R.layout.dialog_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 if (field.getHint() != null){
-                    String title=field.getHint().toString().toLowerCase();
+                    String title = context.getString(R.string.modify_your) + " " + field.getHint().toString().toLowerCase();
                     builder.setTitle(title);
                 }
                 EditText confirm = dialogView.findViewById(R.id.confirm);
