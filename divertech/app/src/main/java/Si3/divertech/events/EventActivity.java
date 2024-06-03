@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Optional;
 
 import Si3.divertech.MapActivity;
@@ -36,26 +35,8 @@ import Si3.divertech.users.User;
 
 public class EventActivity extends EventActivities {
 
-    protected boolean goToRequest = false;
 
-    private class ParkingObserver implements Observer {
 
-        @Override
-        public void update(Observable o, Object arg) {
-            if (goToRequest) {
-                Optional<Reservations> result = ParkingList.getInstance().existReservation(getEventId());
-                Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
-                if (result.isPresent()) {
-                    intent = new Intent(getApplicationContext(), ParkingResultActivity.class);
-                    intent.putExtra("reservationId", result.get().getId());
-                } else {
-                    intent.putExtra("eventId", getEventId());
-                }
-                startActivity(intent);
-                goToRequest = false;
-            }
-        }
-    }
 
 
     private final ActivityResultLauncher<String> requestWritePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -102,10 +83,7 @@ public class EventActivity extends EventActivities {
 
         MaterialCardView parkingLayout = findViewById(R.id.card_parking);
         parkingLayout.setOnClickListener(v -> {
-            if (ParkingList.getInstance().getReservations().isEmpty()) {
-                goToRequest = true;
-                ParkingList.getInstance();
-            } else {
+
                 Optional<Reservations> result = ParkingList.getInstance().existReservation(getEventId());
                 Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
                 if (result.isPresent()) {
@@ -115,15 +93,12 @@ public class EventActivity extends EventActivities {
                     intent.putExtra("eventId", getEventId());
                 }
                 startActivity(intent);
-            }
 
         });
 
         EventOrganizer.getInstance().addObserver(this);
         EventOrganizer.getInstance().getUser(EventList.getInstance().getEvent(getEventId()).getOrganizer());
-
-
-        ParkingList.getInstance().addObserver(new ParkingObserver());
+        ParkingList.getInstance();
     }
 
     private void addEventToCalendar(String eventId) {

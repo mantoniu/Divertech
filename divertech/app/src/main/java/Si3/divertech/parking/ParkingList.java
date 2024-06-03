@@ -47,50 +47,14 @@ public class ParkingList extends Observable {
         ReservationsMap.put(Reservations.getId(), Reservations);
     }
 
-    public void deleteReservations(String id) {
-        String userId = UserData.getInstance().getUserId();
-        if (userId == null)
-            return;
-
-        DatabaseReference ReservationssRef = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(userId).child("Reservationss");
-
-        ReservationssRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    String ReservationsId = childSnapshot.getValue(String.class);
-
-                    if (ReservationsId != null && ReservationsId.equals(id)) {
-                        childSnapshot.getRef().removeValue()
-                                .addOnSuccessListener(aVoid -> {
-                                    setChanged();
-                                    notifyObservers();
-                                    ReservationsMap.remove(id);
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.d("Reservations DELETE ERROR", "");
-                                });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("CANT GET Reservations USER LIST", "");
-            }
-        });
-
-    }
-
     public void requestData() {
-        Log.d("test", "test");
         String userId = UserData.getInstance().getUserId();
         if (userId == null)
             return;
 
         DatabaseReference userReservationssRef = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(userId).child("Reservations");
+
 
         userReservationssRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -103,8 +67,6 @@ public class ParkingList extends Observable {
                 Log.d("testok", snapshot.toString());
                 for (DataSnapshot registrationSnapshot : snapshot.getChildren()) {
                     String ReservationsId = registrationSnapshot.getValue(String.class);
-                    Log.d("testok", ReservationsId.toString());
-
                     if (ReservationsId == null)
                         return;
 
