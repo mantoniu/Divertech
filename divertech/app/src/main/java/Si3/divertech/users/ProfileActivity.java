@@ -56,7 +56,7 @@ public class ProfileActivity extends RequireUserActivity {
     }
 
     public <T extends ViewGroup> void onViewCreated(T layout, ActivityProfileBinding binding) {
-        ProfileController controller = new ProfileController();
+        ProfileController controller = new ProfileController(getBaseContext());
         ActivityResultLauncher<Intent> startCrop = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {

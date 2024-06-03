@@ -118,7 +118,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
     }
 
     public void showErrorMessage() {
-        Toast.makeText(getApplicationContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.error_loading_image, Toast.LENGTH_SHORT).show();
     }
 
     private void uploadImage(String url) {

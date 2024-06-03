@@ -16,12 +16,14 @@ import Si3.divertech.feed.FeedType;
 import Si3.divertech.notificationservice.MessagingService;
 import Si3.divertech.notificationservice.NotificationChannel;
 import Si3.divertech.users.UserData;
+import Si3.divertech.utils.LangUtils;
 
 public class MainActivity extends RequireUserActivity implements ClickableActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LangUtils.changeLang(this, UserData.getInstance().getConnectedUser().getLanguage());
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         String eventId = intent.getStringExtra(getString(R.string.event_id));
@@ -52,8 +54,8 @@ public class MainActivity extends RequireUserActivity implements ClickableActivi
 
         askForNotificationPermission();
         MessagingService.retrieveFCMToken();
-        NotificationChannel.createNotificationChannel(this,NotificationChannel.CHANNEL_INFO,"Informations basse priorité","Informations utiles mais non urgentes", NotificationManager.IMPORTANCE_DEFAULT);
-        NotificationChannel.createNotificationChannel(this,NotificationChannel.CHANNEL_WARNING,"Informations haute priorité","Informations urgentes relatives à l'evenement",NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel.createNotificationChannel(this,NotificationChannel.CHANNEL_INFO,getString(R.string.low_priority_notif),getString(R.string.low_priority_notif_description), NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel.createNotificationChannel(this,NotificationChannel.CHANNEL_WARNING,getString(R.string.high_priority_notif),getString(R.string.low_priority_notif_description),NotificationManager.IMPORTANCE_HIGH);
     }
 
     public void askForNotificationPermission() {

@@ -9,23 +9,29 @@ public class Notification {
 
     private NotificationTypes type;
     private String description;
+    private String descriptionEn;
 
     private String userCreatorId;
 
     public Notification() {
     }
 
-    public Notification(String id, String eventId, String title, int type, String description, String userCreatorId) {
+    public Notification(String id, String eventId, String title, int type, String description, String descriptionEn, String userCreatorId) {
         this.id = id;
         this.eventId = eventId;
         this.title = title;
         this.type = NotificationTypes.fromInt(type);
         this.description = description;
+        this.descriptionEn = descriptionEn;
         this.userCreatorId = userCreatorId;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
     }
 
     public String getEventId() {
@@ -57,6 +63,7 @@ public class Notification {
                 ", title='" + title + '\'' +
                 ", type='" + type.toString() + '\'' +
                 ", description='" + description + '\'' +
+                ", descriptionEn='" + descriptionEn + '\'' +
                 ", user id='" + userCreatorId + '\'' +
                 '}';
     }

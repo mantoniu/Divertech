@@ -26,6 +26,7 @@ import Si3.divertech.notificationservice.NotificationChannel;
 import Si3.divertech.notificationservice.NotificationContent;
 import Si3.divertech.notificationservice.NotifyUser;
 import Si3.divertech.users.UserData;
+import Si3.divertech.utils.LangUtils;
 
 public class ReportActivity extends RequireUserActivity {
     private String eventId;
@@ -36,7 +37,7 @@ public class ReportActivity extends RequireUserActivity {
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        LangUtils.changeActionBarTitle(this);
         eventId = getIntent().getStringExtra(getString(R.string.event_id));
         setContentView(R.layout.activity_admin_report);
 

@@ -109,7 +109,7 @@ public class ImageCropperActivity extends AppCompatActivity {
     }
 
     private void permissionDenied() {
-        Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.permission_denied, Toast.LENGTH_LONG).show();
         finish();
     }
 

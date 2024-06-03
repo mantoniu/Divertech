@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Divertech</string>
     <string name="return_arrow_description">Retour en arrière</string>
@@ -31,10 +32,7 @@
     <string name="phone_number">Téléphone</string>
     <string name="language">Langue</string>
     <string name="modify">Modifier</string>
-    <string-array name="languages">
-        <item>English</item>
-        <item>Français</item>
-    </string-array>
+
     <string name="button_report">Signaler</string>
     <string name="hint_report">Entrer le signalement ici</string>
     <string name="button_objet">Envoyer</string>
@@ -44,55 +42,6 @@
     <string name="lost_object">Objet Perdu</string>
     <string name="report_incident">Signalement</string>
     <string name="error_type_message">Veuillez choisir un type</string>
-
-
-    <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
-    <string name="kotlin_entry_title" translatable="false">Run the ML Kit quickstart written in Kotlin</string>
-    <string name="ok" translatable="false">OK</string>
-    <string name="permission_camera_rationale" translatable="false">Access to the camera is needed for detection</string>
-    <string name="no_camera_permission" translatable="false">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
-    <string name="low_storage_error" translatable="false">Face detector dependencies cannot be downloaded due to low device storage</string>
-    <string name="toggle_turn_on" translatable="false">Front</string>
-    <string name="toggle_turn_off" translatable="false">Back</string>
-    <string name="desc_camera_source_activity" translatable="false">Vision detectors demo with live camera preview</string>
-    <string name="desc_still_image_activity" translatable="false">Vision detectors demo with a still image</string>
-    <string name="desc_camerax_live_preview_activity" translatable="false">Vision detectors demo with live preview using CameraX. Note that CameraX is only supported on API 21+</string>
-    <string name="desc_cameraxsource_demo_activity" translatable="false">Object detection with custom classifier using ML Kit CameraXSource API. Note that CameraX is only supported on API 21+</string>
-    <string name="download_error" translatable="false">Download error</string>
-    <string name="start_over" translatable="false">Start over</string>
-    <string name="menu_item_settings" translatable="false">Settings</string>
-    <string name="select_image" translatable="false">Select image</string>
-    <string name="custom_object_detection" translatable="false">Custom Object Detector</string>
-
-    <!-- Strings for camera settings. -->
-    <string name="pref_category_key_camera" translatable="false">pckc</string>
-    <string name="pref_category_title_camera" translatable="false">Camera</string>
-    <string name="pref_key_rear_camera_preview_size" translatable="false">rcpvs</string>
-    <string name="pref_key_rear_camera_picture_size" translatable="false">rcpts</string>
-    <string name="pref_key_front_camera_preview_size" translatable="false">fcpvs</string>
-    <string name="pref_key_front_camera_picture_size" translatable="false">fcpts</string>
-    <string name="pref_key_camerax_rear_camera_target_resolution" translatable="false">crctas</string>
-    <string name="pref_key_camerax_front_camera_target_resolution" translatable="false">cfctas</string>
-    <string name="pref_key_camera_live_viewport" translatable="false">clv</string>
-    <string name="pref_title_rear_camera_preview_size" translatable="false">Rear camera preview size</string>
-    <string name="pref_title_front_camera_preview_size" translatable="false">Front camera preview size</string>
-    <string name="pref_title_camerax_rear_camera_target_resolution" translatable="false">CameraX rear camera target resolution</string>
-    <string name="pref_title_camerax_front_camera_target_resolution" translatable="false">CameraX front camera target resolution</string>
-    <string name="pref_title_camera_live_viewport" translatable="false">Enable live viewport</string>
-    <string name="pref_summary_camera_live_viewport" translatable="false">Do not block camera preview drawing on detection</string>
-    <string name="pref_key_info_hide" translatable="false">ih</string>
-
-    <!-- Strings for barcode scanning preference. -->
-    <string name="pref_key_enable_auto_zoom" translatable="false">eaz</string>
-    <string name="pref_title_enable_auto_zoom" translatable="false">Enable auto zoom</string>
-    <string name="feed" translatable="false">Feed</string>
-    <string name="FEED_KEY" translatable="false">feed_data</string>
-    <string name="FEED_TYPE" translatable="false">feed_type</string>
-    <string name="event_picture" translatable="false">Event picture</string>
-    <string name="delete_button" translatable="false">Delete button</string>
-    <string name="close_button" translatable="false">Close button</string>
-    <string name="map_button" translatable="false">Map button</string>
-    <string name="add_to_calendar" translatable="false">Add to calendar button</string>
 
 
     <string name="write_manually">Saisir le code manuellement</string>
@@ -285,6 +234,5 @@
     <string name="high_priority_notif">Informations haute priorité</string>
     <string name="low_priority_notif_description">Vous recevrez des notifications pour des informations de basse priorité</string>
     <string name="high_priority_notif_description">Vous recevrez des notifications pour des informations de haute priorité</string>
-    <string name="image_required">Image requise</string>
-
+    <string name="image_required">image requise</string>
 </resources>

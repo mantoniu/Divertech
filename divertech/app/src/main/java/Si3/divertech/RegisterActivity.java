@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         registerButton.setOnClickListener(v -> {
             if (!areFieldsValid) {
-                Toast.makeText(RegisterActivity.this, "Veuillez remplir correctement tous les champs", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, R.string.fill_all_fields, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -71,11 +71,11 @@ public class RegisterActivity extends AppCompatActivity {
                                         binding.phone.getText().toString(), spinner.getSelectedItem().toString(), binding.address.getText().toString(), binding.postalcode.getText().toString(),
                                         binding.city.getText().toString());
                             }
-                            Toast.makeText(RegisterActivity.this, "Inscription réussie", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, R.string.register_successful, Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Log.d("INSCRIPTION ERROR : ", "", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Impossible de s'inscrire. Veuillez réessayer ulterieurement", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, R.string.register_error, Toast.LENGTH_SHORT).show();
                         }
                     });
         });
@@ -85,23 +85,23 @@ public class RegisterActivity extends AppCompatActivity {
         field.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 if (!FormatChecker.globalCheck(field)) {
-                    layout.setError("Champ vide. Veuillez le remplir");
+                    layout.setError(getString(R.string.empty_field));
                     areFieldsValid = false;
                 } else {
                     if (mailFormat && !FormatChecker.checkMail(field)) {
-                        layout.setError("Adresse email invalide");
+                        layout.setError(getString(R.string.invalid_email_address));
                         areFieldsValid = false;
                     } else if (passwordFormat && !FormatChecker.checkPasswordLength(field)) {
-                        layout.setError("Mot de passe trop court (6 caractères minimum)");
+                        layout.setError(getString(R.string.password_need_to_contain_six_characters));
                         areFieldsValid = false;
                     }
                     //has digits
                     else if (passwordFormat && !FormatChecker.checkPasswordDigits(field)) {
-                        layout.setError("Le mot de passe doit contenir au moins un chiffre");
+                        layout.setError(getString(R.string.password_need_to_contain_one_number));
                         areFieldsValid = false;
                     }
                     else if (phoneFormat && !FormatChecker.checkPhone(field)) {
-                        layout.setError("Numéro de téléphone invalide");
+                        layout.setError(getString(R.string.invalid_phone_number));
                         areFieldsValid = false;
                     }
                     else {
@@ -121,10 +121,10 @@ public class RegisterActivity extends AppCompatActivity {
         confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 if (confirmPassword.getText() == null || confirmPassword.getText().toString().isEmpty()) {
-                    confirmPasswordLayout.setError("Champ vide. Veuillez le remplir");
+                    confirmPasswordLayout.setError(getString(R.string.empty_field));
                     areFieldsValid = false;
                 } else if (password.getText() != null && !confirmPassword.getText().toString().equals(password.getText().toString())) {
-                    confirmPasswordLayout.setError("Les mots de passe ne correspondent pas");
+                    confirmPasswordLayout.setError(getString(R.string.incorrect_password));
                     areFieldsValid = false;
                 } else {
                     confirmPasswordLayout.setError(null);
