@@ -1,5 +1,7 @@
 package Si3.divertech.notifications;
 
+import androidx.annotation.NonNull;
+
 public enum NotificationTypes {
     INCIDENT("Incident signalé", "Incident reported", "Signaler un incident", "Report an incident", "Incident", "Incident"), LOST_OBJECT("Objet perdu", "Lost item", "Objet perdu", "Lost property", "Objet perdu", "Lost property"), CONTACT("Demande d'informations", "Request for information", "Demande d'informations", "Information request", "Information", "Information");
 
@@ -50,5 +52,11 @@ public enum NotificationTypes {
             }
         }
         throw new IllegalArgumentException("Invalid notification type value: " + value);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getContentFr();
     }
 }

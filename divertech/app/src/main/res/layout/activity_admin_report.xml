@@ -40,59 +40,52 @@
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/linear_layout"
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/description"
+        android:textSize="25sp"
+        android:hint="@string/hint_message_contact"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="30dp"
         app:layout_constraintTop_toBottomOf="@id/type_message_selection"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/description_en">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/description"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_area"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25sp">
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            app:errorEnabled="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_area"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:hint="@string/hint_message_contact"
-                app:errorEnabled="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/linear_layout_en"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/description_en"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="30dp"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        android:textSize="25sp"
+        android:hint="@string/entrez_une_traduction_en_anglais"
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/description_en"
+        android:layout_height="150dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/send_button">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_area_en"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25sp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_area_en"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:hint="@string/entrez_une_traduction_en_anglais"
-                app:errorEnabled="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            app:errorEnabled="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
@@ -103,6 +96,6 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout_en" />
+        app:layout_constraintTop_toBottomOf="@id/description_en" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
