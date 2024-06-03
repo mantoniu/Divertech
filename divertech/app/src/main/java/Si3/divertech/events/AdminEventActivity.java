@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import Si3.divertech.CreateEventActivity;
 import Si3.divertech.MainActivity;
-import Si3.divertech.MultiPagesActivity;
 import Si3.divertech.ParkingFeedAdminActivity;
 import Si3.divertech.R;
 import Si3.divertech.ReportActivity;
@@ -38,11 +37,6 @@ public class AdminEventActivity extends EventActivities {
         reportButton.setOnClickListener(click -> startActivity(report));
 
         findViewById(R.id.share).setOnClickListener(click -> createPopup());
-
-        findViewById(R.id.delete).setOnClickListener(click -> {
-            EventList.getInstance().deleteEvent(getEventId());
-            finish();
-        });
 
         findViewById(R.id.card_feed_type).setOnClickListener(click -> {
             Log.d("Admin", getEventId() + " ");

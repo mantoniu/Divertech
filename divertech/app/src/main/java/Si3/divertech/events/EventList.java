@@ -258,13 +258,12 @@ public class EventList extends Observable {
             registerUserToEvent(eventRef.getKey());
     }
 
-    public void deleteEvent(String eventId) {
+    public void deleteAdminEvent(String eventId) {
         if (!UserData.getInstance().getConnectedUser().isAdmin())
             return;
 
         deleteNotificationsForEvent(eventId);
         deleteRegistrationsWithEvent(eventId);
-        rootRef.child("Events").child(eventId).removeValue();
     }
 
     private void deleteRegistrationsWithEvent(String eventId) {
@@ -274,6 +273,7 @@ public class EventList extends Observable {
                 for (DataSnapshot registrationRef : snapshot.getChildren()) {
                     registrationRef.getRef().removeValue();
                 }
+                rootRef.child("Events").child(eventId).removeValue();
             }
 
             @Override
@@ -291,7 +291,6 @@ public class EventList extends Observable {
                         for (DataSnapshot notificationSnapshot : snapshot.getChildren()) {
                             String notificationId = notificationSnapshot.getKey();
                             removeNotificationForUsers(notificationId);
-                            notificationSnapshot.getRef().removeValue();
                         }
                     }
 
@@ -306,10 +305,15 @@ public class EventList extends Observable {
         rootRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String userId = snapshot.getKey();
-                if (userId == null)
-                    return;
-                rootRef.child("Users").child(userId).child("notifications").child(notificationId).removeValue();
+                for (DataSnapshot registrationSnapshot : snapshot.getChildren()) {
+                    String userId = registrationSnapshot.getKey();
+                    if (userId == null)
+                        return;
+                    rootRef.child("Users").child(userId).child("notifications").child(notificationId).removeValue()
+                            .addOnSuccessListener(task -> {
+
+                            });
+                }
             }
 
             @Override

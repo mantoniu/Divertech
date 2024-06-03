@@ -51,35 +51,16 @@ public class NotificationList extends Observable {
         if (userId == null)
             return;
 
-        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child(userId).child("notifications");
-
-        notificationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    String notificationId = childSnapshot.getValue(String.class);
-
-                    if (notificationId != null && notificationId.equals(id)) {
-                        childSnapshot.getRef().removeValue()
-                                .addOnSuccessListener(aVoid -> {
-                                    setChanged();
-                                    notifyObservers();
-                                    notificationMap.remove(id);
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.d("NOTIFICATION DELETE ERROR", "");
-                                });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("CANT GET NOTIFICATION USER LIST", "");
-            }
-        });
-
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(userId).child("notifications").child(id).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    setChanged();
+                    notifyObservers();
+                    notificationMap.remove(id);
+                })
+                .addOnFailureListener(e -> {
+                    Log.d("NOTIFICATION DELETE ERROR", "");
+                });
     }
 
     public void requestData() {
@@ -99,7 +80,7 @@ public class NotificationList extends Observable {
                     notifyObservers();
                 }
                 for (DataSnapshot registrationSnapshot : snapshot.getChildren()) {
-                    String notificationId = registrationSnapshot.getValue(String.class);
+                    String notificationId = registrationSnapshot.getKey();
                     if (notificationId == null)
                         return;
 
@@ -152,7 +133,7 @@ public class NotificationList extends Observable {
                 for (DataSnapshot registrationSnapshot : dataSnapshot.getChildren()) {
                     String userId = registrationSnapshot.child("userId").getValue(String.class);
                     if (userId != null && !userId.equals(creatorId)) {
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("notifications").push().setValue(notificationId);
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("notifications").child(notificationId).setValue(true);
                     }
                 }
             }
@@ -183,7 +164,6 @@ public class NotificationList extends Observable {
         newNotificationRef.child("description").setValue(description);
         newNotificationRef.child("userCreatorId").setValue(UserData.getInstance().getUserId());
         FirebaseDatabase.getInstance().getReference().child("Users").child(EventList.getInstance().getEvent(eventId).getOrganizer()).child("notifications").push().setValue(newNotificationRef.getKey());
-
     }
 
     public void reset() {

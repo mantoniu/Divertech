@@ -34,11 +34,6 @@ import Si3.divertech.parking.Reservations;
 import Si3.divertech.users.User;
 
 public class EventActivity extends EventActivities {
-
-
-
-
-
     private final ActivityResultLauncher<String> requestWritePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
         if (isGranted) {
             addEventToCalendar(getEventId());
@@ -189,7 +184,7 @@ public class EventActivity extends EventActivities {
         web.setVisibility(View.GONE);
         Instagram.setVisibility(View.GONE);
 
-        if (!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().equals(""))) {
+        if (!(EventList.getInstance().getEvent(getEventId()).getInstagramURL() == null || EventList.getInstance().getEvent(getEventId()).getInstagramURL().isEmpty())) {
             WebView myWebView = findViewById(R.id.web_view);
             myWebView.getSettings().setJavaScriptEnabled(true);
             myWebView.getSettings().setDomStorageEnabled(true);
