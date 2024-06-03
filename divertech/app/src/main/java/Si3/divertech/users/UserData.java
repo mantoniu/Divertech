@@ -70,7 +70,7 @@ public class UserData extends Observable {
     }
 
     public static User getUserBySnapshot(DataSnapshot dataSnapshot, String userId) {
-        String userEmail = dataSnapshot.child("email").getValue(String.class);
+        String userEmail = dataSnapshot.child("mail").getValue(String.class);
         String firstName = dataSnapshot.child("firstName").getValue(String.class);
         String lastName = dataSnapshot.child("lastName").getValue(String.class);
         String address = dataSnapshot.child("address").getValue(String.class);
@@ -111,7 +111,7 @@ public class UserData extends Observable {
     }
 
     public void setUserEmail(String email) {
-        setUserField("email", email);
+        setUserField("mail", email);
     }
 
     public void setLastName(String lastName) {

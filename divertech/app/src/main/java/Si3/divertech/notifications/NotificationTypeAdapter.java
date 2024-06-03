@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 import Si3.divertech.R;
+import Si3.divertech.users.UserData;
 
 public class NotificationTypeAdapter extends ArrayAdapter<NotificationTypes> {
 
@@ -41,11 +42,15 @@ public class NotificationTypeAdapter extends ArrayAdapter<NotificationTypes> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView != null) {
             TextView txt = convertView.findViewById(R.id.element);
-            txt.setText(mData.get(position).getContent());
+            if (UserData.getInstance().getConnectedUser().getLanguage().equals("en"))
+                txt.setText(mData.get(position).getContentEn());
+            txt.setText(mData.get(position).getContentFr());
         } else {
             convertView = mInflater.inflate(viewResourceId, parent, false);
             TextView txt = convertView.findViewById(R.id.element);
-            txt.setText(mData.get(position).getContent());
+            if (UserData.getInstance().getConnectedUser().getLanguage().equals("en"))
+                txt.setText(mData.get(position).getContentEn());
+            txt.setText(mData.get(position).getContentFr());
         }
 
         return convertView;

@@ -13,7 +13,7 @@ public abstract class PopupMarkerFactory {
             case SELF:
                 return new SelfPopupMarker(layoutInflater);
             default:
-                throw new Throwable("error");
+                throw new Throwable("Type Error");
         }
     }
 }

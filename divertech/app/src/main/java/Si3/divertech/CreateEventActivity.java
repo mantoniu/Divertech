@@ -33,12 +33,13 @@ import java.util.regex.Pattern;
 
 import Si3.divertech.databinding.ActivityAdminNewEventBinding;
 import Si3.divertech.events.EventList;
+import Si3.divertech.users.UserData;
 import Si3.divertech.utils.DateListener;
 import Si3.divertech.utils.DatePickerFragment;
 import Si3.divertech.utils.DateUtils;
 import Si3.divertech.utils.UploadUtils;
 
-public class CreateEventActivity extends RequireUserActivity implements DateListener {
+public class CreateEventActivity extends RequireUserActivity implements DateListener, View.OnFocusChangeListener {
     private ActivityAdminNewEventBinding binding;
     private String eventId;
     private String newPictureUrl;
@@ -147,62 +148,57 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             return;
 
 
-
-
         String title = binding.title.getText().toString();
         String shortDescription = binding.shortDescription.getText().toString();
         String address = binding.address.getText().toString();
         String postalCode = binding.postalCode.getText().toString();
         String city = binding.city.getText().toString();
         String description = binding.description.getText().toString();
+        String organizerId = UserData.getInstance().getUserId();
 
         String instagramURL = "";
         if (binding.socialNetwork.getText()!= null) instagramURL = binding.socialNetwork.getText().toString();
 
-        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, instagramURL, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        EventList.getInstance().writeEvent(eventId, title, newPictureUrl, shortDescription, address, postalCode, city, description, instagramURL, date.format(DateTimeFormatter.ISO_ZONED_DATE_TIME), organizerId);
         finish();
     }
 
     public void testError() {
-        TextInputLayout typeMessageLayout = findViewById(R.id.title_text_input);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.title)).getText()).toString().isEmpty()) {
-            typeMessageLayout.setErrorEnabled(true);
-            typeMessageLayout.setError(getString(R.string.title_required));
-            findViewById(R.id.title).requestFocus();
+        if (Objects.requireNonNull(((TextInputEditText) binding.title).getText()).toString().isEmpty()) {
+            binding.titleTextInput.setErrorEnabled(true);
+            binding.titleTextInput.setError(getString(R.string.title_required));
+            binding.title.requestFocus();
             error = true;
         }
-        typeMessageLayout = findViewById(R.id.short_description_text_input);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.short_description)).getText()).toString().isEmpty()) {
-            typeMessageLayout.setErrorEnabled(true);
-            typeMessageLayout.setError(getString(R.string.short_description_required));
-            findViewById(R.id.short_description).requestFocus();
+        if (Objects.requireNonNull(((TextInputEditText) binding.shortDescription).getText()).toString().isEmpty()) {
+            binding.shortDescriptionTextInput.setErrorEnabled(true);
+            binding.shortDescriptionTextInput.setError(getString(R.string.short_description_required));
+            binding.shortDescription.requestFocus();
             error = true;
         }
-        typeMessageLayout = findViewById(R.id.address_text_input);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.address)).getText()).toString().isEmpty()) {
-            typeMessageLayout.setErrorEnabled(true);
-            typeMessageLayout.setError(getString(R.string.address_required));
-            findViewById(R.id.address).requestFocus();
+        if (Objects.requireNonNull(((TextInputEditText) binding.address).getText()).toString().isEmpty()) {
+            binding.addressTextInput.setErrorEnabled(true);
+            binding.addressTextInput.setError(getString(R.string.address_required));
+            binding.address.requestFocus();
             error = true;
         }
-        typeMessageLayout = findViewById(R.id.city_text_input);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.city)).getText()).toString().isEmpty()) {
-            typeMessageLayout.setErrorEnabled(true);
-            typeMessageLayout.setError(getString(R.string.city_required));
-            findViewById(R.id.city).requestFocus();
+        if (Objects.requireNonNull(((TextInputEditText) binding.city).getText()).toString().isEmpty()) {
+            binding.cityTextInput.setErrorEnabled(true);
+            binding.cityTextInput.setError(getString(R.string.city_required));
+            binding.city.requestFocus();
             error = true;
         }
-        typeMessageLayout = findViewById(R.id.postal_code_text_input);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.postal_code)).getText()).toString().isEmpty()) {
-            typeMessageLayout.setErrorEnabled(true);
-            typeMessageLayout.setError(getString(R.string.postal_code_required));
-            findViewById(R.id.postal_code).requestFocus();
+        if (Objects.requireNonNull(((TextInputEditText) binding.postalCode).getText()).toString().isEmpty()) {
+            binding.postalCodeTextInput.setErrorEnabled(true);
+            binding.postalCodeTextInput.setError(getString(R.string.postal_code_required));
+            binding.postalCode.requestFocus();
             error = true;
         }
-        TextView calendar = findViewById(R.id.add_calendar);
+
+        TextView calendar = binding.addCalendar;
         if (calendar.getText().toString().isEmpty() || calendar.getText().toString().contentEquals(getResources().getText(R.string.choose_date_required))) {
             ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone((ConstraintLayout) findViewById(R.id.calendar_constraint_layout));
+            constraintSet.clone((ConstraintLayout) binding.calendarConstraintLayout);
             constraintSet.connect(R.id.date, ConstraintSet.TOP, R.id.calendar_constraint_layout, ConstraintSet.TOP, 40);
             constraintSet.connect(R.id.date, ConstraintSet.BOTTOM, R.id.add_calendar, ConstraintSet.TOP);
             constraintSet.applyTo(findViewById(R.id.calendar_constraint_layout));
@@ -212,20 +208,23 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             calendar.requestFocus();
             error = true;
         }
+        if (!testAddress()) {
+            error = true;
+        }
     }
 
     private void addTextWatcher() {
-        TextInputEditText title = findViewById(R.id.title);
-        title.addTextChangedListener(createTextWatcher(findViewById(R.id.title_text_input), getString(R.string.title_required)));
-        TextInputEditText short_description = findViewById(R.id.short_description);
-        short_description.addTextChangedListener(createTextWatcher(findViewById(R.id.short_description_text_input), getString(R.string.title_required)));
-        TextInputEditText address = findViewById(R.id.address);
-        address.addTextChangedListener(createTextWatcher(findViewById(R.id.address_text_input), getString(R.string.address_required)));
-        TextInputEditText city = findViewById(R.id.city);
-        city.addTextChangedListener(createTextWatcher(findViewById(R.id.city_text_input), getString(R.string.city_required)));
+        TextInputEditText title = binding.title;
+        title.addTextChangedListener(createTextWatcher(binding.titleTextInput, getString(R.string.title_required)));
+        TextInputEditText short_description = binding.shortDescription;
+        short_description.addTextChangedListener(createTextWatcher(binding.shortDescriptionTextInput, getString(R.string.title_required)));
+        TextInputEditText address = binding.address;
+        address.addTextChangedListener(createTextWatcher(binding.addressTextInput, getString(R.string.address_required)));
+        TextInputEditText city = binding.city;
+        city.addTextChangedListener(createTextWatcher(binding.cityTextInput, getString(R.string.city_required)));
 
 
-        TextInputEditText postalCode = findViewById(R.id.postal_code);
+        TextInputEditText postalCode = binding.postalCode;
         postalCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -234,15 +233,16 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.addressValidation.setVisibility(View.GONE);
                 Pattern p = Pattern.compile("[0-9][1-8]([0-9]{3}).");
                 if (p.matcher(s.toString()).matches() || s.length() != 5) {
                     error = true;
-                    ((TextInputLayout) findViewById(R.id.postal_code_text_input)).setErrorEnabled(true);
-                    ((TextInputLayout) findViewById(R.id.postal_code_text_input)).setError(getString(R.string.postal_code_required));
-                    findViewById(R.id.postal_code).requestFocus();
+                    ((TextInputLayout) binding.postalCodeTextInput).setErrorEnabled(true);
+                    ((TextInputLayout) binding.postalCodeTextInput).setError(getString(R.string.postal_code_required));
+                    binding.postalCode.requestFocus();
                 } else {
                     error = false;
-                    ((TextInputLayout) findViewById(R.id.postal_code_text_input)).setErrorEnabled(false);
+                    ((TextInputLayout) binding.postalCodeTextInput).setErrorEnabled(false);
                 }
             }
 
@@ -250,6 +250,38 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             public void afterTextChanged(Editable s) {
             }
         });
+        binding.socialNetwork.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()) {
+                    if (!Objects.requireNonNull(binding.socialNetwork.getText()).toString().matches("(instagram.com/)\\S*")) {
+                        binding.socialMediaTextInput.setErrorEnabled(true);
+                        binding.socialMediaTextInput.setError(getString(R.string.url_not_good));
+                        binding.socialMediaTextInput.requestFocus();
+                        error = true;
+                    } else {
+                        binding.socialMediaTextInput.setErrorEnabled(false);
+                        error = false;
+                    }
+                }
+                if (s.toString().isEmpty()) {
+                    binding.socialMediaTextInput.setErrorEnabled(false);
+                    error = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        postalCode.setOnFocusChangeListener(this);
+        address.setOnFocusChangeListener(this);
+        city.setOnFocusChangeListener(this);
     }
 
 
@@ -263,6 +295,8 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (view == binding.addressTextInput || view == binding.cityTextInput)
+                    binding.addressValidation.setVisibility(View.GONE);
                 if (s.length() > 0) {
                     error = false;
                     view.setErrorEnabled(false);
@@ -286,15 +320,52 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
     }
 
     private void setDate() {
-        TextView textCalendar = findViewById(R.id.add_calendar);
+        TextView textCalendar = binding.addCalendar;
         Log.d("antoniu => ", DateUtils.formatZonedDate(date));
         textCalendar.setText(DateUtils.formatZonedDate(date));
-        findViewById(R.id.add_calendar).setVisibility(View.VISIBLE);
+        binding.addCalendar.setVisibility(View.VISIBLE);
         textCalendar.setTextColor(getResources().getColor(R.color.black, getApplicationContext().getTheme()));
         ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone((ConstraintLayout) findViewById(R.id.calendar_constraint_layout));
+        constraintSet.clone((ConstraintLayout) binding.calendarConstraintLayout);
         constraintSet.connect(R.id.date, ConstraintSet.TOP, R.id.calendar_constraint_layout, ConstraintSet.TOP, 40);
         constraintSet.connect(R.id.date, ConstraintSet.BOTTOM, R.id.add_calendar, ConstraintSet.TOP);
-        constraintSet.applyTo(findViewById(R.id.calendar_constraint_layout));
+        constraintSet.applyTo(binding.calendarConstraintLayout);
+    }
+
+    private boolean testAddress() {
+        String cityText = Objects.requireNonNull(((TextInputLayout) binding.cityTextInput).getEditText()).getText().toString();
+        String addressText = Objects.requireNonNull(((TextInputLayout) binding.addressTextInput).getEditText()).getText().toString();
+        String postalCode = Objects.requireNonNull(((TextInputLayout) binding.postalCodeTextInput).getEditText()).getText().toString();
+        if (!cityText.isEmpty() && !addressText.isEmpty() && !postalCode.isEmpty()) {
+            if (MapActivity.getAddress(cityText + ", " + addressText + ", " + postalCode, getApplicationContext()) == null) {
+                ((TextView) binding.addressValidation).setText(R.string.address_false);
+                binding.addressValidation.setVisibility(View.VISIBLE);
+                ((TextView) binding.addressValidation).setTextColor(getColor(R.color.red));
+                binding.postalCodeTextInput.setErrorEnabled(true);
+                binding.postalCodeTextInput.setError(" ");
+                binding.cityTextInput.setErrorEnabled(true);
+                binding.cityTextInput.setError(" ");
+                binding.addressTextInput.setErrorEnabled(true);
+                binding.addressTextInput.setError(" ");
+                return false;
+            } else {
+                ((TextView) binding.addressValidation).setText(R.string.address_good);
+                binding.addressValidation.setVisibility(View.VISIBLE);
+                ((TextView) binding.addressValidation).setTextColor(getColor(R.color.green));
+                binding.postalCodeTextInput.setErrorEnabled(false);
+                binding.cityTextInput.setErrorEnabled(false);
+                binding.addressTextInput.setErrorEnabled(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            testAddress();
+        }
     }
 }

@@ -17,8 +17,13 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import Si3.divertech.parking.ParkingList;
+import Si3.divertech.users.UserData;
 import Si3.divertech.utils.DatePickerFragment;
 
 public class ParkingActivity extends RequireUserActivity {
@@ -35,7 +40,17 @@ public class ParkingActivity extends RequireUserActivity {
         Button parkingButton = findViewById(R.id.send_button);
         parkingButton.setOnClickListener(v -> {
             testError();
-            if (!error) finish();
+            if (!error) {
+                TextInputEditText address = findViewById(R.id.adress);
+                TextInputEditText phone = findViewById(R.id.phone_number);
+                TextInputEditText licencePlate = findViewById(R.id.licence_plate);
+                TextView date = findViewById(R.id.add_calendar);
+                int year = Integer.parseInt(date.getText().toString().split("/")[2]);
+                int month = Integer.parseInt(date.getText().toString().split("/")[1]);
+                int day = Integer.parseInt(date.getText().toString().split("/")[0]);
+                ParkingList.getInstance().addReservation(getIntent().getStringExtra("eventId"), Objects.requireNonNull(licencePlate.getText()).toString(), Objects.requireNonNull(phone.getText()).toString(), Objects.requireNonNull(address.getText()).toString(), String.valueOf(ZonedDateTime.of(LocalDateTime.of(year, month, day, 0, 0, 0), ZoneId.systemDefault())), UserData.getInstance().getUserId());
+                finish();
+            }
         });
 
         MaterialCardView datePicker = findViewById(R.id.card_date);

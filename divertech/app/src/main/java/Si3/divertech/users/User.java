@@ -17,6 +17,7 @@ public class User {
     private DatabaseReference userRef;
     private UserType userType;
 
+
     public User() {
     }
 

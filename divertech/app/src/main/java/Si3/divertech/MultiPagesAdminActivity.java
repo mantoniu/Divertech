@@ -16,6 +16,7 @@ import Si3.divertech.notifications.NotificationCreator;
 import Si3.divertech.notifications.NotificationList;
 import Si3.divertech.notifications.NotificationTypes;
 import Si3.divertech.users.User;
+import Si3.divertech.users.UserData;
 
 public class MultiPagesAdminActivity extends RequireUserActivity implements Observer {
 
@@ -38,10 +39,10 @@ public class MultiPagesAdminActivity extends RequireUserActivity implements Obse
         AutoCompleteTextView typeSelector = findViewById(R.id.selector);
         int type = getIntent().getIntExtra("type", 0);
         NotificationTypes types = NotificationTypes.values()[type];
-        typeSelector.setText(types.getContent());
+        if (UserData.getInstance().getConnectedUser().getLanguage().equals("en"))
+            typeSelector.setText(types.getContentEn());
+        typeSelector.setText(types.getContentFr());
         description.setText(NotificationList.getInstance().getNotification(notificationId).getDescription());
-
-
 
         NotificationCreator.getInstance().addObserver(this);
         setWriterInformation();
@@ -51,13 +52,13 @@ public class MultiPagesAdminActivity extends RequireUserActivity implements Obse
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
         TextView name = findViewById(R.id.name);
         name.setText(String.format("%s\n%s", writer.getFirstName(), writer.getLastName()));
-        View call = findViewById(R.id.bloc_contact_phone);
+        View call = findViewById(R.id.bloc_contact_refuse);
         call.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));
             startActivity(intent);
         });
 
-        View mail = findViewById(R.id.bloc_contact_mail);
+        View mail = findViewById(R.id.bloc_contact_accept);
         mail.setOnClickListener(click -> {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + writer.getEmail()));
             startActivity(intent);
