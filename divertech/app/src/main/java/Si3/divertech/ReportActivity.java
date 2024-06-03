@@ -79,7 +79,7 @@ public class ReportActivity extends RequireUserActivity {
                 return;
             }
             //notify all users that there is a new feed post
-            NotificationList.getInstance().sendNotification(eventId, type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), UserData.getInstance().getUserId(), this);
+            NotificationList.getInstance().sendNotification(eventId, type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), UserData.getInstance().getUserId());
             NotificationContent notification;
             String imgURL = "https://firebasestorage.googleapis.com/v0/b/divertech-6032b.appspot.com/o/NotificationImage%2Finfo.png?alt=media&token=f95e2232-938e-4c32-961a-b1711e0461d6";
             notification = new NotificationContent(type, Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area)).getText()).toString(), Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString(), imgURL, NotificationChannel.CHANNEL_INFO);
