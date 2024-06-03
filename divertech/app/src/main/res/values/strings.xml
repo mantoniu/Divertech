@@ -266,7 +266,6 @@
     <string name="g_rer_mes_notifications_importantes">gérer mes notifications importantes</string>
     <string name="no_channel">Votre appareil ne supporte pas les channels de notifications</string>
     <string name="traduction_en_anglais_si_souhait_e">traduction en anglais (si souhaitée)</string>
-    <string name="entrez_une_traduction_en_anglais">Entrez une traduction en anglais</string>
     <string name="see_reservations">Voir les réservations</string>
     <string name="entrez_une_traduction_en_anglais">Votre message en anglais</string>
 </resources>
