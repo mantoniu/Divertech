@@ -3,6 +3,8 @@ package Si3.divertech.users;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,8 @@ import com.squareup.picasso.Picasso;
 import Si3.divertech.FormatChecker;
 import Si3.divertech.ImageCropperActivity;
 import Si3.divertech.R;
+import Si3.divertech.databinding.ActivityProfileBinding;
+import Si3.divertech.notificationservice.NotificationChannel;
 import Si3.divertech.utils.UploadUtils;
 
 public class ProfileController {
@@ -218,6 +222,19 @@ public class ProfileController {
         view.getBinding().city.setText(UserData.getInstance().getConnectedUser().getCity());
         view.getBinding().postalcode.setText(UserData.getInstance().getConnectedUser().getPostalCode());
         view.getBinding().password.setText("**********");
+    }
+
+    public void setNotificationOption(Button button) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, button.getId() == view.getBinding().notifInfoButton.getId() ? NotificationChannel.CHANNEL_INFO : NotificationChannel.CHANNEL_WARNING);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+            }else{
+                Toast.makeText(context, R.string.no_channel, Toast.LENGTH_SHORT).show();
+            }
     }
 
     public void setView(ProfileView view) {

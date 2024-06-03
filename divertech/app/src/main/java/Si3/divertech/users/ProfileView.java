@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.activity.result.ActivityResultLauncher;
 
@@ -22,6 +23,7 @@ public class ProfileView implements Observer {
     private final ViewGroup layout;
     private final ActivityProfileBinding binding;
     private final List<TextInputLayout> fields;
+    private final List<Button> notificationsOptions;
     private final ActivityResultLauncher<Intent> startCrop;
     private final LayoutInflater inflater;
 
@@ -43,6 +45,15 @@ public class ProfileView implements Observer {
         ));
 
         binding.profilePicture.setOnClickListener(click -> controller.editProfilePicture());
+
+        this.notificationsOptions = Collections.unmodifiableList(Arrays.asList(
+                binding.notifInfoButton,
+                binding.notifWarningButton
+        ));
+
+        for (Button button : notificationsOptions) {
+            button.setOnClickListener(click -> controller.setNotificationOption(button));
+        }
     }
 
     public void setController(ProfileController controller) {

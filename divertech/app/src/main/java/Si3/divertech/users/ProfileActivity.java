@@ -24,35 +24,6 @@ public class ProfileActivity extends RequireUserActivity {
         setContentView(binding.getRoot());
         binding.returnArrow.setOnClickListener(click -> finish());
         onViewCreated((ViewGroup) getWindow().getDecorView(), binding);
-        setNotificationOption(binding);
-    }
-
-    public void setNotificationOption(ActivityProfileBinding binding) {
-        Button notifInfoButton = binding.notifInfoButton;
-        Button notifWarningButton = binding.notifWarningButton;
-
-        notifInfoButton.setOnClickListener(v -> {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-                intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationChannel.CHANNEL_INFO);
-                startActivity(intent);
-
-            }else{
-                Toast.makeText(this, R.string.no_channel, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        notifWarningButton.setOnClickListener(v -> {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
-                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-                intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationChannel.CHANNEL_WARNING);
-                startActivity(intent);
-            }else{
-                Toast.makeText(this, R.string.no_channel, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public <T extends ViewGroup> void onViewCreated(T layout, ActivityProfileBinding binding) {
