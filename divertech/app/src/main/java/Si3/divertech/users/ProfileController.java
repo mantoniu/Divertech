@@ -43,9 +43,10 @@ public class ProfileController {
                 LayoutInflater inflater = view.getInflater();
                 View dialogView = inflater.inflate(R.layout.dialog_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                if (field.getHint() != null)
-                    builder.setTitle("Modifier votre " + field.getHint().toString().toLowerCase());
-
+                if (field.getHint() != null){
+                    String title=field.getHint().toString().toLowerCase();
+                    builder.setTitle(title);
+                }
                 EditText confirm = dialogView.findViewById(R.id.confirm);
                 builder.setView(dialogView);
                 final AlertDialog alertDialog = builder.create();
@@ -76,15 +77,15 @@ public class ProfileController {
 
     private void SetUpFields(TextInputLayout field, EditText edit, EditText confirm) {
         if (field == view.getBinding().passwordContainer) {
-            edit.setHint("Ancien mot de passe");
-            confirm.setHint("Nouveau mot de passe");
+            edit.setHint(R.string.past_password);
+            confirm.setHint(R.string.new_password);
             confirm.setInputType(129);
             confirm.setVisibility(View.VISIBLE);
         } else {
             if (field.getEditText() != null)
                 edit.setText(field.getEditText().getText());
             if (field == view.getBinding().mailContainer) {
-                confirm.setHint("Confirmer le mot de passe");
+                confirm.setHint(R.string.confirm_password);
                 confirm.setInputType(129);
                 confirm.setVisibility(View.VISIBLE);
             }
@@ -125,7 +126,7 @@ public class ProfileController {
     }
 
     private void showErrorMessage() {
-        Toast.makeText(view.getContext(), "Erreur lors du chargement de l'image", Toast.LENGTH_SHORT).show();
+        Toast.makeText(view.getContext(), R.string.error_loading_image, Toast.LENGTH_SHORT).show();
     }
 
     protected void uploadImage(String url) {

@@ -72,7 +72,7 @@ public class AdminEventActivity extends EventActivities {
             ClipboardManager cm = (ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Event ID", getEventId());
             cm.setPrimaryClip(clip);
-            Toast.makeText(getApplicationContext(), "Copié dans le presse papier", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.copie_clipboard, Toast.LENGTH_SHORT).show();
         });
 
         QRGEncoder qrgEncoder = new QRGEncoder(getEventId(), null, QRGContents.Type.TEXT, 200);

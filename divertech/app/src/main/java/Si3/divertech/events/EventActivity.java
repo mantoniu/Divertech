@@ -38,7 +38,7 @@ public class EventActivity extends EventActivities {
         if (isGranted) {
             addEventToCalendar(getEventId());
         } else {
-            Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG)
+            Toast.makeText(getApplicationContext(), R.string.permission_denied, Toast.LENGTH_LONG)
                     .show();
         }
     });
@@ -47,7 +47,7 @@ public class EventActivity extends EventActivities {
         if (isGranted) {
             requestWritePermission.launch(Manifest.permission.WRITE_CALENDAR);
         } else {
-            Toast.makeText(getApplicationContext(), "Permission refusée", Toast.LENGTH_LONG)
+            Toast.makeText(getApplicationContext(), R.string.permission_denied, Toast.LENGTH_LONG)
                     .show();
         }
     });
@@ -98,7 +98,7 @@ public class EventActivity extends EventActivities {
 
     private void addEventToCalendar(String eventId) {
         if (eventExistsInCalendar(EventList.getInstance().getEvent(eventId).getTitle(), EventList.getInstance().getEvent(eventId).getZonedDate())) {
-            Toast.makeText(getApplicationContext(), "L'évènement est déjà dans l'agenda", Toast.LENGTH_LONG)
+            Toast.makeText(getApplicationContext(), R.string.event_already_in_diary, Toast.LENGTH_LONG)
                     .show();
             return;
         }
@@ -113,7 +113,7 @@ public class EventActivity extends EventActivities {
 
         Uri uri = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
         if (uri != null) {
-            Toast.makeText(getApplicationContext(), "L'évènement a été ajouté à l'agenda", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.event_added_to_diary, Toast.LENGTH_LONG).show();
         }
     }
 

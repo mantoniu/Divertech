@@ -1,3 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">Divertech</string>
+    <string name="return_arrow_description">Retour en arrière</string>
+    <string name="Changement_Langue">Changement de langue</string>
+    <string name="nameEventExemple">Evenement</string>
+    <string name="bookParkingPlace">Réserver une place de parking</string>
+    <string name="buttonReturn" translatable="false">←</string>
+    <string name="localisationEventExemple" translatable="false">50, Rue de Jilian Lubrat 20110 Propriano</string>
+    <string name="contact_mail">Contacter via\nmail</string>
+    <string name="close">Fermer la\ndemande</string>
+    <string name="contact_admin">Contacter Administrateurs</string>
+    <string name="password">Mot de passe</string>
+    <string name="connexion">Se connecter</string>
+    <string name="email">Email</string>
+    <string name="inscription">Pas de compte ? S\'inscrire</string>
+    <string name="name">Nom</string>
+    <string name="first_name">Prénom</string>
+    <string name="adresse">Adresse</string>
+    <string name="phone">Numéro de téléphone</string>
+    <string name="register">S\'inscrire</string>
+    <string name="langue">Langue</string>
+    <string name="admin_connection">Se connecter en tant qu\'Admin</string>
+    <string name="mes_evenements">Mes évènements</string>
+    <string name="r_servation_d_une_place_de_parking">Réservation d\'une place de parking</string>
+    <string name="plaque_d_immatriculation">Plaque d\'immatriculation</string>
+    <string name="envoyer_la_demande">Envoyer la demande</string>
+    <string name="choisir_un_horaire">Choisir un horaire</string>
+    <string name="selectionner_une_date">Selectionner une date</string>
+    <string name="selectionner_une_heure_cr_neau_de_2h">Selectionner une heure \n(créneau de 2h)</string>
+    <string name="address">Adresse</string>
+    <string name="phone_number">Téléphone</string>
+    <string name="language">Langue</string>
+    <string name="modify">Modifier</string>
+
+    <string name="button_report">Signaler</string>
+    <string name="hint_report">Entrer le signalement ici</string>
+    <string name="button_objet">Envoyer</string>
+    <string name="hint_object_lost">Entrer la description de l\'objet</string>
+    <string name="button_contact">Envoyer</string>
+    <string name="hint_contact">Entrer votre demande ici</string>
+    <string name="lost_object">Objet Perdu</string>
+    <string name="report_incident">Signalement</string>
+    <string name="error_type_message">Veuillez choisir un type</string>
+
+
+    <string name="write_manually">Saisir le code manuellement</string>
+    <string name="code_input_text">Veuillez saisir le code</string>
+    <string name="validate">Valider</string>
+    <string name="event_does_not_exist">L\'évènement n\'existe pas</string>
+    <string name="notification_type">Type de reservations</string>
+    <string name="description">Description</string>
+    <string name="event_name">Nom de l\'event</string>
+    <string name="event_page">Page de l\'évènement</string>
+    <string name="ou">ou</string>
+    <string name="se_connecter_avec_google">Se connecter avec google</string>
+    <string name="web_client_id" translatable="false">964760790476-5g9c18ev4pctf466muuf2mabmegu61qt.apps.googleusercontent.com</string>
+    <string name="confirmer_le_mot_de_passe">confirmer le mot de passe</string>
+    <string name="profile_picture" translatable="false">Profile picture</string>
+    <string name="name_lastname">Nom Prénom</string>
+    <string name="user_address" translatable="false">410 Avenue Roumanille, 06410 Biot</string>
+    <string name="user_phone_number" translatable="false">0778651264</string>
+    <string name="user_email" translatable="false">nom.prenom@gmail.com</string>
+    <string name="user_language" translatable="false">Français</string>
+    <string name="save_modifications">Enregistrer les modifications</string>
+    <string name="event_already_register">L\'évènement est déjà enregistré</string>
+
+    <string name="text_edit_event">Modifier l\'évènement</string>
+    <string name="text_edit_admin_report">Signaler une information</string>
+    <string name="text_feed_admin">Accéder au fil de l\'évènement</string>
+    <string name="text_check">Valider</string>
+    <string name="text_cancel">Annuler</string>
+    <string name="short_description">Entrer ici une courte description</string>
+    <string name="describe_event_hint">Décriver votre évènement ici :</string>
+    <string name="report_title">Titre du signalement</string>
+    <string name="dateExample" translatable="false">10 aout 2024 23h30</string>
+    <string name="events">Mes évènements</string>
+    <string name="event">Mon évènement</string>
+    <string name="notifications">Notifications</string>
+    <string name="title" translatable="false">Title</string>
+    <string name="flashlight_button" translatable="false">FlashLight button</string>
+    <string name="add_event" translatable="false">Add event</string>
+    <string name="name_last_name">Nom Prénom</string>
+    <string name="error_no_message">Veuillez entrer un message</string>
+    <string name="lost_object_logo" translatable="false">lost object logo</string>
+    <string name="phone_contact" translatable="false">Phone contact</string>
+    <string name="contact_via_mail" translatable="false">Contact via mail</string>
+    <string name="image_of_the_event" translatable="false">Image of the event</string>
+    <string name="report_logo" translatable="false">Report logo</string>
+    <string name="feed_admin_logo" translatable="false">feed admin logo</string>
+    <string name="date" translatable="false">10 aout 2024 23h30</string>
+    <string name="car_picture" translatable="false">Car picture</string>
+    <string name="image_event_text_replace" translatable="false">Image de l\'évènement</string>
+    <string name="default_date" translatable="false">10 aout 2024 23h30</string>
+    <string name="add_to_calendar_text">L\'ajouter au calendrier ?</string>
+    <string name="need_park_text">Besoin d\'une place de parking ?\nN\'attendez plus, réservez-la ici.</string>
+    <string name="organizer_presentation_text">Organisateur :</string>
+    <string name="default_organizer_text" translatable="false">Jean Dupond</string>
+    <string name="description_event_text">Description de l\'évènement :</string>
+    <string name="informations_personnelles">Informations personnelles</string>
+    <string name="informations_de_localisation">Informations de localisation</string>
+    <string name="information_de_connexion">Information de connexion</string>
+    <string name="code_postal">Code postal</string>
+    <string name="ville">Ville</string>
+    <string name="exemple_doe" translatable="false">exemple : Doe</string>>
+    <string name="exemple_john" translatable="false">exemple : John</string>
+    <string name="n_cessite_6_caract_res_minimum_et_1_chiffre_1_lettre_majuscule_et_1_lettre_minuscule">nécessite 6 caractères minimum et 1 chiffre, 1 lettre majuscule et 1 lettre minuscule</string>
+    <string name="exemple_limoges" translatable="false">exemple : Limoges</string>
+    <string name="exemple_36000" translatable="false">exemple : 36000</string>
+    <string name="exemple_06_chemin_de_la_croix" translatable="false">exemple : 06 chemin de la croix</string>
+    <string name="exemple_0632317473" translatable="false">exemple : 0632317473</string>
+    <string name="exemple_johndoe_gmail_com" translatable="false">exemple : johndoe@gmail.com</string>
+    <string name="les_champs_ci_dessous_sont_obligatoires">les champs ci-dessous sont obligatoires</string>
+    <string name="choisir_une_langue_pour_l_application">Choisir une langue pour l\'application</string>
+    <string name="mes_v_nements">Mes événements</string>
+    <string name="create_event">Créer un évènement</string>
+    <string name="mon_feed">Mon feed</string>
+    <string name="localisation">Localisation</string>
+    <string name="annuler">Annuler</string>
+    <string name="servor_error">Impossible de communiquer avec le serveur</string>
+    <string name="event_id" translatable="false">eventId</string>
+    <string name="message_object">Objet message</string>
+    <string name="losen_object">Objet Perdu</string>
+    <string name="incident_title">Titre incident</string>
+    <string name="notification_id" translatable="false">notificationid</string>
+    <string name="contact" translatable="false">Contact</string>
+    <string name="ma_carte">Ma Carte</string>
+    <string name="hint_type_message_selection">Sélectionner le type de message</string>
+    <string name="hint_message_contact">Votre message</string>
+    <string name="send">Envoyer</string>
+    <string name="adresse_hint">Adresse</string>
+    <string name="phone_number_hint">Numéro de téléphone</string>
+    <string name="licence_plate_hint">Numéro de plaque d\'imatriculation</string>
+    <string name="send_request">Envoyer la demande</string>
+    <string name="parking_space">Place de parking</string>
+    <string name="choose_date_required">Veuillez chosir une date</string>
+    <string name="postal_code_required">Veuillez entrer un code postal valide</string>
+    <string name="phone_number_required">Veuillez entrer un numéro de téléphone</string>
+    <string name="city_required">Veuillez entrer une ville</string>
+    <string name="title_required">Veuillez entrer un nom</string>
+    <string name="short_description_required">Veuillez entrer une courte description</string>
+    <string name="licence_plate_required">Veuillez entrer plaque d\'immatriculation</string>
+    <string name="address_required">Veuillez entrer une adresse</string>
+    <string name="adresse_hint_new_event">Adresse de l\'évènement</string>
+    <string name="choose_date_text">Sélectionner une date</string>
+    <string name="icon_calendar_text" translatable="false">Icone calendrier</string>
+    <string name="city_hint">Ville de l\'évènement</string>
+    <string name="icon_more" translatable="false">Icone more</string>
+    <string name="title_event_hint">Nom de l\'évènement</string>
+    <string name="description_hint">Ajouter une description</string>
+    <string name="postal_code_hint">Code postal</string>
+    <string name="short_description_hint">Courte description</string>
+    <string name="report_information_text">Signaler une information</string>
+    <string name="map_popup_description" translatable="false">Popup map</string>
+    <string name="icon_house" translatable="false">Icone maison</string>
+    <string name="icon_map" translatable="false">Icone Map</string>
+    <string name="icon_close_popup" translatable="false">Icone fermer la popup</string>
+    <string name="hint_message_contact_admin" translatable="false">Message</string>
+    <string name="type_message_admin_vue_contact">Raison du message</string>
+    <string name="see_notifications">Voir les notifications</string>
+    <string name="back_possible" translatable="false">back</string>
+    <string name="selfPosition">Vous êtes ici</string>
+    <string name="notification_de_publication_sur_le_fil_d_actualit">Notification de publication sur le fil d\'actualité</string>
+    <string name="notification_de_r_ponse_vos_demandes">Notification de réponse à vos demandes</string>
+    <string name="notification_avant_l_heure_de_vos_v_nements">Notification avant l\'heure de vos événements</string>
+    <string name="autorisation_de_notification">Autorisation de notification</string>
+    <string name="english" translatable="false">English</string>
+    <string name="no_event_registered">Aucun évènement enregistré</string>
+    <string name="no_notification">Aucune notification</string>
+    <string name="edit_button" translatable="false">Edit button</string>
+    <string name="qr_code" translatable="false">QR CODE</string>
+    <string name="event_id_title">Identifiant de l\'évènement</string>
+    <string name="address_good">Adresse valide</string>
+    <string name="address_false">Adresse non valide</string>
+    <string name="error_marker_creation">Erreur lors de la création de markers pour certains évènemments</string>
+    <string name="charging">En attente des données</string>
+    <string name="error_map">Ooops, un évènnement n\'a pas pu être placé</string>
+    <string name="profil_text">Mon profil</string>
+    <string name="quit_app">Se deconnecter</string>
+    <string name="english_flag" translatable="false">English</string>
+    <string name="francais_flag" translatable="false">Français</string>
+    <string name="instagram_open">Voir la publication</string>
+    <string name="url_social_network">Rentrer l\'url de votre page Instagram</string>
+    <string name="publication_instagram_associee">Publication Instagram</string>
+    <string name="canot_be_empty">Ce champ ne peut pas être vide</string>
+    <string name="invalid_phone_number">Numéro de téléphone invalide</string>
+    <string name="invalid_email_address">Adresse mail invalide</string>
+    <string name="incorrect_password">Mot de passe incorrect</string>
+    <string name="email_update_error">Erreur lors de la mise à jour de l\'adresse mail</string>
+    <string name="password_need_to_contain_six_characters">Le mot de passe doit contenir au moins 6 caractères</string>
+    <string name="password_need_to_contain_one_number">Le mot de passe doit contenir au moins un chiffre</string>
+    <string name="password_update_error">Erreur lors de la mise à jour du mot de passe</string>
+    <string name="divertech_logo" translatable="false">Divertech logo</string>
+    <string name="no_connection">Pas de connexion internet\nMerci de vérifier votre connection</string>
+    <string name="user_name_required">Nom d\'utilisateur requis</string>
+    <string name="password_required">Mot de passe requis</string>
+    <string name="connection_impossible">Impossible de se connecter</string>
+    <string name="name_password_incorrect">Nom d\'utilisateur ou mot de passe incorrect</string>
+    <string name="url_not_good">L\'URL n\'est pas valide</string>
+    <string name="no_parking_reservations">Aucune demande réservation de parking</string>
+    <string name="validate_reservation">Valider la demande</string>
+    <string name="refuse_reservation">Refuser la demande</string>
+    <string name="your_qr_code">Le qr code de votre demande :</string>
+    <string name="waiting_text">Votre réservartion est en attente de confirmation par l\'organisateur</string>
+    <string name="refuse_text">Votre réservartion a été refusée par l\'utilisateur.\n Veuillez le contacter pour plus d\'informations</string>
+    <string name="accepted_state">Accepté</string>
+    <string name="waiting_state">En attente</string>
+    <string name="refuse_state">Refusé</string>
+    <string name="signalement">Signalement</string>
+    <string name="titre_du_signalement">Titre du signalement</string>
+    <string name="signalement_important">Signalement important</string>
+    <string name="g_rer_mes_notifications">Gérer mes notifications</string>
+    <string name="g_rer_mes_notifications_informatives">Gérer mes notifications informatives</string>
+    <string name="g_rer_mes_notifications_importantes">gérer mes notifications importantes</string>
+    <string name="no_channel">Votre appareil ne supporte pas les channels de notifications</string>
+    <string name="traduction_en_anglais_si_souhait_e">traduction en anglais (si souhaitée)</string>
+    <string name="see_reservations">Voir les réservations</string>
+    <string name="entrez_une_traduction_en_anglais">Votre message en anglais</string>
+    <string name="contact_phone">Contacter via téléphone</string>
+    <string name="copie_clipboard">Copié dans le presse papier</string>
+    <string name="permission_denied">Permission refusée</string>
+    <string name="event_already_in_diary">L\'évènement est déjà dans l\'agenda</string>
+    <string name="event_added_to_diary">L\'évènement a été ajouté à l\'agenda</string>
+    <string name="modify_your">Modifier votre</string>
+    <string name="past_password">Ancien mot de passe</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="error_loading_image">Erreur lors du chargement de l\'image</string>
+    <string name="low_priority_notif">Informations basse priorité</string>
+    <string name="fill_all_fields">Veuillez remplir tous les champs</string>
+    <string name="register_successful">Inscription réussie</string>
+    <string name="register_error">Impossible de s\'inscrire. Veuillez réessayer ulterieurement</string>
+    <string name="empty_field">Champ vide. Veuillez le remplir</string>
+    <string name="high_priority_notif">Informations haute priorité</string>
+    <string name="low_priority_notif_description">Vous recevrez des notifications pour des informations de basse priorité</string>
+    <string name="high_priority_notif_description">Vous recevrez des notifications pour des informations de haute priorité</string>
 </resources>

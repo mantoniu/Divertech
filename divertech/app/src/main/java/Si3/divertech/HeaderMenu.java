@@ -1,9 +1,11 @@
 package Si3.divertech;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,19 +16,26 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.codec.language.bm.Lang;
+
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
 import Si3.divertech.users.ProfileActivity;
 import Si3.divertech.users.UserData;
+import Si3.divertech.utils.LangUtils;
 
 public class HeaderMenu extends Fragment implements Observer {
 
     private Menu menu = null;
+    private Activity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +69,13 @@ public class HeaderMenu extends Fragment implements Observer {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        Activity activity = getActivity();
+        if (activity != null) {
+            this.activity = activity;
+            LangUtils.changeActionBarTitle(activity);
+            Log.d("HeaderMenu", "Activity attached"+activity.toString());
+        }
+
     }
 
     public void updateToolbar() {
@@ -105,9 +121,22 @@ public class HeaderMenu extends Fragment implements Observer {
         popupMenu.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
             if (id == R.id.menu_language_english) {
+                if(UserData.getInstance().getConnectedUser().getLanguage().equals("en")) return false;
                 UserData.getInstance().setLanguage("en");
+                LangUtils.changeLang(activity, "en");
+                Intent intent = new Intent(getActivity(),activity.getClass());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                activity.overridePendingTransition(0, 0);
             } else if (id == R.id.menu_language_french) {
+                if(UserData.getInstance().getConnectedUser().getLanguage().equals("fr")) return false;
                 UserData.getInstance().setLanguage("fr");
+                LangUtils.changeLang(activity, "fr");
+                Intent intent = new Intent(getActivity(), activity.getClass());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                activity.overridePendingTransition(0, 0);
+
             }
             return false;
         });
@@ -122,4 +151,5 @@ public class HeaderMenu extends Fragment implements Observer {
     public void update(Observable o, Object arg) {
         if (menu != null) updateToolbar();
     }
+
 }
