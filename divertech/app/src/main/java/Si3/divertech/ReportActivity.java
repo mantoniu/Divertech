@@ -1,19 +1,14 @@
 package Si3.divertech;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -94,12 +89,6 @@ public class ReportActivity extends RequireUserActivity {
             NotifyUser.notifyUserWithEventId(eventId, notification, this);
             finish();
         });
-
-        findViewById(R.id.edit_text_area).setLayoutParams(new FrameLayout.LayoutParams(findViewById(R.id.edit_text_area).getLayoutParams().width, Resources.getSystem().getDisplayMetrics().heightPixels - 420 * (getApplicationContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT)));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        findViewById(R.id.description).setLayoutParams(params);
-
     }
 
 
