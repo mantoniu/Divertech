@@ -268,4 +268,5 @@
     <string name="traduction_en_anglais_si_souhait_e">traduction en anglais (si souhaitée)</string>
     <string name="see_reservations">Voir les réservations</string>
     <string name="entrez_une_traduction_en_anglais">Votre message en anglais</string>
+    <string name="image_required">Image requise</string>
 </resources>
