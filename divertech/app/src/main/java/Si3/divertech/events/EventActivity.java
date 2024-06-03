@@ -160,10 +160,12 @@ public class EventActivity extends EventActivities {
 
     private void showOrganizer() {
         User organizer = EventOrganizer.getInstance().getEventOrganizer();
-        Picasso.get().load(organizer.getPictureUrl())
-                .into((ImageView) findViewById(R.id.picture_organizer));
-        TextView organizerText = findViewById(R.id.organizer);
-        organizerText.setText(String.format("%s %s", organizer.getFirstName(), organizer.getLastName()));
+        if (organizer != null) {
+            Picasso.get().load(organizer.getPictureUrl())
+                    .into((ImageView) findViewById(R.id.picture_organizer));
+            TextView organizerText = findViewById(R.id.organizer);
+            organizerText.setText(String.format("%s %s", organizer.getFirstName(), organizer.getLastName()));
+        }
     }
 
     @Override
