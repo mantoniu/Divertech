@@ -21,6 +21,7 @@ import Si3.divertech.events.EventList;
 import Si3.divertech.users.UserData;
 
 public class NotificationList extends Observable {
+    private boolean initialized = false;
     private static NotificationList instance;
     private static final Map<String, Notification> notificationMap = new HashMap<>();
 
@@ -76,6 +77,7 @@ public class NotificationList extends Observable {
                 if (!snapshot.exists()) {
                     setChanged();
                     notifyObservers();
+                    initialized = true;
                 }
                 for (DataSnapshot registrationSnapshot : snapshot.getChildren()) {
                     String notificationId = registrationSnapshot.getKey();
@@ -99,7 +101,7 @@ public class NotificationList extends Observable {
                             addNotification(notification);
                             setChanged();
                             notifyObservers();
-
+                            initialized = true;
                         }
 
                         @Override
@@ -163,6 +165,10 @@ public class NotificationList extends Observable {
         newNotificationRef.child("userCreatorId").setValue(UserData.getInstance().getUserId());
         newNotificationRef.child("descriptionEn").setValue(description);
         FirebaseDatabase.getInstance().getReference().child("Users").child(EventList.getInstance().getEvent(eventId).getOrganizer()).child("notifications").child(Objects.requireNonNull(newNotificationRef.getKey())).setValue(true);
+    }
+
+    public boolean isInitialized() {
+        return initialized;
     }
 
     public void reset() {

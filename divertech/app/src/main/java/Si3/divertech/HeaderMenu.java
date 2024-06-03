@@ -16,15 +16,10 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.codec.language.bm.Lang;
-
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -84,7 +79,8 @@ public class HeaderMenu extends Fragment implements Observer {
         if (UserData.getInstance().getConnectedUser() != null) {
             if (profileImageView != null) {
                 profileImageView.setOnClickListener(this::showProfilePopupMenu);
-                Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+                if (!UserData.getInstance().getConnectedUser().getPictureUrl().isEmpty())
+                    Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
             }
         }
         MenuItem langImage = menu.findItem(R.id.menu_language);

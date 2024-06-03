@@ -26,6 +26,8 @@ public class NotificationFeed extends Feed {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (NotificationList.getInstance().isInitialized())
+            setEmptyText();
         NotificationList.getInstance().addObserver(this);
         return view;
     }

@@ -28,7 +28,7 @@ public class EventList extends Observable {
     private static final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private final Map<String, Event> eventMap = new HashMap<>();
     private final Map<String, ValueEventListener> listenerMap = new HashMap<>();
-    private static boolean initialized = false;
+    private boolean initialized = false;
 
     private EventList() {
         requestData();
