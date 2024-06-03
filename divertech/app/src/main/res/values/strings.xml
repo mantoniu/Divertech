@@ -286,5 +286,6 @@
     <string name="low_priority_notif_description">Vous recevrez des notifications pour des informations de basse priorité</string>
     <string name="high_priority_notif_description">Vous recevrez des notifications pour des informations de haute priorité</string>
     <string name="image_required">Image requise</string>
+    <string name="max_short_description_length">"Le nombre de caractères maximum est "</string>
 
 </resources>

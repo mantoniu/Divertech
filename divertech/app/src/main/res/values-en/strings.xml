@@ -183,5 +183,6 @@
     <string name="low_priority_notif_description">You will receive notifications for low priority information</string>
     <string name="high_priority_notif_description">You will receive notifications for high priority information</string>
     <string name="image_required">picture required</string>
+    <string name="max_short_description_length">"Max short description length is "</string>
 
 </resources>
