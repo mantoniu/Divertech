@@ -262,7 +262,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().isEmpty()) {
-                    if (!Objects.requireNonNull(binding.socialNetwork.getText()).toString().matches("(instagram.com/)\\S*")) {
+                    if (!Objects.requireNonNull(binding.socialNetwork.getText()).toString().matches("\\S*(instagram.com/)\\S*")) {
                         binding.socialMediaTextInput.setErrorEnabled(true);
                         binding.socialMediaTextInput.setError(getString(R.string.url_not_good));
                         binding.socialMediaTextInput.requestFocus();
