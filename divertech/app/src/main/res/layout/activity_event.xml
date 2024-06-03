@@ -27,25 +27,6 @@
             android:src="@drawable/return_arrow" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:translationZ="10dp">
-
-        <ImageButton
-            android:id="@+id/delete_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:contentDescription="@string/return_arrow_description"
-            android:background="@drawable/roundbackground"
-            app:tint="@color/white"
-            android:src="@drawable/delete" />
-    </RelativeLayout>
-
     <!-- Corps de la page -->
 
     <ScrollView

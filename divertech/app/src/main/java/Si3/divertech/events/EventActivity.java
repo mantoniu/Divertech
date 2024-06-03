@@ -34,11 +34,6 @@ import Si3.divertech.parking.Reservations;
 import Si3.divertech.users.User;
 
 public class EventActivity extends EventActivities {
-
-
-
-
-
     private final ActivityResultLauncher<String> requestWritePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
         if (isGranted) {
             addEventToCalendar(getEventId());
@@ -206,10 +201,5 @@ public class EventActivity extends EventActivities {
                 }
             });
         }
-    }
-
-    @Override
-    protected void onDelete() {
-        EventList.getInstance().deleteUserEvent(getEventId());
     }
 }

@@ -51,8 +51,6 @@ public class NotificationList extends Observable {
         if (userId == null)
             return;
 
-        //TODO rootRef.child("Users").child(userId).child("notifications").child(notificationId).removeValue();
-
         FirebaseDatabase.getInstance().getReference()
                 .child("Users").child(userId).child("notifications").child(id).removeValue()
                 .addOnSuccessListener(aVoid -> {
@@ -135,7 +133,7 @@ public class NotificationList extends Observable {
                 for (DataSnapshot registrationSnapshot : dataSnapshot.getChildren()) {
                     String userId = registrationSnapshot.child("userId").getValue(String.class);
                     if (userId != null && !userId.equals(creatorId)) {
-                        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("notifications").push().setValue(notificationId);
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("notifications").child(notificationId).setValue(true);
                     }
                 }
             }
@@ -166,7 +164,6 @@ public class NotificationList extends Observable {
         newNotificationRef.child("description").setValue(description);
         newNotificationRef.child("userCreatorId").setValue(UserData.getInstance().getUserId());
         FirebaseDatabase.getInstance().getReference().child("Users").child(EventList.getInstance().getEvent(eventId).getOrganizer()).child("notifications").push().setValue(newNotificationRef.getKey());
-
     }
 
     public void reset() {
