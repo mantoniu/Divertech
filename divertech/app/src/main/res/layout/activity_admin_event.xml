@@ -244,7 +244,7 @@
                         android:id="@+id/parking_reservations_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Voir les réservations"
+                        android:text="@string/see_reservations"
                         android:textSize="18sp"
                         android:layout_marginStart="15dp"
                         app:layout_constraintLeft_toRightOf="@id/parking_reservations_picture"
