@@ -68,7 +68,7 @@ public class HeaderMenu extends Fragment implements Observer {
         if (activity != null) {
             this.activity = activity;
             LangUtils.changeActionBarTitle(activity);
-            Log.d("HeaderMenu", "Activity attached"+activity.toString());
+            Log.d("HeaderMenu", "Activity attached" + activity);
         }
 
     }
