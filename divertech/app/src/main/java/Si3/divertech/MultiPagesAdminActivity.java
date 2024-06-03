@@ -5,9 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -50,20 +52,23 @@ public class MultiPagesAdminActivity extends RequireUserActivity implements Obse
 
     private void setWriterInformation() {
         User writer = NotificationCreator.getInstance().getNotificationCreatorUser();
-        TextView name = findViewById(R.id.name);
-        name.setText(String.format("%s\n%s", writer.getFirstName(), writer.getLastName()));
-        View call = findViewById(R.id.bloc_contact_refuse);
-        call.setOnClickListener(click -> {
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));
-            startActivity(intent);
-        });
+        if (writer != null) {
+            Picasso.get().load(writer.getPictureUrl())
+                    .into((ImageView) findViewById(R.id.profile_picture));
+            TextView name = findViewById(R.id.name);
+            name.setText(String.format("%s\n%s", writer.getFirstName(), writer.getLastName()));
+            View call = findViewById(R.id.bloc_contact_refuse);
+            call.setOnClickListener(click -> {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + writer.getPhoneNumber()));
+                startActivity(intent);
+            });
 
-        View mail = findViewById(R.id.bloc_contact_accept);
-        mail.setOnClickListener(click -> {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + writer.getEmail()));
-            startActivity(intent);
-        });
-
+            View mail = findViewById(R.id.bloc_contact_accept);
+            mail.setOnClickListener(click -> {
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + writer.getEmail()));
+                startActivity(intent);
+            });
+        }
     }
 
     @Override
