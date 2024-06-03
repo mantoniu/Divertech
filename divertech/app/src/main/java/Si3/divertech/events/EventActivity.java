@@ -189,6 +189,7 @@ public class EventActivity extends EventActivities {
             myWebView.getSettings().setJavaScriptEnabled(true);
             myWebView.getSettings().setDomStorageEnabled(true);
             myWebView.getSettings().setUserAgentString("Android");
+            Log.d("test", EventList.getInstance().getEvent(getEventId()).getInstagramURL());
             myWebView.loadUrl(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
             Instagram.setVisibility(View.VISIBLE);
             Instagram.setOnClickListener(click -> {

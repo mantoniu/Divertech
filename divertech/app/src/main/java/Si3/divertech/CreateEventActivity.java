@@ -127,14 +127,14 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
 
         binding.uploadProgress.setVisibility(View.VISIBLE);
 
-        OnSuccessListener<? super Uri> successListener = (OnSuccessListener<? super Uri>) uri -> {
+        OnSuccessListener<? super Uri> successListener = uri -> {
             newPictureUrl = uri.toString();
             Picasso.get().load(newPictureUrl).into(binding.imageEvent);
             binding.uploadProgress.setVisibility(View.INVISIBLE);
+            binding.error.setVisibility(View.GONE);
         };
 
         OnFailureListener failureListener = (OnFailureListener) -> showErrorMessage();
-
         UploadUtils.uploadImage(url, "/events/" + UUID.randomUUID().toString() + ".jpg", 60, getApplicationContext(), successListener, failureListener);
     }
 
@@ -192,6 +192,10 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             binding.postalCodeTextInput.setErrorEnabled(true);
             binding.postalCodeTextInput.setError(getString(R.string.postal_code_required));
             binding.postalCode.requestFocus();
+            error = true;
+        }
+        if (binding.imageEvent.getDrawable() == null) {
+            binding.error.setVisibility(View.VISIBLE);
             error = true;
         }
 
@@ -258,7 +262,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().isEmpty()) {
-                    if (!Objects.requireNonNull(binding.socialNetwork.getText()).toString().matches("(instagram.com/)\\S*")) {
+                    if (!Objects.requireNonNull(binding.socialNetwork.getText()).toString().matches("\\S*(instagram.com/)\\S*")) {
                         binding.socialMediaTextInput.setErrorEnabled(true);
                         binding.socialMediaTextInput.setError(getString(R.string.url_not_good));
                         binding.socialMediaTextInput.requestFocus();

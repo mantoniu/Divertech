@@ -285,4 +285,6 @@
     <string name="high_priority_notif">Informations haute priorité</string>
     <string name="low_priority_notif_description">Vous recevrez des notifications pour des informations de basse priorité</string>
     <string name="high_priority_notif_description">Vous recevrez des notifications pour des informations de haute priorité</string>
+    <string name="image_required">Image requise</string>
+
 </resources>

@@ -83,12 +83,6 @@ public class MultiPagesActivity extends RequireUserActivity {
             res = true;
         }
         TextInputLayout MessageLayoutEn = findViewById(R.id.description_en);
-        if (Objects.requireNonNull(((TextInputEditText) findViewById(R.id.edit_text_area_en)).getText()).toString().isEmpty()) {
-            MessageLayoutEn.setError(getResources().getText(R.string.error_no_message));
-            findViewById(R.id.edit_text_area_en).requestFocus();
-            findViewById(R.id.edit_text_area_en).requestLayout();
-            res = true;
-        }
         return res;
     }
 }

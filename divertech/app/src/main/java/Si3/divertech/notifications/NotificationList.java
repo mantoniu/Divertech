@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Observable;
 
 import Si3.divertech.events.EventList;
@@ -91,12 +92,11 @@ public class NotificationList extends Observable {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String eventId = snapshot.child("eventId").getValue(String.class);
-                            String title = snapshot.child("title").getValue(String.class);
                             int type = snapshot.child("type").getValue(int.class);
                             String description = snapshot.child("description").getValue(String.class);
                             String userCreatorId = snapshot.child("userCreatorId").getValue(String.class);
 
-                            Notification notification = new Notification(notificationId, eventId, title, type, description, userCreatorId);
+                            Notification notification = new Notification(notificationId, eventId, "title", type, description, userCreatorId);
                             Log.d("NOTIFICATION", notification.toString());
                             addNotification(notification);
                             setChanged();
@@ -163,7 +163,8 @@ public class NotificationList extends Observable {
         newNotificationRef.child("type").setValue(types.ordinal());
         newNotificationRef.child("description").setValue(description);
         newNotificationRef.child("userCreatorId").setValue(UserData.getInstance().getUserId());
-        FirebaseDatabase.getInstance().getReference().child("Users").child(EventList.getInstance().getEvent(eventId).getOrganizer()).child("notifications").push().setValue(newNotificationRef.getKey());
+        newNotificationRef.child("descriptionEn").setValue(description);
+        FirebaseDatabase.getInstance().getReference().child("Users").child(EventList.getInstance().getEvent(eventId).getOrganizer()).child("notifications").child(Objects.requireNonNull(newNotificationRef.getKey())).setValue(true);
     }
 
     public void reset() {
