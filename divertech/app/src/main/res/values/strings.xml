@@ -97,7 +97,7 @@
     <string name="event_picture">Event picture</string>
     <string name="description">Description</string>
     <string name="event_name">Nom de l\'event</string>
-    <string name="notification_type">Type de notification</string>
+    <string name="notification_type">Type de reservations</string>
     <string name="delete_button">Delete button</string>
     <string name="close_button">Close button</string>
     <string name="event_page">Page de l\'évènement</string>
@@ -248,6 +248,16 @@
     <string name="password_required">Mot de passe requis</string>
     <string name="connection_impossible">Impossible de se connecter</string>
     <string name="name_password_incorrect">Nom d\'utilisateur ou mot de passe incorrect</string>
+    <string name="url_not_good">L\'URL n\'est pas valide</string>
+    <string name="no_parking_reservations">Aucune demande réservation de parking</string>
+    <string name="validate_reservation">Valider la demande</string>
+    <string name="refuse_reservation">Refuser la demande</string>
+    <string name="your_qr_code">Le qr code de votre demande :</string>
+    <string name="waiting_text">Votre réservartion est en attente de confirmation par l\'organisateur</string>
+    <string name="refuse_text">Votre réservartion a été refusée par l\'utilisateur.\n Veuillez le contacter pour plus d\'informations</string>
+    <string name="accepted_state">Accepté</string>
+    <string name="waiting_state">En attente</string>
+    <string name="refuse_state">Refusé</string>
     <string name="signalement">Signalement</string>
     <string name="titre_du_signalement">Titre du signalement</string>
     <string name="signalement_important">Signalement important</string>

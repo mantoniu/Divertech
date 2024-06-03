@@ -16,6 +16,8 @@ public class FeedFactory {
                     default:
                         throw new UnsupportedOperationException("This user type is unsupported !" + userType);
                 }
+            case PARKING:
+                return new ParkingFeed();
             default:
                 throw new UnsupportedOperationException("This feed type is unsupported !" + feedType);
         }

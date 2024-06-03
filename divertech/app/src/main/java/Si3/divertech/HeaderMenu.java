@@ -2,6 +2,7 @@ package Si3.divertech;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,9 +65,11 @@ public class HeaderMenu extends Fragment implements Observer {
     public void updateToolbar() {
         MenuItem profileImageItem = menu.findItem(R.id.menu_profile);
         View profileImageView = profileImageItem.getActionView();
-        if (profileImageView != null) {
-            profileImageView.setOnClickListener(this::showProfilePopupMenu);
-            Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+        if (UserData.getInstance().getConnectedUser() != null) {
+            if (profileImageView != null) {
+                profileImageView.setOnClickListener(this::showProfilePopupMenu);
+                Picasso.get().load(UserData.getInstance().getConnectedUser().getPictureUrl()).into((android.widget.ImageView) profileImageView.findViewById(R.id.profile_picture));
+            }
         }
         MenuItem langImage = menu.findItem(R.id.menu_language);
         if (langImage.getActionView() != null)
@@ -90,6 +93,9 @@ public class HeaderMenu extends Fragment implements Observer {
             }
             return false;
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu.setForceShowIcon(true);
+        }
         popupMenu.show();
     }
 
@@ -105,12 +111,15 @@ public class HeaderMenu extends Fragment implements Observer {
             }
             return false;
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu.setForceShowIcon(true);
+        }
         popupMenu.show();
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
-        updateToolbar();
+        if (menu != null) updateToolbar();
     }
 }

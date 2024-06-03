@@ -194,6 +194,7 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
             binding.postalCode.requestFocus();
             error = true;
         }
+
         TextView calendar = binding.addCalendar;
         if (calendar.getText().toString().isEmpty() || calendar.getText().toString().contentEquals(getResources().getText(R.string.choose_date_required))) {
             ConstraintSet constraintSet = new ConstraintSet();
@@ -209,7 +210,6 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
         }
         if (!testAddress()) {
             error = true;
-            binding.addressTextInput.requestFocus();
         }
     }
 
@@ -248,6 +248,35 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+        binding.socialNetwork.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()) {
+                    if (!Objects.requireNonNull(binding.socialNetwork.getText()).toString().matches("(instagram.com/)\\S*")) {
+                        binding.socialMediaTextInput.setErrorEnabled(true);
+                        binding.socialMediaTextInput.setError(getString(R.string.url_not_good));
+                        binding.socialMediaTextInput.requestFocus();
+                        error = true;
+                    } else {
+                        binding.socialMediaTextInput.setErrorEnabled(false);
+                        error = false;
+                    }
+                }
+                if (s.toString().isEmpty()) {
+                    binding.socialMediaTextInput.setErrorEnabled(false);
+                    error = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
         postalCode.setOnFocusChangeListener(this);
@@ -312,11 +341,20 @@ public class CreateEventActivity extends RequireUserActivity implements DateList
                 ((TextView) binding.addressValidation).setText(R.string.address_false);
                 binding.addressValidation.setVisibility(View.VISIBLE);
                 ((TextView) binding.addressValidation).setTextColor(getColor(R.color.red));
+                binding.postalCodeTextInput.setErrorEnabled(true);
+                binding.postalCodeTextInput.setError(" ");
+                binding.cityTextInput.setErrorEnabled(true);
+                binding.cityTextInput.setError(" ");
+                binding.addressTextInput.setErrorEnabled(true);
+                binding.addressTextInput.setError(" ");
                 return false;
             } else {
                 ((TextView) binding.addressValidation).setText(R.string.address_good);
                 binding.addressValidation.setVisibility(View.VISIBLE);
                 ((TextView) binding.addressValidation).setTextColor(getColor(R.color.green));
+                binding.postalCodeTextInput.setErrorEnabled(false);
+                binding.cityTextInput.setErrorEnabled(false);
+                binding.addressTextInput.setErrorEnabled(false);
                 return true;
             }
         }

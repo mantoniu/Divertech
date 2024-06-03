@@ -22,14 +22,23 @@ import com.squareup.picasso.Picasso;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Observable;
+import java.util.Optional;
 
 import Si3.divertech.MapActivity;
 import Si3.divertech.MultiPagesActivity;
 import Si3.divertech.ParkingActivity;
+import Si3.divertech.ParkingResultActivity;
 import Si3.divertech.R;
+import Si3.divertech.parking.ParkingList;
+import Si3.divertech.parking.Reservations;
 import Si3.divertech.users.User;
 
 public class EventActivity extends EventActivities {
+
+
+
+
+
     private final ActivityResultLauncher<String> requestWritePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
         if (isGranted) {
             addEventToCalendar(getEventId());
@@ -74,12 +83,22 @@ public class EventActivity extends EventActivities {
 
         MaterialCardView parkingLayout = findViewById(R.id.card_parking);
         parkingLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
-            startActivity(intent);
+
+                Optional<Reservations> result = ParkingList.getInstance().existReservation(getEventId());
+                Intent intent = new Intent(getApplicationContext(), ParkingActivity.class);
+                if (result.isPresent()) {
+                    intent = new Intent(getApplicationContext(), ParkingResultActivity.class);
+                    intent.putExtra("reservationId", result.get().getId());
+                } else {
+                    intent.putExtra("eventId", getEventId());
+                }
+                startActivity(intent);
+
         });
 
         EventOrganizer.getInstance().addObserver(this);
         EventOrganizer.getInstance().getUser(EventList.getInstance().getEvent(getEventId()).getOrganizer());
+        ParkingList.getInstance();
     }
 
     private void addEventToCalendar(String eventId) {
