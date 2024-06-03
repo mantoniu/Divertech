@@ -23,6 +23,10 @@ public abstract class EventActivities extends RequireUserActivity implements Obs
         super.onCreate(savedInstanceState);
         eventId = getIntent().getStringExtra(getString(R.string.event_id));
         EventList.getInstance().addObserver(this);
+        findViewById(R.id.delete).setOnClickListener(click -> {
+            onDelete();
+            finish();
+        });
         setActivity();
         updateInfo();
     }
@@ -78,4 +82,6 @@ public abstract class EventActivities extends RequireUserActivity implements Obs
         super.onResume();
         updateInfo();
     }
+
+    protected abstract void onDelete();
 }

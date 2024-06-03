@@ -37,7 +37,7 @@ public class AdminEventActivity extends EventActivities {
         findViewById(R.id.share).setOnClickListener(click -> createPopup());
 
         findViewById(R.id.delete).setOnClickListener(click -> {
-            EventList.getInstance().deleteEvent(getEventId());
+            EventList.getInstance().deleteAdminEvent(getEventId());
             finish();
         });
 
@@ -89,5 +89,10 @@ public class AdminEventActivity extends EventActivities {
             TextView url = findViewById(R.id.instaURL);
             url.setText(EventList.getInstance().getEvent(getEventId()).getInstagramURL());
         } else findViewById(R.id.card_insta).setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDelete() {
+        EventList.getInstance().deleteAdminEvent(getEventId());
     }
 }

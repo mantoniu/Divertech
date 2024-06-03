@@ -254,13 +254,23 @@ public class EventList extends Observable {
             registerUserToEvent(eventRef.getKey());
     }
 
-    public void deleteEvent(String eventId) {
+    public void deleteAdminEvent(String eventId) {
         if (!UserData.getInstance().getConnectedUser().isAdmin())
             return;
 
         deleteNotificationsForEvent(eventId);
         deleteRegistrationsWithEvent(eventId);
         rootRef.child("Events").child(eventId).removeValue();
+    }
+
+    public void deleteUserEvent(String eventId) {
+        //DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
+        //        .child("Users").child(UserData.getInstance().getUserId()).child("Notifications").;
+    }
+
+    private void deleteUserNotificationsForEvent(String eventId) {
+        //TODO
+        // rootRef.child("Users").orderByChild()
     }
 
     private void deleteRegistrationsWithEvent(String eventId) {

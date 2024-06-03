@@ -164,4 +164,9 @@ public class EventActivity extends EventActivities {
             });
         }
     }
+
+    @Override
+    protected void onDelete() {
+        EventList.getInstance().deleteUserEvent(getEventId());
+    }
 }
